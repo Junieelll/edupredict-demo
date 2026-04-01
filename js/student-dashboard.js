@@ -1,0 +1,207 @@
+window.EP = window.EP || {};
+
+EP.studentDashboard = {
+  render() {
+    const { currentUser, classes, classworks, predictions } = EP.data;
+    const pending  = classworks.filter(c=>c.status==='Pending').length;
+    const overdue  = classworks.filter(c=>c.status==='Overdue').length;
+    const upcoming = classworks
+      .filter(c=>['Pending','Overdue'].includes(c.status))
+      .sort((a,b)=>new Date(a.dueDate)-new Date(b.dueDate))
+      .slice(0,5);
+
+    const hr = new Date().getHours();
+    const greeting = hr<12?'Good morning':hr<17?'Good afternoon':'Good evening';
+
+    document.getElementById('content').innerHTML = `
+      <div class="space-y-6 max-w-7xl mx-auto">
+
+        <!-- Welcome Banner -->
+        <div class="relative bg-[#0D1425] rounded-3xl overflow-hidden p-6 lg:p-8">
+          <div class="absolute inset-0">
+            <div class="absolute -top-16 -right-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 right-32 w-48 h-48 bg-violet-500/10 rounded-full blur-2xl"></div>
+            <div class="absolute top-0 left-1/3 w-32 h-32 bg-sky-500/5 rounded-full blur-2xl"></div>
+          </div>
+          <div class="relative flex items-start justify-between gap-4">
+            <div class="flex-1">
+              <p class="text-indigo-400 text-sm font-medium mb-1 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 inline-block"></span>
+                ${greeting}
+              </p>
+              <h1 class="font-display text-white font-bold text-[14px] md:text-2xl lg:text-3xl mb-2 flex items-center gap-2">
+                Welcome back, ${currentUser.name.split(' ')[0]}! ${EP.getIcon('hand-raised', 'w-5 h-5 md:w-7 md:h-7 text-amber-400', 'solid')}
+              </h1>
+              <p class="text-[#94A3B8] text-sm max-w-lg leading-relaxed">
+                ${pending>0?`You have <span class="text-amber-400 font-semibold">${pending} pending</span> `:'All assignments are up to date. '}
+                ${overdue>0?`and <span class="text-red-400 font-semibold">${overdue} overdue</span> assignments this week.`:'Keep up the great work!'}
+              </p>
+              <div class="flex flex-wrap gap-2 mt-4">
+                <span class="inline-flex items-center gap-1.5 text-xs text-[#64748B] bg-white/5 border border-white/10 rounded-full px-3 py-1.5">
+                  ${EP.getIcon('book-open', 'w-3 h-3')} ${currentUser.program}
+                </span>
+                <span class="inline-flex items-center gap-1.5 text-xs text-[#64748B] bg-white/5 border border-white/10 rounded-full px-3 py-1.5">
+                  ${EP.getIcon('identification', 'w-3 h-3')} ${currentUser.studentId}
+                </span>
+              </div>
+            </div>
+            <div class="hidden lg:flex text-indigo-500/20 select-none">
+              ${EP.getIcon('book-open', 'w-20 h-20', 'solid')}
+            </div>
+          </div>
+
+          <!-- Quick stats -->
+          <div class="relative mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+            ${[
+              { label:'GPA',        value:'3.52', sub:'↑ +0.2 this term', color:'text-emerald-400', icon:'academic-cap' },
+              { label:'Attendance', value:'89%',  sub:'↑ +3% vs last sem', color:'text-emerald-400', icon:'user-group' },
+              { label:'Classes',    value:classes.length, sub:`${classes.length} active courses`, color:'text-indigo-400', icon:'book-open' },
+              { label:'Pending',    value:pending, sub:overdue>0?`${overdue} overdue`:'All on track', color:overdue>0?'text-red-400':pending>0?'text-amber-400':'text-emerald-400', icon:'clock' },
+            ].map(s=>`
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm hover:bg-white/10 transition-all group cursor-default shadow-sm lg:shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                  <p class="text-[10px] font-bold text-[#94A3B8] uppercase tracking-widest">${s.label}</p>
+                  <div class="text-white/10 group-hover:text-white/30 transition-colors">
+                    ${EP.getIcon(s.icon, 'w-4 h-4', 'solid')}
+                  </div>
+                </div>
+                <p class="font-display font-bold text-white text-xl lg:text-2xl">${s.value}</p>
+                <div class="flex items-center gap-1.5 mt-1.5">
+                  <span class="text-[10px] ${s.color} font-bold italic">${s.sub}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Main grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <!-- Left col -->
+          <div class="lg:col-span-2 space-y-6">
+
+            <!-- Enrolled Classes -->
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="font-display font-semibold text-[#0F172A] text-lg">Enrolled Classes</h2>
+                <button onclick="navigate('classes')" class="text-sm text-indigo-500 hover:text-indigo-600 font-medium flex items-center gap-1 transition-colors">
+                  View all ${EP.getIcon('arrow-right', 'w-3.5 h-3.5')}
+                </button>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                ${classes.map(cls=>`
+                  <div onclick="navigate('classes')" class="bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden hover-lift cursor-pointer shadow-sm group">
+                    <div class="h-20 bg-gradient-to-br ${classGradient(cls.color)} relative flex items-end p-3">
+                      <span class="text-white/20 font-display font-black text-3xl absolute bottom-1 right-2 select-none">${cls.code}</span>
+                      <span class="text-[10px] font-semibold text-white/80 uppercase tracking-wider bg-white/10 px-2 py-0.5 rounded-full">${cls.code}</span>
+                    </div>
+                    <div class="p-4">
+                      <h3 class="font-display font-semibold text-[#0F172A] text-sm leading-snug mb-1 group-hover:text-indigo-600 transition-colors">${cls.name}</h3>
+                      <p class="text-xs text-[#64748B]">${cls.instructor}</p>
+                      <div class="flex items-center gap-1 mt-2.5 text-xs text-[#94A3B8]">
+                        ${EP.getIcon('map-pin', 'w-3 h-3')} ${cls.room}
+                        <span class="mx-1.5 text-[#D1D5DB]">·</span>
+                        ${EP.getIcon('clock', 'w-3 h-3')}
+                        <span class="truncate">${cls.schedule.split(' ').slice(0,1).join('')}</span>
+                      </div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="font-display font-semibold text-[#0F172A] text-lg">Upcoming Work</h2>
+                <button onclick="navigate('classwork')" class="text-sm text-indigo-500 hover:text-indigo-600 font-medium flex items-center gap-1 transition-colors">
+                  View all ${EP.getIcon('arrow-right', 'w-3.5 h-3.5')}
+                </button>
+              </div>
+              <div class="space-y-2.5">
+                ${upcoming.length === 0 ? `
+                  <div class="bg-white rounded-2xl border border-[#E2E8F0] p-8 text-center shadow-sm">
+                    <div class="mb-2 text-indigo-500">
+                      ${EP.getIcon('sparkles', 'w-8 h-8', 'solid')}
+                    </div>
+                    <p class="text-[#64748B] text-sm font-medium">You're all caught up!</p>
+                    <p class="text-[#94A3B8] text-xs mt-1">No pending assignments this week.</p>
+                  </div>
+                ` : upcoming.map(cw=>{
+                  const cls = EP.data.classes.find(c=>c.id===cw.classId);
+                  const due = new Date(cw.dueDate);
+                  const diff = Math.ceil((due - new Date()) / 86400000);
+                  const dueText = diff < 0 ? 'Overdue' : diff === 0 ? 'Due today' : diff === 1 ? 'Due tomorrow' : `${diff} days left`;
+                  const dueColor = diff < 0 ? 'text-red-500' : diff <= 1 ? 'text-amber-500' : 'text-[#94A3B8]';
+                  const typeColors = { Assignment:'bg-blue-50 text-blue-600', Quiz:'bg-purple-50 text-purple-600', Project:'bg-emerald-50 text-emerald-600', Laboratory:'bg-cyan-50 text-cyan-600', Exam:'bg-red-50 text-red-600' };
+                  return `
+                    <div class="bg-white rounded-xl border border-[#E2E8F0] p-4 flex items-center gap-3.5 hover:border-indigo-200 hover:shadow-sm transition-all cursor-pointer">
+                      <div class="w-10 h-10 rounded-xl ${typeColors[cw.type]||'bg-gray-50 text-gray-600'} flex items-center justify-center flex-shrink-0">
+                        ${typeIcon(cw.type, 'w-5 h-5')}
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-[#0F172A] text-sm truncate">${cw.title}</p>
+                        <p class="text-xs text-[#94A3B8] mt-0.5">${cls?.code||''} · ${cw.type}</p>
+                      </div>
+                      <div class="text-right flex-shrink-0">
+                        <p class="text-xs font-semibold ${dueColor}">${dueText}</p>
+                        <p class="text-xs text-[#94A3B8]">${due.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</p>
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+
+          <!-- Right col -->
+          <div class="space-y-5">
+            <!-- Calendar -->
+            <div id="cal-container">${getCalendarHTML(EP.calYear, EP.calMonth)}</div>
+
+            <!-- Performance Snapshot -->
+            <div class="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-sm">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-display font-semibold text-[#0F172A] text-sm">Performance</h3>
+                <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">↑ Improving</span>
+              </div>
+              ${predictions.student.subjects.map(s=>`
+                <div class="mb-3.5">
+                  <div class="flex justify-between items-center mb-1.5">
+                    <span class="text-xs font-medium text-[#475569]">${s.name}</span>
+                    <span class="text-xs font-bold text-[#0F172A]">${s.current}%</span>
+                  </div>
+                  <div class="h-1.5 bg-[#F1F5F9] rounded-full overflow-hidden">
+                    <div class="h-full rounded-full transition-all duration-700 ${s.current>=85?'bg-emerald-500':s.current>=75?'bg-indigo-500':'bg-amber-500'}" style="width:${s.current}%"></div>
+                  </div>
+                </div>
+              `).join('')}
+              <button onclick="navigate('prediction')" class="mt-3 w-full py-2.5 text-xs font-semibold text-indigo-600 border border-indigo-100 hover:border-indigo-300 hover:bg-indigo-50 rounded-xl transition-all">
+                View Full Prediction →
+              </button>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-sm">
+              <h3 class="font-display font-semibold text-[#0F172A] text-sm mb-3">Quick Actions</h3>
+              <div class="space-y-2">
+                ${[
+                  { label:'Ask Study Assistant', icon:'chat-bubble-left-right', page:'chatbot', color:'text-indigo-500 bg-indigo-50' },
+                  { label:'View Recommendations', icon:'sparkles', page:'recommendation', color:'text-violet-500 bg-violet-50' },
+                  { label:'Check Predictions', icon:'arrow-trending-up', page:'prediction', color:'text-emerald-500 bg-emerald-50' },
+                ].map(a=>`
+                  <button onclick="navigate('${a.page}')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-[#F8FAFC] border border-transparent hover:border-[#E2E8F0] transition-all text-left">
+                    <div class="w-8 h-8 rounded-lg ${a.color} flex items-center justify-center flex-shrink-0">
+                      ${EP.getIcon(a.icon, 'w-4 h-4')}
+                    </div>
+                    <span class="text-sm font-medium text-[#475569]">${a.label}</span>
+                    ${EP.getIcon('chevron-right', 'w-3.5 h-3.5 text-[#CBD5E1] ml-auto')}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+};
