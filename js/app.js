@@ -113,38 +113,30 @@ function setRole(role, p) {
 function renderNav() {
   const nav = document.getElementById('nav');
   const items = navConfigs[EP.currentRole];
-  nav.innerHTML = items.map(item => `
-    <button id="nav-${item.id}" onclick="navigate('${item.id}')"
-      class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[#64748B] dark:text-[#94A3B8] hover:text-[#94A3B8] dark:hover:text-white hover:bg-white/5 dark:hover:bg-white/5 transition-all group">
-      ${EP.getIcon(item.icon, 'w-4 h-4 flex-shrink-0')}
-      <span>${item.label}</span>
-    </button>
-  `).join('');
-  updateNavActive();
+  const isCollapsed = localStorage.getItem('ep_sidebar_collapsed') === 'true';
+  
+  nav.innerHTML = items.map(item => {
+    const activeParent = navParentMap[`${EP.currentRole}_${EP.currentPage}`] || EP.currentPage;
+    const isActive = item.id === activeParent;
+    
+    const baseClass = "nav-item nav-item-transition w-full flex items-center rounded-xl text-sm font-medium transition-all group";
+    const activeClass = isActive ? "bg-indigo-500/15 text-indigo-500 active-nav" : "text-[#64748B] dark:text-[#94A3B8] hover:text-[#94A3B8] dark:hover:text-white hover:bg-white/5";
+    const collapsedClass = isCollapsed ? "collapsed-nav-item" : "gap-3 px-3 py-2.5";
+    const tooltipAttr = isCollapsed ? `data-tooltip="${item.label}"` : '';
+    
+    return `
+      <button id="nav-${item.id}" onclick="navigate('${item.id}')" ${tooltipAttr}
+        class="${baseClass} ${activeClass} ${collapsedClass}">
+        ${EP.getIcon(item.icon, `w-5 h-5 flex-shrink-0 ${isActive ? 'text-indigo-500' : ''}`, isActive ? 'solid' : 'outline')}
+        <span>${item.label}</span>
+      </button>
+    `;
+  }).join('');
 }
 
 function updateNavActive() {
-  const items = navConfigs[EP.currentRole];
-  const activeParent = navParentMap[`${EP.currentRole}_${EP.currentPage}`] || EP.currentPage;
-  
-  items.forEach(item => {
-    const btn = document.getElementById(`nav-${item.id}`);
-    if (!btn) return;
-    const icon = btn.querySelector('iconify-icon');
-    if (item.id === activeParent) {
-      btn.className = 'nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-indigo-500/15 text-white active-nav group';
-      if (icon) {
-        icon.setAttribute('icon', `heroicons:${item.icon}-solid`);
-        icon.style.color = '#818CF8';
-      }
-    } else {
-      btn.className = 'nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[#64748B] dark:text-[#94A3B8] hover:text-[#94A3B8] dark:hover:text-white hover:bg-white/5 transition-all group';
-      if (icon) {
-        icon.setAttribute('icon', `heroicons:${item.icon}`);
-        icon.style.color = '';
-      }
-    }
-  });
+  // Re-run renderNav to ensure layout is correct for collapsed/expanded state
+  renderNav();
 }
 
 function navigate(page, skipSave = false) {
@@ -941,14 +933,63 @@ EP.actions = {
        themeIcon.setAttribute('icon', isDark ? 'heroicons:moon-solid' : 'heroicons:sun-solid');
        themeIcon.className = (isDark ? 'text-indigo-400 drop-shadow-[0_0_8px_rgba(129,140,248,0.5)]' : 'text-amber-500 drop-shadow-[0_0_8px_rgba(245,158,11,0.4)]') + ' animate-icon-bounce';
        
-       // Remove animation class after duration to allow re-trigger
        setTimeout(() => {
          themeIcon.classList.remove('animate-icon-bounce');
        }, 600);
     }
   },
+
+  applySidebarState(isCollapsed) {
+    const sidebar = document.getElementById('sidebar');
+    const content = document.getElementById('main-content');
+    const toggleIcon = document.getElementById('sidebar-toggle-icon');
+    const header = document.getElementById('sidebar-header');
+    const footer = document.getElementById('sidebar-footer');
+
+    // Apply width/layout changes immediately
+    if (isCollapsed) {
+      sidebar.classList.add('sidebar-collapsed');
+      content.classList.add('content-collapsed');
+      if (toggleIcon) toggleIcon.style.transform = 'scaleX(-1)';
+      if (header) header.classList.add('collapsed-center');
+      if (footer) footer.classList.add('collapsed-center');
+    } else {
+      sidebar.classList.remove('sidebar-collapsed');
+      content.classList.remove('content-collapsed');
+      if (toggleIcon) toggleIcon.style.transform = 'scaleX(1)';
+      if (header) header.classList.remove('collapsed-center');
+      if (footer) footer.classList.remove('collapsed-center');
+    }
+
+    // Labels: hide immediately when collapsing, show after expand animation
+    const labels = document.querySelectorAll('.sidebar-label');
+    if (isCollapsed) {
+      labels.forEach(l => l.classList.add('collapsed-hide'));
+      // Re-render nav immediately — CSS handles span fade via max-width transition
+      renderNav();
+    } else {
+      // Wait for width transition to finish before showing labels & re-rendering
+      renderNav();
+      setTimeout(() => {
+        labels.forEach(l => l.classList.remove('collapsed-hide'));
+      }, 320);
+    }
+  },
+
+  toggleSidebar() {
+    // Disable on mobile — collapse only for desktop (lg+)
+    if (window.innerWidth < 1024) return;
+    const isCollapsed = localStorage.getItem('ep_sidebar_collapsed') === 'true';
+    const next = !isCollapsed;
+    localStorage.setItem('ep_sidebar_collapsed', next);
+    this.applySidebarState(next);
+  },
+
   toggleTheme(e) {
-    const next = (localStorage.getItem('ep_theme') || 'light') === 'dark' ? 'light' : 'dark';
+    const current = localStorage.getItem('ep_theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    
+    // Smooth transition settings
     const x = e ? e.clientX : window.innerWidth / 2;
     const y = e ? e.clientY : window.innerHeight / 2;
     document.documentElement.style.setProperty('--x', `${x}px`);
@@ -959,16 +1000,8 @@ EP.actions = {
       return;
     }
 
-    const transition = document.startViewTransition(() => {
-      this.setTheme(next, true); // Defer re-render to keep animation fluid
-    });
-
-    // Refresh settings only AFTER the heavy animation finishes
-    transition.finished.finally(() => {
-      if (EP.currentPage === 'settings') {
-        if (EP.currentRole === 'student') EP.studentSettings.render();
-        else EP.educatorSettings.render();
-      }
+    document.startViewTransition(() => {
+      this.setTheme(next, true);
     });
   }
 };
@@ -982,6 +1015,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedTheme = localStorage.getItem('ep_theme') || 'light';
   EP.actions.setTheme(savedTheme);
   
+  const isCollapsed = localStorage.getItem('ep_sidebar_collapsed') === 'true';
+  // Only apply collapsed state on desktop; mobile always shows full sidebar
+  EP.actions.applySidebarState(window.innerWidth >= 1024 ? isCollapsed : false);
+
+  // When resizing to mobile, always force expanded state
+  // When resizing back to desktop, restore saved preference
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const isMobile = window.innerWidth < 1024;
+      if (isMobile) {
+        // Force full expanded sidebar on mobile, but don't change localStorage
+        EP.actions.applySidebarState(false);
+      } else {
+        // Restore desktop preference
+        const savedCollapsed = localStorage.getItem('ep_sidebar_collapsed') === 'true';
+        EP.actions.applySidebarState(savedCollapsed);
+      }
+    }, 100);
+  });
+
   const savedRole = localStorage.getItem('ep_role') || 'student';
   const savedPage = localStorage.getItem('ep_page') || 'dashboard';
   const savedClassId = localStorage.getItem('ep_class_id');

@@ -39,48 +39,236 @@
     @keyframes fadeOut{from{opacity:1;}to{opacity:0;}}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
     .animate-list-item{animation:fadeInUp 0.4s cubic-bezier(0.4,0,0.2,1) both;animation-delay:calc(var(--i) * 60ms);}
-    .sidebar-transition{transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);}
+    .sidebar-transition{transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);}
     canvas{display:block;max-width:100%;}
     .hover-lift{transition:all 0.2s ease;}
     .hover-lift:hover{transform:translateY(-2px);box-shadow:0 8px 24px -4px rgba(0,0,0,0.12);}
     iconify-icon{display:block;height:auto;width:auto;}
-    body.dark{background-color:#0D1425;color:#E2E8F0;}
-    .dark header{background-color:rgba(13,20,37,0.8);border-color:#1E293B;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
-    .dark aside{border-right:1px solid #1E293B;background-color:#0D1425;}
-    .dark .bg-white{background-color:#141D33;border-color:#1E293B;}
-    .dark .border-\[\#E2E8F0\], .dark .border-\[\#F1F5F9\], .dark .border-\[\#F8FAFC\]{border-color:#1E293B;}
-    .dark .text-\[\#0F172A\]{color:#F8FAFC;}
-    .dark .text-\[\#475569\], .dark .text-\[\#64748B\]{color:#94A3B8;}
-    .dark .bg-\[\#F1F5F9\], .dark .bg-\[\#F8FAFC\]{background-color:#0D1425;}
-    .dark .hover\:bg-gray-50:hover, .dark .hover\:bg-\[\#F8FAFC\]:hover, .dark .hover\:bg-gray-100:hover{background-color:rgba(255,255,255,0.05);}
-    .dark ::-webkit-scrollbar-thumb{background:#1E293B;}
-    .dark ::-webkit-scrollbar-thumb:hover{background:#334155;}
+    /* ── Dark mode — deep navy-black, Tailwind-docs inspired ── */
+    body.dark { background-color: #09090b; color: #e4e4e7; }
+    .dark header { background-color: rgba(9,9,11,0.85); border-color: #27272a; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .dark aside { background-color: #0c0c0e; border-right: 1px solid #18181b; }
+    .dark .bg-white { background-color: #111113; border-color: #27272a; }
+    .dark .border-\[\#E2E8F0\], .dark .border-\[\#F1F5F9\], .dark .border-\[\#F8FAFC\] { border-color: #27272a; }
+    .dark .text-\[\#0F172A\] { color: #fafafa; }
+    .dark .text-\[\#475569\], .dark .text-\[\#64748B\] { color: #a1a1aa; }
+    .dark .bg-\[\#F1F5F9\], .dark .bg-\[\#F8FAFC\] { background-color: #0c0c0e; }
+    .dark .hover\:bg-gray-50:hover, .dark .hover\:bg-\[\#F8FAFC\]:hover, .dark .hover\:bg-gray-100:hover { background-color: rgba(255,255,255,0.04); }
+    .dark ::-webkit-scrollbar-thumb { background: #27272a; }
+    .dark ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+    /* Override card & input backgrounds in dark */
+    .dark input { background-color: #111113 !important; color: #e4e4e7; }
+    .dark .bg-\[\#1A253E\] { background-color: #18181b !important; }
+    .dark .border-white\/5 { border-color: #27272a !important; }
     .toggle-on{background-color:#6366F1 !important;box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3) !important;}
     .toggle-off{background-color:#CBD5E1 !important;}
     .dark .toggle-off{background-color:#334155 !important;}
     body{transition:background-color 0.3s ease,color 0.3s ease;}
-    *{transition:border-color 0.3s ease,background-color 0.3s ease, color 0.3s ease;}
     
-    /* View Transition Animations */
+    /* Optimized Transitions */
+    .sidebar-transition {
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                  background-color 0.3s ease;
+      will-change: width, transform;
+    }
+    .content-transition { transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+    .nav-item-transition { transition: color 0.2s ease, background-color 0.2s ease; }
+    
+    /* Sidebar nav items: fade labels in/out smoothly */
+    #nav .nav-item span {
+      transition: opacity 0.2s ease, max-width 0.35s cubic-bezier(0.4,0,0.2,1);
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 200px;
+      display: inline-block;
+    }
+    .sidebar-collapsed #nav .nav-item span {
+      max-width: 0 !important;
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+    /* Keep expanded nav items from jumping during collapse */
+    #nav .nav-item {
+      transition: padding 0.35s cubic-bezier(0.4,0,0.2,1),
+                  gap 0.35s cubic-bezier(0.4,0,0.2,1),
+                  width 0.35s cubic-bezier(0.4,0,0.2,1),
+                  border-radius 0.2s ease,
+                  background-color 0.2s ease,
+                  color 0.2s ease;
+      overflow: hidden;
+    }
+    
+    /* View Transition Animations - Telegram Style Reveal */
+    ::view-transition-group(root) {
+      animation-duration: 0.7s;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
     ::view-transition-old(root),
     ::view-transition-new(root) {
       animation: none;
       mix-blend-mode: normal;
+      display: block;
     }
 
     ::view-transition-new(root) {
+      z-index: 9999;
       clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
-      animation: theme-spread 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-      will-change: clip-path;
+      animation: theme-spread 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .dark::view-transition-old(root) {
+      z-index: 9999;
     }
 
     @keyframes theme-spread {
-      0% { 
-        clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
-      }
-      100% { 
-        clip-path: circle(150% at var(--x, 50%) var(--y, 50%));
-      }
+      0% { clip-path: circle(0% at var(--x, 50%) var(--y, 50%)); }
+      100% { clip-path: circle(150% at var(--x, 50%) var(--y, 50%)); }
+    }
+
+    /* Sidebar Collapse Utility */
+    .sidebar-collapsed { width: 4.5rem !important; overflow: visible !important; clip-path: none !important; }
+    .sidebar-collapsed #nav { overflow: visible !important; }
+    .content-collapsed { margin-left: 4.5rem !important; }
+    
+    .collapsed-hide { opacity: 0 !important; visibility: hidden !important; max-height: 0 !important; overflow: hidden !important; padding: 0 !important; margin: 0 !important; }
+    .collapsed-center { justify-content: center !important; text-align: center !important; padding-left: 0 !important; padding-right: 0 !important; }
+    
+    /* Nav Centering Fix */
+    .collapsed-nav-item { 
+      flex-direction: column !important; 
+      padding: 0 !important; 
+      gap: 0 !important; 
+      height: 2.75rem !important; 
+      width: 2.75rem !important;
+      min-width: 2.75rem !important;
+      max-width: 2.75rem !important;
+      justify-content: center !important; 
+      align-items: center !important;
+      margin: 2px auto !important;
+      border-radius: 12px !important;
+    }
+    .collapsed-nav-item span { display: none !important; }
+    .collapsed-nav-item iconify-icon { 
+      width: 1.25rem !important; 
+      height: 1.25rem !important; 
+      margin: 0 !important; 
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-shrink: 0 !important;
+    }
+    .collapsed-nav-item.active-nav { 
+      background-color: rgba(99, 102, 241, 0.15) !important; 
+      border-radius: 12px !important;
+      margin: 2px auto !important;
+    }
+
+    /* Header Centering Fix — collapsed */
+    .sidebar-collapsed #sidebar-header {
+      flex-direction: column !important;
+      gap: 0.75rem !important;
+      padding: 1.25rem 0 !important;
+      border-bottom: 0 !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    /* Hide the text label inside logo-container, keep just the icon box */
+    .sidebar-collapsed #sidebar-header .logo-container {
+      justify-content: center !important;
+      width: 100% !important;
+      gap: 0 !important;
+    }
+    .sidebar-collapsed #sidebar-header .logo-container .sidebar-label {
+      display: none !important;
+    }
+    .sidebar-collapsed #sidebar-header .logo-box {
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+      border-radius: 0.875rem !important;
+      margin: 0 auto !important;
+      flex-shrink: 0 !important;
+    }
+    /* Toggle button in collapsed — no border, just icon */
+    .sidebar-collapsed #sidebar-header #sidebar-toggle-btn {
+      margin: 0 auto !important;
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+      min-width: 2.5rem !important;
+      border-radius: 0.75rem !important;
+      border: none !important;
+      background: transparent !important;
+      color: #64748b !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 0 !important;
+    }
+    .sidebar-collapsed #sidebar-header #sidebar-toggle-btn:hover {
+      background: rgba(255,255,255,0.08) !important;
+      color: white !important;
+    }
+    .sidebar-collapsed #sidebar-header #sidebar-toggle-btn svg {
+      width: 1.2rem !important;
+      height: 1.2rem !important;
+      flex-shrink: 0 !important;
+    }
+    /* Nav wrapper when collapsed — center items */
+    .sidebar-collapsed #nav {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    /* Footer collapsed — center avatar, hide text */
+    .sidebar-collapsed #sidebar-footer {
+      justify-content: center !important;
+      padding: 1rem 0 !important;
+    }
+    .sidebar-collapsed #sidebar-footer .sidebar-label {
+      display: none !important;
+    }
+
+    /* Tooltips for Collapsed Sidebar — JS-driven fixed tooltip */
+    #sidebar-tooltip {
+      position: fixed;
+      left: 5rem;
+      background: #1E293B;
+      color: #F8FAFC;
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      transform: translateX(-6px);
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05);
+      z-index: 9999;
+    }
+    #sidebar-tooltip.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    #sidebar-tooltip-arrow {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: #1E293B;
+      transform: rotate(45deg) translateX(-6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 9998;
+      box-shadow: -1px 1px 0 0 rgba(255,255,255,0.05);
+    }
+    #sidebar-tooltip-arrow.visible {
+      opacity: 1;
+      transform: rotate(45deg) translateX(0);
     }
 
     @keyframes icon-bounce {
@@ -98,31 +286,39 @@
   <div id="sidebar-overlay" onclick="closeSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-20 hidden lg:hidden"></div>
 
   <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-[#0D1425] z-30 flex flex-col sidebar-transition -translate-x-full lg:translate-x-0">
-    <div class="px-5 pt-7 pb-5 flex items-center gap-3 border-b border-white/5">
-      <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm shadow-indigo-500/20">
-        <iconify-icon icon="heroicons:academic-cap-solid" width="16" height="16" class="text-white"></iconify-icon>
+    <div class="px-5 pt-7 pb-5 flex items-center justify-between border-b border-white/5 transition-all" id="sidebar-header">
+      <div class="flex items-center gap-3 logo-container">
+        <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm shadow-indigo-500/20 logo-box">
+          <iconify-icon icon="heroicons-solid:academic-cap" width="16" height="16" class="text-white"></iconify-icon>
+        </div>
+        <span class="font-display text-white font-bold text-lg tracking-tight sidebar-label">EduPredict</span>
       </div>
-      <span class="font-display text-white font-bold text-lg tracking-tight">EduPredict</span>
+      <button onclick="EP.actions.toggleSidebar()" class="hidden lg:flex p-1.5 rounded-lg hover:bg-white/10 transition-all text-[#64748B] hover:text-white items-center justify-center group active:scale-95" id="sidebar-toggle-btn">
+        <svg id="sidebar-toggle-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-300 text-[#64748B] group-hover:text-[#94A3B8]">
+          <rect x="2" y="3" width="16" height="14" rx="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <line x1="7" y1="3.5" x2="7" y2="16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
     </div>
-    <div class="px-4 py-5">
+    <div class="px-4 py-5 sidebar-label">
       <div class="bg-[#1A253E] rounded-xl p-1 flex gap-1 border border-white/5 shadow-inner">
         <button id="role-student" onclick="setRole('student')" class="flex-1 py-2 px-2 rounded-lg text-xs font-semibold transition-all duration-200">Student</button>
         <button id="role-educator" onclick="setRole('educator')" class="flex-1 py-2 px-2 rounded-lg text-xs font-semibold transition-all duration-200">Educator</button>
       </div>
     </div>
-    <div class="px-5 pb-2"><span class="text-[10px] font-bold text-[#334155] tracking-widest uppercase">Navigation</span></div>
+    <div class="px-5 pb-2 sidebar-label"><span class="text-[10px] font-bold text-[#334155] tracking-widest uppercase">Navigation</span></div>
     <nav id="nav" class="flex-1 px-3 space-y-0.5 overflow-y-auto pb-4 custom-scrollbar"></nav>
-    <div class="border-t border-white/5 mx-4"></div>
-    <div class="px-4 py-4 flex items-center gap-3 border-t border-white/5">
+    <div class="border-t border-white/5 mx-4 sidebar-label"></div>
+    <div class="px-4 py-4 flex items-center gap-3 border-t border-white/5 mt-auto transition-all overflow-hidden" id="sidebar-footer">
       <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-xs font-bold text-white flex-shrink-0 shadow-sm shadow-indigo-500/20">JC</div>
-      <div class="flex-1 min-w-0">
+      <div class="flex-1 min-w-0 sidebar-label">
         <p class="text-sm font-semibold text-white truncate">Juniel Cardenas</p>
         <p id="user-role-label" class="text-xs text-[#64748B]">Student</p>
       </div>
     </div>
   </aside>
 
-  <div class="lg:ml-64 min-h-screen flex flex-col">
+  <div id="main-content" class="lg:ml-64 min-h-screen flex flex-col content-transition">
     <header class="bg-white border-b border-[#E2E8F0] sticky top-0 z-10 backdrop-blur-md bg-white/90 transition-all">
       <div class="px-4 lg:px-8 h-14 lg:h-16 flex items-center justify-between gap-4">
         <div class="flex items-center gap-2 lg:gap-3 min-w-0">
@@ -178,7 +374,7 @@
             <div id="dropdown-profile" class="absolute right-0 mt-2 w-56 bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] shadow-xl p-2 invisible opacity-0 scale-95 translate-y-2 pointer-events-none transform origin-top-right transition-all duration-200 ease-out z-50">
                <div class="px-3 py-2 border-b border-[#F1F5F9] dark:border-[#1E293B] mb-1 text-left">
                   <p class="text-xs font-bold text-[#0F172A] dark:text-[#F8FAFC]">Juniel Cardenas</p>
-                  <p class="text-[10px] text-[#94A3B8] truncate">juniel.cardenas@edu.ph</p>
+                  <p class="text-[10px] text-[#94A3B8] truncate"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7f150a11161a133f1a1b0a0f0d1a1b161c0b511e0f0f">[email&#160;protected]</a></p>
                </div>
                <button class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-[#475569] dark:text-[#94A3B8] hover:bg-[#F8FAFC] dark:hover:bg-white/5 hover:text-indigo-600 transition-all text-left group">
                   <iconify-icon icon="heroicons:user" width="16" height="16" class="text-[#94A3B8] group-hover:text-indigo-500 transition-colors"></iconify-icon>
@@ -204,6 +400,40 @@
   <div id="modal-container"></div>
   <div id="toast-container" class="fixed bottom-6 right-6 z-[60] flex flex-col gap-3 pointer-events-none"></div>
 
+  <!-- JS-driven sidebar tooltip -->
+  <div id="sidebar-tooltip"></div>
+  <div id="sidebar-tooltip-arrow"></div>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    (function() {
+      const tip = document.getElementById("sidebar-tooltip");
+      const arrow = document.getElementById("sidebar-tooltip-arrow");
+      let hideTimer;
+      document.addEventListener("mouseover", function(e) {
+        const el = e.target.closest("[data-tooltip]");
+        const sidebar = document.getElementById("sidebar");
+        if (!el || !sidebar || !sidebar.classList.contains("sidebar-collapsed")) return;
+        clearTimeout(hideTimer);
+        const rect = el.getBoundingClientRect();
+        const midY = rect.top + rect.height / 2;
+        tip.textContent = el.dataset.tooltip;
+        requestAnimationFrame(function() {
+          tip.style.top = (midY - tip.offsetHeight / 2) + "px";
+          arrow.style.top = (midY - 4) + "px";
+          tip.classList.add("visible");
+          arrow.classList.add("visible");
+        });
+      });
+      document.addEventListener("mouseout", function(e) {
+        const el = e.target.closest("[data-tooltip]");
+        if (!el) return;
+        hideTimer = setTimeout(function() {
+          tip.classList.remove("visible");
+          arrow.classList.remove("visible");
+        }, 80);
+      });
+    })();
+  </script>
+
   <script src="js/data.js"></script>
   <script src="js/student-dashboard.js"></script>
   <script src="js/app.js"></script>
@@ -214,14 +444,4 @@
   <script src="js/student-classwork.js"></script>
   <script src="js/student-settings.js"></script>
   <script src="js/student-class-details.js"></script>
-  <script src="js/educator-dashboard.js"></script>
-  <script src="js/educator-classes.js"></script>
-  <script src="js/educator-students.js"></script>
-  <script src="js/educator-prediction.js"></script>
-  <script src="js/educator-classwork.js"></script>
-  <script src="js/educator-settings.js"></script>
-  <script src="js/educator-class-details.js"></script>
-  <script src="js/student-alerts.js"></script>
-  <script src="js/educator-alerts.js"></script>
-</body>
-</html>
+  <script
