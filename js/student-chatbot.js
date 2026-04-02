@@ -12,16 +12,16 @@ EP.studentChatbot = {
     document.getElementById('content').innerHTML = `
       <div class="max-w-5xl mx-auto h-[calc(100vh-8rem)] flex flex-col">
         <!-- Header -->
-        <div class="bg-white rounded-2xl border border-[#E2E8F0] p-4 shadow-sm mb-4 flex items-center gap-3">
+        <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-4 shadow-sm mb-4 flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center flex-shrink-0">
             ${EP.getIcon('chat-bubble-left-right', 'w-5 h-5 text-white', 'solid')}
           </div>
           <div class="flex-1">
-            <p class="font-display font-semibold text-[#0F172A] text-sm">Study Assistant</p>
-            <p class="text-xs text-[#64748B]">AI-powered · Answers questions about your coursework</p>
+            <p class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm">Study Assistant</p>
+            <p class="text-xs text-[#64748B] dark:text-[#94A3B8]">AI-powered · Answers questions about your coursework</p>
           </div>
-          <span class="flex items-center gap-1.5 text-xs font-medium text-emerald-600">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>Online
+          <span class="flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>Online
           </span>
         </div>
 
@@ -33,16 +33,16 @@ EP.studentChatbot = {
         <!-- Suggestions -->
         <div id="chat-suggestions" class="flex gap-2 overflow-x-auto pb-3 pt-1 no-scrollbar">
           ${['Explain recursion','What is Big-O?','Study tips for finals','How to improve my grade?'].map(s=>`
-            <button onclick="EP.studentChatbot.sendSuggestion('${s}')" class="flex-shrink-0 text-xs font-medium text-indigo-600 bg-indigo-50 border border-indigo-100 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors whitespace-nowrap">
+            <button onclick="EP.studentChatbot.sendSuggestion('${s}')" class="flex-shrink-0 text-xs font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 px-3 py-1.5 rounded-full transition-colors whitespace-nowrap">
               ${s}
             </button>
           `).join('')}
         </div>
 
         <!-- Input -->
-        <div class="bg-white rounded-2xl border border-[#E2E8F0] p-3 shadow-sm flex gap-2 items-end">
+        <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-3 shadow-sm flex gap-2 items-end">
           <textarea id="chat-input" placeholder="Ask anything about your coursework..."
-            class="flex-1 resize-none outline-none text-sm text-[#0F172A] placeholder-[#94A3B8] max-h-32 leading-relaxed"
+            class="flex-1 bg-transparent resize-none outline-none text-sm text-[#0F172A] dark:text-white placeholder-[#94A3B8] max-h-32 leading-relaxed"
             rows="1" onkeydown="EP.studentChatbot.handleKey(event)"></textarea>
           <button onclick="EP.studentChatbot.send()" id="send-btn"
             class="w-9 h-9 rounded-xl bg-indigo-500 hover:bg-indigo-600 flex items-center justify-center transition-colors flex-shrink-0">
@@ -67,7 +67,7 @@ EP.studentChatbot = {
         <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center flex-shrink-0 mt-0.5">
           ${EP.getIcon('chat-bubble-left-right', 'w-4 h-4 text-white', 'solid')}
         </div>
-        <div class="max-w-xs lg:max-w-md bg-white border border-[#E2E8F0] rounded-2xl rounded-tl-sm px-4 py-3 text-sm text-[#0F172A] leading-relaxed shadow-sm">
+        <div class="max-w-xs lg:max-w-md bg-white dark:bg-[#141D33] border border-[#E2E8F0] dark:border-[#1E293B] rounded-2xl rounded-tl-sm px-4 py-3 text-sm text-[#0F172A] dark:text-[#F8FAFC] leading-relaxed shadow-sm">
           ${m.text.replace(/\n/g,'<br>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')}
         </div>
       </div>
@@ -107,7 +107,7 @@ EP.studentChatbot = {
           <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center flex-shrink-0">
             ${EP.getIcon('chat-bubble-left-right', 'w-4 h-4 text-white', 'solid')}
           </div>
-          <div class="bg-white border border-[#E2E8F0] rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
+          <div class="bg-white dark:bg-[#141D33] border border-[#E2E8F0] dark:border-[#1E293B] rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
             <div class="flex gap-1 items-center h-4">
               <span class="w-2 h-2 rounded-full bg-[#94A3B8] animate-bounce" style="animation-delay:0ms"></span>
               <span class="w-2 h-2 rounded-full bg-[#94A3B8] animate-bounce" style="animation-delay:150ms"></span>

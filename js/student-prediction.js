@@ -8,14 +8,14 @@ EP.studentPrediction = {
     document.getElementById('content').innerHTML = `
       <div class="max-w-7xl mx-auto space-y-6">
         <div>
-          <h1 class="font-display font-semibold text-[#0F172A] text-[14px] md:text-lg">My Prediction</h1>
-          <p class="text-[#64748B] text-xs mt-0.5">AI-powered performance forecast based on your learning data</p>
+          <h1 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-[14px] md:text-lg">My Prediction</h1>
+          <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mt-0.5">AI-powered performance forecast based on your learning data</p>
         </div>
 
         <!-- Hero score + trend -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
           <!-- Overall score -->
-          <div class="bg-[#0D1425] rounded-2xl p-6 text-center relative overflow-hidden">
+          <div class="bg-[#0D1425] dark:bg-[#0D1425]/90 backdrop-blur-md rounded-2xl p-6 text-center relative overflow-hidden border border-transparent dark:border-indigo-500/20 dark:shadow-[0_0_40px_-10px_rgba(99,102,241,0.2)]">
             <div class="absolute inset-0">
               <div class="absolute top-0 left-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl"></div>
               <div class="absolute bottom-0 right-0 w-32 h-32 bg-violet-500/10 rounded-full blur-2xl"></div>
@@ -41,25 +41,25 @@ EP.studentPrediction = {
           </div>
 
           <!-- Subject predictions -->
-          <div class="lg:col-span-2 bg-white rounded-3xl p-6 shadow-sm">
-            <h2 class="font-display font-semibold text-[#0F172A] text-base mb-5">Subject Breakdown</h2>
+          <div class="lg:col-span-2 bg-white dark:bg-[#141D33] rounded-3xl p-6 shadow-sm border border-transparent dark:border-[#1E293B] dark:shadow-indigo-500/10">
+            <h2 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-5">Subject Breakdown</h2>
             <div class="space-y-4">
               ${student.subjects.map(s=>`
                 <div class="flex items-center gap-4">
                   <div class="w-24 flex-shrink-0">
-                    <p class="font-semibold text-[#0F172A] text-sm">${s.name}</p>
+                    <p class="font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm">${s.name}</p>
                     <p class="text-xs text-[#94A3B8]">${s.label}</p>
                   </div>
                   <div class="flex-1">
                     <div class="flex items-center gap-2 mb-1.5">
-                      <div class="flex-1 h-2 bg-[#F1F5F9] rounded-full overflow-hidden">
+                      <div class="flex-1 h-2 bg-[#F1F5F9] dark:bg-[#0D1425] rounded-full overflow-hidden">
                         <div class="h-full rounded-full ${s.current>=85?'bg-emerald-500':s.current>=75?'bg-indigo-500':'bg-amber-500'} transition-all duration-700" style="width:${s.current}%"></div>
                       </div>
-                      <span class="text-xs font-bold text-[#0F172A] w-8 text-right">${s.current}%</span>
+                      <span class="text-xs font-bold text-[#0F172A] dark:text-[#F8FAFC] w-8 text-right">${s.current}%</span>
                     </div>
                     <div class="flex items-center gap-2">
-                      <div class="flex-1 h-2 bg-[#F1F5F9] rounded-full overflow-hidden">
-                        <div class="h-full rounded-full bg-indigo-300 transition-all duration-700" style="width:${s.predicted}%;opacity:0.6"></div>
+                      <div class="flex-1 h-2 bg-[#F1F5F9] dark:bg-[#0D1425] rounded-full overflow-hidden">
+                        <div class="h-full rounded-full bg-indigo-300 transition-all duration-700" style="width:${student.predicted}%;opacity:0.6"></div>
                       </div>
                       <span class="text-xs font-bold text-indigo-500 w-8 text-right">${s.predicted}%</span>
                     </div>
@@ -67,7 +67,7 @@ EP.studentPrediction = {
                   ${riskBadge(s.risk)}
                 </div>
               `).join('')}
-              <div class="flex items-center gap-4 pt-2 border-t border-[#F1F5F9] text-xs text-[#94A3B8]">
+              <div class="flex items-center gap-4 pt-2 border-t border-[#F1F5F9] dark:border-[#1E293B] text-xs text-[#94A3B8]">
                 <div class="flex items-center gap-1.5"><span class="w-3 h-2 rounded bg-indigo-500 inline-block"></span>Current</div>
                 <div class="flex items-center gap-1.5"><span class="w-3 h-2 rounded bg-indigo-300 opacity-60 inline-block"></span>Predicted (next term)</div>
               </div>
@@ -76,13 +76,13 @@ EP.studentPrediction = {
         </div>
 
         <!-- Trend Chart -->
-        <div class="bg-white rounded-2xl p-6 shadow-sm">
+        <div class="bg-white dark:bg-[#141D33] rounded-2xl p-6 shadow-sm border border-transparent dark:border-[#1E293B] dark:shadow-indigo-500/10">
           <div class="flex items-center justify-between mb-6">
             <div>
-              <h2 class="font-display font-semibold text-[#0F172A] text-base">Grade Trend & Forecast</h2>
+              <h2 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base">Grade Trend & Forecast</h2>
               <p class="text-xs text-[#94A3B8] mt-0.5">Historical performance with AI-predicted future grades</p>
             </div>
-            <span class="text-xs font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full">Last 7 months</span>
+            <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 px-3 py-1 rounded-full">Last 7 months</span>
           </div>
           <div class="h-64">
             <canvas id="predictionChart"></canvas>
@@ -92,16 +92,16 @@ EP.studentPrediction = {
         <!-- Insights -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           ${[
-            { icon:'bolt', color:'indigo', title:'Strength',   text:'You perform best in PRC102 with consistent scores above 90%. Keep up the momentum in the final weeks.' },
-            { icon:'exclamation-triangle', color:'amber', title:'Focus Area', text:'SAM101 is your weakest subject this term. Consider attending extra sessions for server configuration.' },
-            { icon:'flag', color:'emerald', title:'Goal',    text:'At your current pace, you\'re on track to finish the semester with an 88+ average. Aim for 90+ with one strong final exam.' },
+            { icon:'bolt', color:'indigo', title:'Strength',   text:'You perform best in PRC102 with consistent scores above 90%. Keep up the momentum in the final weeks.', darkColor:'dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/20' },
+            { icon:'exclamation-triangle', color:'amber', title:'Focus Area', text:'SAM101 is your weakest subject this term. Consider attending extra sessions for server configuration.', darkColor:'dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20' },
+            { icon:'flag', color:'emerald', title:'Goal',    text:'At your current pace, you\'re on track to finish the semester with an 88+ average. Aim for 90+ with one strong final exam.', darkColor:'dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20' },
           ].map(c=>`
-            <div class="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-sm">
-              <div class="w-9 h-9 rounded-xl bg-${c.color}-50 border border-${c.color}-100 flex items-center justify-center mb-3">
-                ${EP.getIcon(c.icon, `w-4 h-4 text-${c.color}-600`)}
+            <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-5 shadow-sm dark:shadow-indigo-500/5">
+              <div class="w-9 h-9 rounded-xl bg-${c.color}-50 ${c.darkColor} border border-${c.color}-100 flex items-center justify-center mb-3">
+                ${EP.getIcon(c.icon, `w-4 h-4 text-${c.color}-600 dark:text-${c.color}-400`)}
               </div>
-              <p class="font-display font-semibold text-[#0F172A] text-sm mb-1.5">${c.title}</p>
-              <p class="text-xs text-[#64748B] leading-relaxed">${c.text}</p>
+              <p class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm mb-1.5">${c.title}</p>
+              <p class="text-xs text-[#64748B] dark:text-[#94A3B8] leading-relaxed">${c.text}</p>
             </div>
           `).join('')}
         </div>
@@ -174,7 +174,7 @@ EP.studentPrediction = {
           x: { grid: { display: false }, border: { display: false }, ticks: { color: '#94A3B8', font: { size: 11 } } },
           y: {
             min: 60, max: 100,
-            grid: { color: 'rgba(0,0,0,0.04)' },
+            grid: { color: document.body.classList.contains('dark') ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)' },
             border: { display: false },
             ticks: { color: '#94A3B8', font: { size: 11 }, stepSize: 10, callback: v => v + '%' }
           }

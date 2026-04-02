@@ -8,8 +8,8 @@ EP.studentClasses = {
       <div class="max-w-7xl mx-auto space-y-6">
         <div class="flex items-center justify-between gap-4">
           <div>
-            <h1 class="font-display font-semibold text-[#0F172A] text-[14px] md:text-lg">My Classes</h1>
-            <p class="text-[#64748B] text-xs mt-0.5">2nd Semester, AY 2025-2026 · ${classes.length} enrolled</p>
+            <h1 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-[14px] md:text-lg">My Classes</h1>
+            <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mt-0.5">2nd Semester, AY 2025-2026 · ${classes.length} enrolled</p>
           </div>
           <button onclick="EP.actions.joinClass()" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold text-[10px] uppercase tracking-widest px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-500/20 active:scale-95 transition-all outline-none flex-shrink-0">
             Join Class
@@ -24,7 +24,7 @@ EP.studentClasses = {
             const graded  = cws.filter(c=>c.status==='Graded');
             const avgScore = graded.length ? Math.round(graded.reduce((s,c)=>s+(c.score/c.maxScore)*100,0)/graded.length) : null;
             return `
-              <div class="bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden shadow-sm hover-lift group">
+              <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] overflow-hidden shadow-sm hover-lift group dark:shadow-indigo-500/10">
                 <!-- Header -->
                 <div class="h-32 bg-gradient-to-br ${classGradient(cls.color)} relative overflow-hidden">
                   <div class="absolute inset-0 bg-black/10"></div>
@@ -37,42 +37,42 @@ EP.studentClasses = {
 
                 <!-- Body -->
                 <div class="p-5">
-                  <p class="text-[#64748B] text-xs leading-relaxed mb-4">${cls.description}</p>
+                  <p class="text-[#64748B] dark:text-[#94A3B8] text-xs leading-relaxed mb-4">${cls.description}</p>
 
                   <div class="grid grid-cols-2 gap-3 mb-4">
-                    <div class="bg-[#F8FAFC] rounded-xl p-3">
+                    <div class="bg-[#F8FAFC] dark:bg-[#0D1425] rounded-xl p-3 border border-transparent dark:border-[#1E293B]">
                       <p class="text-[10px] text-[#94A3B8] uppercase font-semibold tracking-wide mb-1">Instructor</p>
-                      <p class="text-xs font-semibold text-[#475569] leading-tight">${cls.instructor}</p>
+                      <p class="text-xs font-semibold text-[#475569] dark:text-[#F8FAFC] leading-tight">${cls.instructor}</p>
                     </div>
-                    <div class="bg-[#F8FAFC] rounded-xl p-3">
+                    <div class="bg-[#F8FAFC] dark:bg-[#0D1425] rounded-xl p-3 border border-transparent dark:border-[#1E293B]">
                       <p class="text-[10px] text-[#94A3B8] uppercase font-semibold tracking-wide mb-1">Schedule</p>
-                      <p class="text-xs font-semibold text-[#475569] leading-tight">${cls.schedule}</p>
+                      <p class="text-xs font-semibold text-[#475569] dark:text-[#F8FAFC] leading-tight">${cls.schedule}</p>
                     </div>
                   </div>
 
                   <div class="flex items-center gap-3 mb-4">
-                    <div class="flex items-center gap-1.5 text-xs text-[#64748B]">
+                    <div class="flex items-center gap-1.5 text-xs text-[#64748B] dark:text-[#94A3B8]">
                       ${EP.getIcon('map-pin', 'w-3.5 h-3.5 text-[#94A3B8]')}
                       ${cls.room}
                     </div>
-                    <div class="flex items-center gap-1.5 text-xs text-[#64748B]">
+                    <div class="flex items-center gap-1.5 text-xs text-[#64748B] dark:text-[#94A3B8]">
                       ${EP.getIcon('users', 'w-3.5 h-3.5 text-[#94A3B8]')}
                       ${cls.students} students
                     </div>
                   </div>
 
                   <!-- Stats -->
-                  <div class="flex gap-2 pt-4 border-t border-[#F1F5F9]">
+                  <div class="flex gap-2 pt-4 border-t border-[#F1F5F9] dark:border-[#1E293B]">
                     <div class="flex-1 text-center">
-                      <p class="font-display font-bold text-[#0F172A] text-lg">${avgScore ?? '—'}${avgScore ? '%' : ''}</p>
+                      <p class="font-display font-bold text-[#0F172A] dark:text-[#F8FAFC] text-lg">${avgScore ?? '—'}${avgScore ? '%' : ''}</p>
                       <p class="text-[10px] text-[#94A3B8]">Avg Score</p>
                     </div>
-                    <div class="w-px bg-[#F1F5F9]"></div>
+                    <div class="w-px bg-[#F1F5F9] dark:bg-[#1E293B]"></div>
                     <div class="flex-1 text-center">
-                      <p class="font-display font-bold text-[#0F172A] text-lg">${cws.length}</p>
+                      <p class="font-display font-bold text-[#0F172A] dark:text-[#F8FAFC] text-lg">${cws.length}</p>
                       <p class="text-[10px] text-[#94A3B8]">Classworks</p>
                     </div>
-                    <div class="w-px bg-[#F1F5F9]"></div>
+                    <div class="w-px bg-[#F1F5F9] dark:bg-[#1E293B]"></div>
                     <div class="flex-1 text-center">
                       <p class="font-display font-bold ${pending>0?'text-amber-500':'text-emerald-500'} text-lg">${pending}</p>
                       <p class="text-[10px] text-[#94A3B8]">Pending</p>
@@ -83,7 +83,7 @@ EP.studentClasses = {
                     <button onclick="EP.actions.viewClass(${cls.id})" class="flex-1 py-2.5 rounded-xl bg-indigo-500 text-white text-xs font-semibold hover:bg-indigo-600 transition-all shadow-sm shadow-indigo-500/10 active:scale-95">
                       View Class
                     </button>
-                    <button onclick="navigate('classwork')" class="flex-1 py-2.5 rounded-xl border border-[#E2E8F0] text-xs font-semibold text-[#64748B] hover:bg-[#F8FAFC] transition-all active:scale-95">
+                    <button onclick="navigate('classwork')" class="flex-1 py-2.5 rounded-xl border border-[#E2E8F0] dark:border-[#1E293B] text-xs font-semibold text-[#64748B] dark:text-[#94A3B8] hover:bg-[#F8FAFC] dark:hover:bg-white/5 transition-all active:scale-95 text-center">
                       Classwork
                     </button>
                   </div>
@@ -94,8 +94,8 @@ EP.studentClasses = {
         </div>
 
         <!-- Academic Info Card -->
-        <div class="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
-          <h2 class="font-display font-semibold text-[#0F172A] text-base mb-4">Academic Information</h2>
+        <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-6 shadow-sm dark:shadow-indigo-500/5">
+          <h2 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-4">Academic Information</h2>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             ${[
               { label:'Program',    value:'BS Information Technology' },
@@ -103,9 +103,9 @@ EP.studentClasses = {
               { label:'Semester',   value:'2nd Semester' },
               { label:'Total Units', value:'21 units' },
             ].map(item=>`
-              <div class="bg-[#F8FAFC] rounded-xl p-4 border border-[#E2E8F0]">
+              <div class="bg-[#F8FAFC] dark:bg-[#0D1425] rounded-xl p-4 border border-[#E2E8F0] dark:border-[#1E293B]">
                 <p class="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider mb-1">${item.label}</p>
-                <p class="font-semibold text-[#0F172A] text-sm">${item.value}</p>
+                <p class="font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm">${item.value}</p>
               </div>
             `).join('')}
           </div>

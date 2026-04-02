@@ -9,8 +9,8 @@ EP.studentSettings = {
         <!-- Header -->
         <div class="flex items-center justify-between gap-4">
           <div>
-            <h1 class="font-display font-semibold text-[#0F172A] text-[14px] md:text-lg">Settings</h1>
-            <p class="text-[#64748B] text-xs mt-0.5">Manage your profile, academic info, and preferences</p>
+            <h1 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-[14px] md:text-lg">Settings</h1>
+            <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mt-0.5">Manage your profile, academic info, and preferences</p>
           </div>
           <div class="flex items-center gap-3">
             <button onclick="EP.actions.saveSettings()" class="bg-indigo-500 hover:bg-indigo-600 text-white text-[10px] font-semibold uppercase tracking-widest px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-500/20 active:scale-95 transition-all flex items-center gap-2">
@@ -23,26 +23,26 @@ EP.studentSettings = {
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Profile Column -->
           <div class="lg:col-span-1 space-y-6">
-            <div class="bg-white rounded-2xl p-6 shadow-sm flex flex-col items-center text-center">
+            <div class="bg-white dark:bg-[#141D33] rounded-2xl p-6 shadow-sm flex flex-col items-center text-center border border-transparent dark:border-[#1E293B] dark:shadow-indigo-500/10">
               <div class="relative mb-4 group cursor-pointer">
                 <div class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 p-1">
-                   <div class="w-full h-full rounded-full bg-white flex items-center justify-center p-1 overflow-hidden shadow-inner">
-                      ${avatarEl(currentUser.name, 'w-full h-full text-3xl font-semibold')}
+                   <div class="w-full h-full rounded-full bg-white dark:bg-[#0D1425] flex items-center justify-center p-1 overflow-hidden shadow-inner">
+                      ${avatarEl(currentUser.name, 'w-full h-full text-3xl font-semibold dark:text-white')}
                    </div>
                 </div>
                 <div class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
                    ${EP.getIcon('camera', 'w-6 h-6')}
                 </div>
               </div>
-              <h2 class="font-display font-semibold text-[#0F172A] text-lg">${currentUser.name}</h2>
-              <p class="text-xs text-[#64748B] font-medium leading-relaxed">${currentUser.program}</p>
+              <h2 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-lg">${currentUser.name}</h2>
+              <p class="text-xs text-[#64748B] dark:text-[#94A3B8] font-medium leading-relaxed">${currentUser.program}</p>
               <div class="mt-4 flex flex-wrap justify-center gap-2">
-                 <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 uppercase tracking-wider">Active Student</span>
+                 <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20 uppercase tracking-wider">Active Student</span>
               </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-6 shadow-sm">
-               <h3 class="font-display font-semibold text-[#0F172A] text-sm mb-4">Academic Information</h3>
+            <div class="bg-white dark:bg-[#141D33] rounded-2xl p-6 shadow-sm border border-transparent dark:border-[#1E293B]">
+               <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm mb-4">Academic Information</h3>
                <div class="space-y-5">
                   ${[
                     { label: 'Student ID', value: currentUser.studentId, icon: 'identification' },
@@ -51,12 +51,12 @@ EP.studentSettings = {
                     { label: 'Email Address', value: currentUser.email, icon: 'envelope' },
                   ].map(f => `
                     <div class="flex items-start gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0 text-[#94A3B8]">
+                        <div class="w-8 h-8 rounded-lg bg-gray-50 dark:bg-[#0D1425] flex items-center justify-center flex-shrink-0 text-[#94A3B8]">
                            ${EP.getIcon(f.icon, 'w-4 h-4')}
                         </div>
                         <div class="min-w-0">
                            <p class="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wide mb-1">${f.label}</p>
-                           <p class="text-sm font-semibold text-[#475569] truncate">${f.value}</p>
+                           <p class="text-sm font-semibold text-[#475569] dark:text-[#F8FAFC] truncate">${f.value}</p>
                         </div>
                     </div>
                   `).join('')}
@@ -67,8 +67,8 @@ EP.studentSettings = {
           <!-- Settings Column -->
           <div class="lg:col-span-2 space-y-6">
              <!-- Notifications -->
-             <div class="bg-white rounded-2xl p-6 shadow-sm">
-                    <h3 class="font-display font-semibold text-[#0F172A] text-base mb-6 flex items-center gap-2">
+             <div class="bg-white dark:bg-[#141D33] rounded-2xl p-6 shadow-sm border border-transparent dark:border-[#1E293B]">
+                    <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-6 flex items-center gap-2">
                       ${EP.getIcon('bell', 'w-5 h-5 text-indigo-500', 'solid')} Notification Preferences
                    </h3>
                 <div class="space-y-6">
@@ -78,9 +78,9 @@ EP.studentSettings = {
                      { id: 'cwk', title: 'New Classwork', desc: 'When instructor posts new materials', on: true },
                      { id: 'pred', title: 'Prediction Forecasts', desc: 'Weekly AI performance forecast summaries', on: false },
                    ].map(n => `
-                      <div class="flex items-center justify-between py-2 border-b border-[#F8FAFC] last:border-0 hover:bg-[#FDFDFF] transition-colors -mx-4 px-4 rounded-xl">
+                      <div class="flex items-center justify-between py-2 border-b border-[#F8FAFC] dark:border-[#1E293B] last:border-0 hover:bg-[#FDFDFF] dark:hover:bg-white/5 transition-colors -mx-4 px-4 rounded-xl">
                          <div class="flex-1 pr-4">
-                             <p class="text-sm font-semibold text-[#0F172A]">${n.title}</p>
+                             <p class="text-sm font-semibold text-[#0F172A] dark:text-[#F8FAFC]">${n.title}</p>
                              <p class="text-xs text-[#94A3B8] mt-0.5">${n.desc}</p>
                          </div>
                          <button onclick="EP.ui.toggle(this, '${n.id}')"
@@ -93,8 +93,8 @@ EP.studentSettings = {
              </div>
 
              <!-- Appearance -->
-             <div class="bg-white rounded-2xl p-6 shadow-sm">
-                <h3 class="font-display font-semibold text-[#0F172A] text-base mb-6 flex items-center gap-2">
+             <div class="bg-white dark:bg-[#141D33] rounded-2xl p-6 shadow-sm border border-transparent dark:border-[#1E293B]">
+                <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-6 flex items-center gap-2">
                    ${EP.getIcon('paint-brush', 'w-5 h-5 text-violet-500', 'solid')} Appearance Settings
                 </h3>
                 <div class="grid grid-cols-3 gap-3">

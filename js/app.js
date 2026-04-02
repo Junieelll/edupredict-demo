@@ -115,7 +115,7 @@ function renderNav() {
   const items = navConfigs[EP.currentRole];
   nav.innerHTML = items.map(item => `
     <button id="nav-${item.id}" onclick="navigate('${item.id}')"
-      class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[#64748B] hover:text-[#94A3B8] hover:bg-white/5 transition-all group">
+      class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[#64748B] dark:text-[#94A3B8] hover:text-[#94A3B8] dark:hover:text-white hover:bg-white/5 dark:hover:bg-white/5 transition-all group">
       ${EP.getIcon(item.icon, 'w-4 h-4 flex-shrink-0')}
       <span>${item.label}</span>
     </button>
@@ -138,7 +138,7 @@ function updateNavActive() {
         icon.style.color = '#818CF8';
       }
     } else {
-      btn.className = 'nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[#64748B] hover:text-[#94A3B8] hover:bg-white/5 transition-all group';
+      btn.className = 'nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[#64748B] dark:text-[#94A3B8] hover:text-[#94A3B8] dark:hover:text-white hover:bg-white/5 transition-all group';
       if (icon) {
         icon.setAttribute('icon', `heroicons:${item.icon}`);
         icon.style.color = '';
@@ -227,13 +227,22 @@ function closeSidebar() {
 
 
 function riskBadge(risk) {
-  const m = { Low:'bg-emerald-50 text-emerald-700 border border-emerald-100', Medium:'bg-amber-50 text-amber-700 border border-amber-100', High:'bg-red-50 text-red-700 border border-red-100' };
-  return `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${m[risk]||'bg-gray-100 text-gray-600'}">${risk}</span>`;
+  const m = { 
+    Low: 'bg-emerald-50 text-emerald-700 border border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20', 
+    Medium: 'bg-amber-50 text-amber-700 border border-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20', 
+    High: 'bg-red-50 text-red-700 border border-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20' 
+  };
+  return `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${m[risk]||'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-slate-400'}">${risk}</span>`;
 }
 
 function statusBadge(status) {
-  const m = { Submitted:'bg-emerald-50 text-emerald-700 border border-emerald-100', Pending:'bg-amber-50 text-amber-700 border border-amber-100', Overdue:'bg-red-50 text-red-700 border border-red-100', Graded:'bg-indigo-50 text-indigo-700 border border-indigo-100' };
-  return `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${m[status]||'bg-gray-100 text-gray-600'}">${status}</span>`;
+  const m = { 
+    Submitted: 'bg-emerald-50 text-emerald-700 border border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20', 
+    Pending: 'bg-amber-50 text-amber-700 border border-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20', 
+    Overdue: 'bg-red-50 text-red-700 border border-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20', 
+    Graded: 'bg-indigo-50 text-indigo-700 border border-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/20' 
+  };
+  return `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${m[status]||'bg-gray-100 text-gray-600 dark:bg-slate-800 dark:text-slate-400'}">${status}</span>`;
 }
 
 function avatarEl(name, extraClass='w-9 h-9 text-xs') {
@@ -257,9 +266,9 @@ function showModal(html) {
   if (mc) {
     mc.innerHTML = `
       <div class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4" onclick="if(event.target===this)closeModal()">
-        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-lg animate-[fadeUp_0.15s_ease-out] overflow-hidden border border-white/20">
+        <div class="bg-white dark:bg-[#141D33] rounded-[2rem] shadow-2xl w-full max-w-lg animate-[fadeUp_0.15s_ease-out] overflow-hidden border border-white/20 dark:border-white/5">
           <div class="max-h-[90vh] overflow-y-auto p-1.5 custom-scrollbar">
-            <div class="bg-white rounded-[1.6rem] overflow-hidden">
+            <div class="bg-white dark:bg-[#141D33] rounded-[1.6rem] overflow-hidden">
                ${html}
             </div>
           </div>
@@ -282,7 +291,7 @@ function showPanel(html) {
       <!-- Overlay -->
       <div id="panel-overlay" class="absolute inset-0 bg-black/40 backdrop-blur-sm animate-[fadeIn_0.3s_ease-out_forwards]" onclick="closePanel()"></div>
       <!-- Panel Body -->
-      <div id="panel-body" class="absolute inset-y-0 right-0 bg-white w-full max-w-lg shadow-2xl border-l border-[#E2E8F0] animate-[slideInRight_0.3s_cubic-bezier(0.4,0,0.2,1)_forwards] flex flex-col">
+      <div id="panel-body" class="absolute inset-y-0 right-0 bg-white dark:bg-[#141D33] w-full max-w-lg shadow-2xl border-l border-[#E2E8F0] dark:border-[#1E293B] animate-[slideInRight_0.3s_cubic-bezier(0.4,0,0.2,1)_forwards] flex flex-col">
         <div class="flex-1 overflow-y-auto custom-scrollbar">
           ${html}
         </div>
@@ -314,14 +323,14 @@ function getCalendarHTML(year, month) {
   const monthName = new Date(year, month).toLocaleString('default', { month: 'long' });
 
   return `
-    <div class="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-sm">
+    <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-5 shadow-sm">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-display font-semibold text-[#0F172A] text-sm">${monthName} ${year}</h3>
         <div class="flex gap-1">
-          <button onclick="changeMonth(-1)" class="p-1.5 rounded-lg hover:bg-gray-50 text-[#94A3B8] transition-colors border border-transparent hover:border-[#E2E8F0]">
+          <button onclick="changeMonth(-1)" class="p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 text-[#94A3B8] transition-colors border border-transparent hover:border-[#E2E8F0] dark:hover:border-[#1E293B]">
             ${EP.getIcon('chevron-left', 'w-3.5 h-3.5')}
           </button>
-          <button onclick="changeMonth(1)" class="p-1.5 rounded-lg hover:bg-gray-50 text-[#94A3B8] transition-colors border border-transparent hover:border-[#E2E8F0]">
+          <button onclick="changeMonth(1)" class="p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 text-[#94A3B8] transition-colors border border-transparent hover:border-[#E2E8F0] dark:hover:border-[#1E293B]">
             ${EP.getIcon('chevron-right', 'w-3.5 h-3.5')}
           </button>
         </div>
@@ -337,9 +346,9 @@ function getCalendarHTML(year, month) {
           const hasEvent = [5, 12, 18, 24].includes(day); // Mock events
           return `
             <div class="h-8 flex flex-col items-center justify-center relative group cursor-pointer">
-              <span class="text-xs font-medium ${isToday ? 'text-white bg-indigo-500 w-6 h-6 rounded-lg flex items-center justify-center shadow-sm shadow-indigo-500/20' : 'text-[#475569] group-hover:text-indigo-600'}">${day}</span>
+              <span class="text-xs font-medium ${isToday ? 'text-white bg-indigo-500 w-6 h-6 rounded-lg flex items-center justify-center shadow-sm shadow-indigo-500/20' : 'text-[#475569] dark:text-[#94A3B8] group-hover:text-indigo-600'}">${day}</span>
               ${hasEvent ? `<span class="absolute bottom-1 w-1 h-1 bg-indigo-400 rounded-full"></span>` : ''}
-              ${isToday ? '' : `<div class="absolute inset-0 bg-indigo-50 rounded-lg opacity-0 group-hover:opacity-100 -z-10 scale-90 group-hover:scale-100 transition-all"></div>`}
+              ${isToday ? '' : `<div class="absolute inset-0 bg-indigo-50 dark:bg-indigo-500/10 rounded-lg opacity-0 group-hover:opacity-100 -z-10 scale-90 group-hover:scale-100 transition-all"></div>`}
             </div>
           `;
         }).join('')}
@@ -398,17 +407,17 @@ function renderNotificationsList() {
   if (!list) return;
   const items = EP.data.notifications.slice(0, 3);
   list.innerHTML = items.map(n => `
-    <div onclick="navigate('alerts')" class="px-4 py-3 hover:bg-[#F8FAFC] transition-colors cursor-pointer group">
+    <div onclick="navigate('alerts')" class="px-4 py-3 hover:bg-[#F8FAFC] dark:hover:bg-white/5 transition-colors cursor-pointer group">
       <div class="flex gap-3">
-        <div class="w-8 h-8 rounded-lg bg-${n.color}-50 flex items-center justify-center text-${n.color}-500 flex-shrink-0 mt-0.5">
+        <div class="w-8 h-8 rounded-lg bg-${n.color}-50 dark:bg-${n.color}-500/10 flex items-center justify-center text-${n.color}-500 flex-shrink-0 mt-0.5">
           ${EP.getIcon(n.icon, 'w-4 h-4', 'solid')}
         </div>
         <div class="flex-1 min-w-0">
           <div class="flex items-center justify-between mb-0.5">
-            <p class="text-[11px] font-bold text-[#0F172A]">${n.title}</p>
+            <p class="text-[11px] font-bold text-[#0F172A] dark:text-[#F8FAFC]">${n.title}</p>
             <span class="text-[9px] text-[#94A3B8]">${new Date(n.time).getHours()}h ago</span>
           </div>
-          <p class="text-[10px] text-[#64748B] leading-relaxed line-clamp-2">${n.text}</p>
+          <p class="text-[10px] text-[#64748B] dark:text-[#94A3B8] leading-relaxed line-clamp-2">${n.text}</p>
         </div>
       </div>
     </div>
@@ -446,15 +455,15 @@ EP.actions = {
     
     showPanel(`
       <div class="p-0">
-        <div class="p-8 bg-white border-b border-[#F1F5F9] relative overflow-hidden">
-          <div class="absolute -right-12 -top-12 w-48 h-48 bg-indigo-50 rounded-full blur-3xl opacity-60"></div>
+        <div class="p-8 bg-white dark:bg-[#141D33] border-b border-[#F1F5F9] dark:border-[#1E293B] relative overflow-hidden">
+          <div class="absolute -right-12 -top-12 w-48 h-48 bg-indigo-50 dark:bg-indigo-500/10 rounded-full blur-3xl opacity-60"></div>
           <div class="relative">
             <div class="flex items-center gap-2 mb-4">
-              <span class="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-[10px] font-semibold uppercase tracking-widest rounded-lg border border-indigo-100">${cls?.code || 'CS'}</span>
-              <span class="w-1 h-1 rounded-full bg-[#CBD5E1]"></span>
+              <span class="px-2 py-0.5 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-[10px] font-semibold uppercase tracking-widest rounded-lg border border-indigo-100 dark:border-indigo-500/20">${cls?.code || 'CS'}</span>
+              <span class="w-1 h-1 rounded-full bg-[#CBD5E1] dark:bg-[#1E293B]"></span>
               <span class="text-[10px] font-bold text-[#94A3B8] uppercase tracking-widest">${cw.type}</span>
             </div>
-            <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">${cw.title}</h3>
+            <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-2">${cw.title}</h3>
             <div class="flex items-center gap-2 text-xs text-[#64748B]">
                ${EP.getIcon('calendar', 'w-4 h-4')}
                <span>Due ${due}</span>
@@ -466,7 +475,7 @@ EP.actions = {
           <!-- Description -->
           <div>
             <h4 class="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-4 ml-1">Instructions</h4>
-            <div class="text-[#475569] text-sm leading-relaxed space-y-4">
+            <div class="text-[#475569] dark:text-[#94A3B8] text-sm leading-relaxed space-y-4">
               <p>Please complete this assignment based on the latest lecture materials. Ensure your solution follows the provided standard guidelines and coding style.</p>
               <ul class="list-disc list-inside space-y-2 opacity-80 pl-2">
                 <li>Submit your solution in a single PDF or ZIP file.</li>
@@ -480,13 +489,13 @@ EP.actions = {
           <div>
             <h4 class="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-4 ml-1">Materials</h4>
             <div class="space-y-2">
-              <div class="flex items-center justify-between p-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl hover:border-indigo-200 hover:bg-white transition-all cursor-pointer group">
+              <div class="flex items-center justify-between p-3.5 bg-[#F8FAFC] dark:bg-[#0D1425] border border-[#E2E8F0] dark:border-[#1E293B] rounded-xl hover:border-indigo-200 dark:hover:border-indigo-500/50 hover:bg-white dark:hover:bg-[#1A253E] transition-all cursor-pointer group">
                 <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-lg bg-red-50 flex items-center justify-center text-red-500">
+                  <div class="w-9 h-9 rounded-lg bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-500">
                     ${EP.getIcon('document-text', 'w-5 h-5', 'solid')}
                   </div>
                   <div>
-                    <p class="text-xs font-bold text-[#0F172A]">ProblemSet_Instruction.pdf</p>
+                    <p class="text-xs font-bold text-[#0F172A] dark:text-[#F8FAFC]">ProblemSet_Instruction.pdf</p>
                     <p class="text-[10px] text-[#94A3B8]">1.2 MB · PDF Document</p>
                   </div>
                 </div>
@@ -519,8 +528,8 @@ EP.actions = {
           </div>
         </div>
 
-        <div class="p-6 py-5 bg-[#F8FAFC] border-t border-[#F1F5F9] flex gap-3">
-          <button onclick="closePanel()" class="flex-1 py-4 bg-white border border-[#E2E8F0] hover:bg-gray-50 text-[#475569] font-bold text-[10px] uppercase tracking-widest rounded-xl transition-all active:scale-95">Close</button>
+        <div class="p-6 py-5 bg-[#F8FAFC] dark:bg-[#0D1425] border-t border-[#F1F5F9] dark:border-[#1E293B] flex gap-3">
+          <button onclick="closePanel()" class="flex-1 py-4 bg-white dark:bg-[#1A253E] border border-[#E2E8F0] dark:border-[#1E293B] hover:bg-gray-50 dark:hover:bg-white/5 text-[#475569] dark:text-[#94A3B8] font-bold text-[10px] uppercase tracking-widest rounded-xl transition-all active:scale-95">Close</button>
           ${cw.status !== 'Graded' ? `
              <button onclick="EP.notify('Submission received!', 'success'); closePanel();" class="flex-[2] py-4 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold text-[10px] uppercase tracking-widest rounded-xl shadow-lg shadow-indigo-500/20 transition-all active:scale-95">Complete Submission</button>
           ` : ''}
@@ -536,27 +545,27 @@ EP.actions = {
   showFilterOptions(title='Data') {
     showModal(`
       <div class="p-4 md:p-5">
-        <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">Filter ${title}</h3>
-        <p class="text-[#64748B] text-xs mb-8 leading-relaxed">Refine the view based on your specific criteria.</p>
+        <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-2">Filter ${title}</h3>
+        <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mb-8 leading-relaxed">Refine the view based on your specific criteria.</p>
         <div class="space-y-6 mb-8">
           <div>
             <label class="block text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-2.5 ml-1">Sort By</label>
             <div class="grid grid-cols-2 gap-2">
-              <button class="py-2.5 px-4 bg-indigo-50 border border-indigo-200 text-indigo-600 text-xs font-bold rounded-xl transition-all">Name (A-Z)</button>
-              <button class="py-2.5 px-4 bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B] text-xs font-bold rounded-xl hover:bg-white transition-all">Latest Activity</button>
+              <button class="py-2.5 px-4 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-xs font-bold rounded-xl transition-all">Name (A-Z)</button>
+              <button class="py-2.5 px-4 bg-[#F8FAFC] dark:bg-[#0D1425] border border-[#E2E8F0] dark:border-[#1E293B] text-[#64748B] dark:text-[#94A3B8] text-xs font-bold rounded-xl hover:bg-white dark:hover:bg-[#1A253E] transition-all">Latest Activity</button>
             </div>
           </div>
           <div>
             <label class="block text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-2.5 ml-1">Status / Risk</label>
             <div class="flex flex-wrap gap-2">
               ${['All', 'High Risk', 'On Track', 'Graded'].map(f=>`
-                <button class="px-4 py-2 border border-[#E2E8F0] text-[#475569] text-xs font-semibold rounded-full hover:border-indigo-200 hover:text-indigo-600 transition-all">${f}</button>
+                <button class="px-4 py-2 border border-[#E2E8F0] dark:border-[#1E293B] text-[#475569] dark:text-[#94A3B8] text-xs font-semibold rounded-full hover:border-indigo-200 dark:hover:border-indigo-500/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">${f}</button>
               `).join('')}
             </div>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <button onclick="closeModal()" class="py-4 bg-gray-50 text-[#475569] font-semibold rounded-xl text-[10px] uppercase tracking-widest">Reset</button>
+          <button onclick="closeModal()" class="py-4 bg-gray-50 dark:bg-[#0D1425] text-[#475569] dark:text-[#94A3B8] font-semibold rounded-xl text-[10px] uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">Reset</button>
           <button onclick="EP.notify('Filter applied!', 'success'); closeModal();" class="py-4 bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/20 text-[10px] uppercase tracking-widest active:scale-95 transition-transform">Apply Filter</button>
         </div>
       </div>
@@ -566,14 +575,14 @@ EP.actions = {
   joinClass() {
     showModal(`
       <div class="p-4 md:p-5 text-center">
-        <div class="w-14 h-14 rounded-xl bg-indigo-50 flex items-center justify-center mb-6 mx-auto">
+        <div class="w-14 h-14 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center mb-6 mx-auto">
           ${EP.getIcon('plus-circle', 'w-10 h-10 text-indigo-500', 'solid')}
         </div>
-        <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">Join New Class</h3>
-        <p class="text-[#64748B] text-xs mb-8 leading-relaxed">Enter your instructor's class code to enroll.</p>
-        <input type="text" id="join-code" placeholder="CODE-2026" class="w-full px-6 py-4 rounded-xl border-2 border-[#F1F5F9] mb-8 focus:border-indigo-400 focus:ring-0 outline-none text-center text-xs font-bold tracking-widest uppercase">
+        <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-2">Join New Class</h3>
+        <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mb-8 leading-relaxed">Enter your instructor's class code to enroll.</p>
+        <input type="text" id="join-code" placeholder="CODE-2026" class="w-full px-6 py-4 rounded-xl border-2 border-[#F1F5F9] dark:border-[#1E293B] bg-transparent dark:text-white mb-8 focus:border-indigo-400 focus:ring-0 outline-none text-center text-xs font-bold tracking-widest uppercase transition-all">
         <div class="grid grid-cols-2 gap-3">
-          <button onclick="closeModal()" class="py-4 bg-gray-50 text-[#64748B] font-bold rounded-xl text-[10px] uppercase tracking-widest">Cancel</button>
+          <button onclick="closeModal()" class="py-4 bg-gray-50 dark:bg-[#0D1425] text-[#64748B] dark:text-[#94A3B8] font-bold rounded-xl text-[10px] uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">Cancel</button>
           <button onclick="EP.actions.submitJoinClass()" class="py-4 bg-indigo-500 text-white font-bold rounded-xl shadow-xl shadow-indigo-500/20 text-[10px] uppercase tracking-widest active:scale-95 transition-transform">Join Class</button>
         </div>
       </div>
@@ -590,21 +599,21 @@ EP.actions = {
   newClass() {
     showModal(`
       <div class="p-4 md:p-5">
-        <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">Create New Class</h3>
-        <p class="text-[#64748B] text-xs mb-8">Set up a new learning environment.</p>
+        <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-2">Create New Class</h3>
+        <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mb-8">Set up a new learning environment.</p>
         <div class="space-y-4 mb-8">
           <div>
             <label class="block text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1">Class Name</label>
-            <input type="text" id="new-class-name" placeholder="e.g. Advanced Web Design" class="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl outline-none focus:border-indigo-400 text-sm font-medium">
+            <input type="text" id="new-class-name" placeholder="e.g. Advanced Web Design" class="w-full px-4 py-3 bg-[#F8FAFC] dark:bg-[#0D1425] border border-[#E2E8F0] dark:border-[#1E293B] rounded-xl outline-none focus:border-indigo-400 dark:text-white text-sm font-medium transition-all">
           </div>
           <div>
             <label class="block text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1">Class Code</label>
-            <input type="text" id="new-class-code" placeholder="e.g. CS401" class="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl outline-none focus:border-indigo-400 text-sm font-medium tracking-wider uppercase">
+            <input type="text" id="new-class-code" placeholder="e.g. CS401" class="w-full px-4 py-3 bg-[#F8FAFC] dark:bg-[#0D1425] border border-[#E2E8F0] dark:border-[#1E293B] rounded-xl outline-none focus:border-indigo-400 dark:text-white text-sm font-medium tracking-wider uppercase transition-all">
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <button onclick="closeModal()" class="py-4 bg-gray-50 text-[#475569] font-bold rounded-xl text-[10px] uppercase tracking-widest">Discard</button>
-          <button onclick="EP.actions.submitNewClass()" class="py-4 bg-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 text-[10px] uppercase tracking-widest">Create Class</button>
+          <button onclick="closeModal()" class="py-4 bg-gray-50 dark:bg-[#0D1425] text-[#475569] dark:text-[#94A3B8] font-bold rounded-xl text-[10px] uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">Discard</button>
+          <button onclick="EP.actions.submitNewClass()" class="py-4 bg-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 text-[10px] uppercase tracking-widest active:scale-95 transition-transform">Create Class</button>
         </div>
       </div>
     `);
@@ -620,21 +629,21 @@ EP.actions = {
   newStudent() {
     showModal(`
       <div class="p-4 md:p-5">
-        <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">Enlist New Student</h3>
-        <p class="text-[#64748B] text-xs mb-6 leading-relaxed">Add a student to the academic database for tracking and prediction.</p>
+        <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-2">Enlist New Student</h3>
+        <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mb-6 leading-relaxed">Add a student to the academic database for tracking and prediction.</p>
         <div class="space-y-4 mb-8">
           <div>
             <label class="block text-[10px] font-medium text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1">Full Name</label>
-            <input type="text" id="new-student-name" placeholder="e.g. Juan De La Cruz" class="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl outline-none focus:border-indigo-400 text-sm font-medium">
+            <input type="text" id="new-student-name" placeholder="e.g. Juan De La Cruz" class="w-full px-4 py-3 bg-[#F8FAFC] dark:bg-[#0D1425] border border-[#E2E8F0] dark:border-[#1E293B] rounded-xl outline-none focus:border-indigo-400 dark:text-white text-sm font-medium transition-all">
           </div>
           <div>
             <label class="block text-[10px] font-medium text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1">Student ID/Email</label>
-            <input type="text" id="new-student-id" placeholder="e.g. 2024-1001 or email" class="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl outline-none focus:border-indigo-400 text-sm font-medium">
+            <input type="text" id="new-student-id" placeholder="e.g. 2024-1001 or email" class="w-full px-4 py-3 bg-[#F8FAFC] dark:bg-[#0D1425] border border-[#E2E8F0] dark:border-[#1E293B] rounded-xl outline-none focus:border-indigo-400 dark:text-white text-sm font-medium transition-all">
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <button onclick="closeModal()" class="py-4 bg-gray-50 text-[#475569] font-bold rounded-xl text-[10px] uppercase tracking-widest">Discard</button>
-          <button onclick="EP.actions.submitNewStudent()" class="py-4 bg-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 text-[10px] uppercase tracking-widest">Enlist Student</button>
+          <button onclick="closeModal()" class="py-4 bg-gray-50 dark:bg-[#0D1425] text-[#475569] dark:text-[#94A3B8] font-bold rounded-xl text-[10px] uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">Discard</button>
+          <button onclick="EP.actions.submitNewStudent()" class="py-4 bg-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 text-[10px] uppercase tracking-widest active:scale-95 transition-transform">Enlist Student</button>
         </div>
       </div>
     `);
@@ -650,20 +659,20 @@ EP.actions = {
   postAnnouncement(classTitle) {
     showModal(`
       <div class="p-4 md:p-5">
-        <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">New Announcement</h3>
-        <p class="text-[#64748B] text-sm mb-8 leading-relaxed">Share an important update with ${classTitle}.</p>
+        <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-2">New Announcement</h3>
+        <p class="text-[#64748B] dark:text-[#94A3B8] text-sm mb-8 leading-relaxed">Share an important update with ${classTitle}.</p>
         <div class="space-y-4 mb-8">
           <div>
             <label class="block text-[10px] font-medium text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1">Announcement Title</label>
-            <input type="text" id="ann-title" placeholder="e.g. Schedule Change" class="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl outline-none focus:border-indigo-400 text-sm font-medium">
+            <input type="text" id="ann-title" placeholder="e.g. Schedule Change" class="w-full px-4 py-3 bg-[#F8FAFC] dark:bg-[#0D1425] border border-[#E2E8F0] dark:border-[#1E293B] rounded-xl outline-none focus:border-indigo-400 dark:text-white text-sm font-medium transition-all">
           </div>
           <div>
             <label class="block text-[10px] font-medium text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1">Message Content</label>
-            <textarea id="ann-text" rows="4" placeholder="Type your message here..." class="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl outline-none focus:border-indigo-400 text-sm font-medium resize-none"></textarea>
+            <textarea id="ann-text" rows="4" placeholder="Type your message here..." class="w-full px-4 py-3 bg-[#F8FAFC] dark:bg-[#0D1425] border border-[#E2E8F0] dark:border-[#1E293B] rounded-xl outline-none focus:border-indigo-400 dark:text-white text-sm font-medium resize-none transition-all"></textarea>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <button onclick="closeModal()" class="py-4 bg-gray-50 text-[#475569] font-bold rounded-xl text-[10px] uppercase tracking-widest">Discard</button>
+          <button onclick="closeModal()" class="py-4 bg-gray-50 dark:bg-[#0D1425] text-[#475569] dark:text-[#94A3B8] font-bold rounded-xl text-[10px] uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">Discard</button>
           <button onclick="EP.actions.submitAnnouncement()" class="py-4 bg-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 text-[10px] uppercase tracking-widest active:scale-95 transition-transform">Post Announcement</button>
         </div>
       </div>
@@ -680,27 +689,27 @@ EP.actions = {
   newAssignment() {
     showModal(`
       <div class="p-4 md:p-5">
-        <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">Post New Assignment</h3>
-        <p class="text-[#64748B] text-xs mb-8 leading-relaxed">Create a new task for your students to complete.</p>
+        <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-2">Post New Assignment</h3>
+        <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mb-8 leading-relaxed">Create a new task for your students to complete.</p>
         <div class="space-y-4 mb-8">
            <div>
               <label class="block text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1">Title</label>
-              <input type="text" placeholder="e.g. Introduction to React" class="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl outline-none focus:border-indigo-400 text-sm font-medium">
+              <input type="text" placeholder="e.g. Introduction to React" class="w-full px-4 py-3 bg-[#F8FAFC] dark:bg-[#0D1425] border border-[#E2E8F0] dark:border-[#1E293B] rounded-xl outline-none focus:border-indigo-400 dark:text-white text-sm font-medium transition-all">
            </div>
            <div class="grid grid-cols-2 gap-3">
               <div>
                  <label class="block text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1">Due Date</label>
-                 <input type="date" class="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl outline-none focus:border-indigo-400 text-sm font-medium">
+                 <input type="date" class="w-full px-4 py-3 bg-[#F8FAFC] dark:bg-[#0D1425] border border-[#E2E8F0] dark:border-[#1E293B] rounded-xl outline-none focus:border-indigo-400 dark:text-white text-sm font-medium transition-all">
               </div>
               <div>
                  <label class="block text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1">Max Score</label>
-                 <input type="number" placeholder="100" class="w-full px-4 py-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl outline-none focus:border-indigo-400 text-sm font-medium">
+                 <input type="number" placeholder="100" class="w-full px-4 py-3 bg-[#F8FAFC] dark:bg-[#0D1425] border border-[#E2E8F0] dark:border-[#1E293B] rounded-xl outline-none focus:border-indigo-400 dark:text-white text-sm font-medium transition-all">
               </div>
            </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <button onclick="closeModal()" class="py-3.5 bg-gray-50 text-[#475569] font-semibold rounded-xl text-[10px] uppercase tracking-widest">Discard</button>
-          <button onclick="EP.notify('Assignment posted!', 'success'); closeModal();" class="py-3.5 bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/20 text-[10px] uppercase tracking-widest">Post Task</button>
+          <button onclick="closeModal()" class="py-3.5 bg-gray-50 dark:bg-[#0D1425] text-[#475569] dark:text-[#94A3B8] font-semibold rounded-xl text-[10px] uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">Discard</button>
+          <button onclick="EP.notify('Assignment posted!', 'success'); closeModal();" class="py-3.5 bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/20 text-[10px] uppercase tracking-widest active:scale-95 transition-transform">Post Task</button>
         </div>
       </div>
     `);
@@ -709,16 +718,16 @@ EP.actions = {
   gradeSubmissions(title) {
     showModal(`
       <div class="p-4 md:p-5">
-        <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">Grade Submissions</h3>
-        <p class="text-[#64748B] text-xs mb-6">${title}</p>
+        <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-2">Grade Submissions</h3>
+        <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mb-6">${title}</p>
         <div class="space-y-3 mb-8">
            ${['Maria Santos', 'Juan Dela Cruz', 'Elena Gilbert'].map(name=>`
-              <div class="flex items-center justify-between p-3 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0]">
+              <div class="flex items-center justify-between p-3 bg-[#F8FAFC] dark:bg-[#0D1425] rounded-xl border border-[#E2E8F0] dark:border-[#1E293B]">
                  <div class="flex items-center gap-3">
                     ${avatarEl(name, 'w-8 h-8 text-[10px]')}
-                    <p class="text-xs font-bold text-[#475569]">${name}</p>
+                    <p class="text-xs font-bold text-[#475569] dark:text-[#F8FAFC]">${name}</p>
                  </div>
-                 <input type="number" placeholder="0" class="w-16 px-2 py-1.5 bg-white border border-[#E2E8F0] rounded-lg text-xs font-bold text-center focus:border-indigo-400 outline-none">
+                 <input type="number" placeholder="0" class="w-16 px-2 py-1.5 bg-white dark:bg-[#1A253E] border border-[#E2E8F0] dark:border-[#1E293B] rounded-lg text-xs font-bold text-center focus:border-indigo-400 dark:text-white outline-none transition-all">
               </div>
            `).join('')}
         </div>
@@ -730,13 +739,13 @@ EP.actions = {
   confirmDelete(title, callback) {
     showModal(`
       <div class="p-4 md:p-5 text-center">
-        <div class="w-14 h-14 rounded-full bg-rose-50 flex items-center justify-center mx-auto mb-6">
+        <div class="w-14 h-14 rounded-full bg-rose-50 dark:bg-rose-500/10 flex items-center justify-center mx-auto mb-6">
           ${EP.getIcon('trash', 'w-7 h-7 text-rose-500', 'solid')}
         </div>
-        <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">Delete ${title}?</h3>
-        <p class="text-[#64748B] text-xs mb-10 leading-relaxed">This action is irreversible for the current session. All related student data will be purged.</p>
+        <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-2">Delete ${title}?</h3>
+        <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mb-10 leading-relaxed">This action is irreversible for the current session. All related student data will be purged.</p>
         <div class="flex gap-3">
-          <button onclick="closeModal()" class="flex-1 py-4 bg-gray-50 text-[#475569] font-bold rounded-xl text-[10px] uppercase tracking-widest">Cancel</button>
+          <button onclick="closeModal()" class="flex-1 py-4 bg-gray-50 dark:bg-[#0D1425] text-[#475569] dark:text-[#94A3B8] font-bold rounded-xl text-[10px] uppercase tracking-widest hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">Cancel</button>
           <button id="btn-confirm-delete" class="flex-1 py-4 bg-rose-600 text-white font-bold rounded-xl shadow-lg shadow-rose-500/20 text-[10px] uppercase tracking-widest active:scale-95 transition-transform">Confirm Delete</button>
         </div>
       </div>
@@ -761,29 +770,29 @@ EP.actions = {
     if (!s) return EP.notify('Student data not found', 'error');
 
     showPanel(`
-      <div class="flex flex-col h-full bg-[#F8FAFC]">
+      <div class="flex flex-col h-full bg-[#F8FAFC] dark:bg-[#0D1425]">
         <!-- Hero Header -->
-        <div class="px-8 pt-8 pb-9 bg-white relative overflow-hidden border-b border-[#E2E8F0]">
+        <div class="px-8 pt-8 pb-9 bg-white dark:bg-[#141D33] relative overflow-hidden border-b border-[#E2E8F0] dark:border-[#1E293B]">
           <div class="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl"></div>
           <div class="relative flex items-start justify-between">
             <div class="flex items-center gap-5">
               <div class="relative">
-                ${avatarEl(s.name, 'w-20 h-20 text-2xl font-semibold ring-4 ring-white shadow-xl shadow-indigo-500/10')}
-                <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-emerald-500 rounded-full border-4 border-white flex items-center justify-center">
+                ${avatarEl(s.name, 'w-20 h-20 text-2xl font-semibold ring-4 ring-white dark:ring-[#1E293B] shadow-xl shadow-indigo-500/10')}
+                <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-emerald-500 rounded-full border-4 border-white dark:border-[#141D33] flex items-center justify-center">
                   ${EP.getIcon('check', 'w-3 h-3 text-white', 'solid')}
                 </div>
               </div>
               <div>
-                <h3 class="font-display font-semibold text-[#0F172A] text-xl leading-tight">${s.name}</h3>
-                <p class="text-[#64748B] text-xs font-medium mt-1">${s.email}</p>
+                <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-xl leading-tight">${s.name}</h3>
+                <p class="text-[#64748B] dark:text-[#94A3B8] text-xs font-medium mt-1">${s.email}</p>
                 <div class="flex items-center gap-2 mt-3">
-                   <span class="px-2.5 py-0.5 bg-indigo-50 text-indigo-600 text-[9px] font-semibold uppercase tracking-widest rounded-lg border border-indigo-100 flex items-center gap-1.5 shadow-sm">
+                   <span class="px-2.5 py-0.5 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-[9px] font-semibold uppercase tracking-widest rounded-lg border border-indigo-100 dark:border-indigo-500/20 flex items-center gap-1.5 shadow-sm">
                       ${EP.getIcon(s.dropoutRisk==='Low'?'sparkles':'bolt', 'w-3 h-3')} High AI Confidence
                    </span>
                 </div>
               </div>
             </div>
-            <button onclick="closePanel()" class="p-2.5 rounded-xl bg-[#F8FAFC] text-[#94A3B8] hover:text-indigo-600 transition-all active:scale-95">
+            <button onclick="closePanel()" class="p-2.5 rounded-xl bg-[#F8FAFC] dark:bg-[#0D1425] text-[#94A3B8] hover:text-indigo-600 transition-all active:scale-95">
               ${EP.getIcon('x-mark', 'w-6 h-6')}
             </button>
           </div>
@@ -792,27 +801,27 @@ EP.actions = {
         <div class="flex-1 overflow-y-auto p-8 space-y-8 scroll-smooth custom-scrollbar">
           <!-- Performance Pulse -->
           <div class="grid grid-cols-3 gap-3">
-             <div class="bg-white p-4 rounded-3xl border border-[#E2E8F0] shadow-sm transform transition-all hover:scale-105">
+             <div class="bg-white dark:bg-[#141D33] p-4 rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] shadow-sm transform transition-all hover:scale-105">
                 <p class="text-[9px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-2 text-center">Current GPA</p>
-                <p class="text-xl font-display font-semibold text-[#0F172A] text-center">${s.gpa.toFixed(2)}</p>
+                <p class="text-xl font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-center">${s.gpa.toFixed(2)}</p>
              </div>
-             <div class="bg-white p-4 rounded-3xl border border-[#E2E8F0] shadow-sm transform transition-all hover:scale-105">
+             <div class="bg-white dark:bg-[#141D33] p-4 rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] shadow-sm transform transition-all hover:scale-105">
                 <p class="text-[9px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-2 text-center">Attendance</p>
-                <p class="text-xl font-display font-semibold text-[#0F172A] text-center">${s.attendance}%</p>
+                <p class="text-xl font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-center">${s.attendance}%</p>
              </div>
-             <div class="bg-white p-4 rounded-3xl border border-[#E2E8F0] shadow-sm transform transition-all hover:scale-105">
+             <div class="bg-white dark:bg-[#141D33] p-4 rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] shadow-sm transform transition-all hover:scale-105">
                 <p class="text-[9px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-2 text-center">Risk Index</p>
                 <div class="flex justify-center">${riskBadge(s.dropoutRisk)}</div>
              </div>
           </div>
 
           <!-- Grade Trend Map -->
-          <div class="bg-white p-6 rounded-3xl border border-[#E2E8F0] shadow-sm">
+          <div class="bg-white dark:bg-[#141D33] p-6 rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] shadow-sm">
             <div class="flex items-center justify-between mb-6">
-              <h4 class="text-[10px] font-semibold text-[#0F172A] uppercase tracking-widest flex items-center gap-2">
+              <h4 class="text-[10px] font-semibold text-[#0F172A] dark:text-[#F8FAFC] uppercase tracking-widest flex items-center gap-2">
                  ${EP.getIcon('chart-bar', 'w-4 h-4 text-indigo-500', 'solid')} Grade Trajectory
               </h4>
-              <span class="text-[9px] font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-100">↑ 4.2% Growth</span>
+              <span class="text-[9px] font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-emerald-100 dark:border-emerald-500/20">↑ 4.2% Growth</span>
             </div>
             <div class="h-44">
               <canvas id="miniTrendChart"></canvas>
@@ -820,7 +829,7 @@ EP.actions = {
           </div>
 
           <!-- Intelligence Analysis -->
-          <div class="bg-[#0F172A] p-6 rounded-3xl shadow-xl relative overflow-hidden group">
+          <div class="bg-[#0F172A] dark:bg-[#1E293B] p-6 rounded-3xl shadow-xl relative overflow-hidden group">
             <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-transparent"></div>
             <div class="relative z-10">
                <h4 class="text-[10px] font-semibold text-white/60 uppercase tracking-widest mb-3 flex items-center gap-2">
@@ -836,20 +845,20 @@ EP.actions = {
           <div class="space-y-4">
              <h4 class="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest ml-1">AI-Recommended Interventions</h4>
              <div class="grid grid-cols-2 gap-3">
-                <button onclick="EP.notify('Meeting request sent via EduPredict Hub', 'success')" class="p-4 bg-white border border-[#E2E8F0] rounded-2xl flex flex-col items-center gap-2 hover:border-indigo-300 hover:bg-indigo-50 transition-all group active:scale-95 shadow-sm">
-                   <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 group-hover:bg-white transition-all">
+                <button onclick="EP.notify('Meeting request sent via EduPredict Hub', 'success')" class="p-4 bg-white dark:bg-[#141D33] border border-[#E2E8F0] dark:border-[#1E293B] rounded-2xl flex flex-col items-center gap-2 hover:border-indigo-300 dark:hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition-all group active:scale-95 shadow-sm">
+                   <div class="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center text-indigo-500 group-hover:bg-white dark:group-hover:bg-[#141D33] transition-all">
                       ${EP.getIcon('calendar-days', 'w-5 h-5')}
                    </div>
-                   <span class="text-[10px] font-bold text-[#475569] uppercase tracking-wider">Schedule Sync</span>
+                   <span class="text-[10px] font-bold text-[#475569] dark:text-[#94A3B8] uppercase tracking-wider">Schedule Sync</span>
                 </button>
-                <button onclick="EP.notify('Automated study guide sent to student', 'success')" class="p-4 bg-white border border-[#E2E8F0] rounded-2xl flex flex-col items-center gap-2 hover:border-amber-300 hover:bg-amber-50 transition-all group active:scale-95 shadow-sm">
-                   <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500 group-hover:bg-white transition-all">
+                <button onclick="EP.notify('Automated study guide sent to student', 'success')" class="p-4 bg-white dark:bg-[#141D33] border border-[#E2E8F0] dark:border-[#1E293B] rounded-2xl flex flex-col items-center gap-2 hover:border-amber-300 dark:hover:border-amber-500 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-all group active:scale-95 shadow-sm">
+                   <div class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:bg-white dark:group-hover:bg-[#141D33] transition-all">
                       ${EP.getIcon('light-bulb', 'w-5 h-5')}
                    </div>
-                   <span class="text-[10px] font-bold text-[#475569] uppercase tracking-wider">Send Nudge</span>
+                   <span class="text-[10px] font-bold text-[#475569] dark:text-[#94A3B8] uppercase tracking-wider">Send Nudge</span>
                 </button>
              </div>
-             <button onclick="EP.notify('Full academic audit generated', 'info')" class="w-full py-4 bg-[#F1F5F9] text-[#475569] font-semibold text-[10px] uppercase tracking-widest rounded-2xl border border-[#E2E8F0] hover:bg-white transition-all active:scale-95 shadow-sm">
+             <button onclick="EP.notify('Full academic audit generated', 'info')" class="w-full py-4 bg-[#F1F5F9] dark:bg-[#0D1425] text-[#475569] dark:text-[#94A3B8] font-semibold text-[10px] uppercase tracking-widest rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] hover:bg-white dark:hover:bg-[#141D33] transition-all active:scale-95 shadow-sm">
                 Generate Comprehensive Report (PDF)
              </button>
           </div>
@@ -933,7 +942,20 @@ EP.actions = {
       if (EP.currentRole === 'student') EP.studentSettings.render();
       else EP.educatorSettings.render();
     }
-    EP.notify(`Theme set to ${theme}`, 'info');
+    
+    // Update header toggle icon
+    const themeIcon = document.getElementById('theme-icon');
+    if (themeIcon) {
+       const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+       themeIcon.setAttribute('icon', isDark ? 'heroicons:moon-solid' : 'heroicons:sun-solid');
+       themeIcon.className = isDark ? 'text-indigo-400 drop-shadow-[0_0_8px_rgba(129,140,248,0.5)]' : 'text-amber-500 drop-shadow-[0_0_8px_rgba(245,158,11,0.4)]';
+    }
+
+  },
+  toggleTheme() {
+    const current = localStorage.getItem('ep_theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    this.setTheme(next);
   }
 };
 
@@ -944,9 +966,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   const savedTheme = localStorage.getItem('ep_theme') || 'light';
-  if (savedTheme === 'dark' || (savedTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.body.classList.add('dark');
-  }
+  EP.actions.setTheme(savedTheme);
   
   const savedRole = localStorage.getItem('ep_role') || 'student';
   const savedPage = localStorage.getItem('ep_page') || 'dashboard';

@@ -10,28 +10,28 @@ EP.educatorPrediction = {
         <!-- Header -->
         <div class="flex items-center justify-between gap-4">
           <div>
-            <h1 class="font-display font-semibold text-[#0F172A] text-sm md:text-lg">Predictions & Analytics</h1>
-            <p class="text-[#64748B] text-xs mt-0.5">AI-powered insights across all ${classes.length} active courses</p>
+            <h1 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm md:text-lg">Predictions & Analytics</h1>
+            <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mt-0.5">AI-powered insights across all ${classes.length} active courses</p>
           </div>
-          <div class="flex items-center gap-2 bg-indigo-50 border border-indigo-100 rounded-xl px-4 py-2.5">
-            ${EP.getIcon('cpu-chip', 'w-4 h-4 text-indigo-500', 'solid')}
-            <span class="text-xs font-semibold text-indigo-600">Model Accuracy: ${modelAccuracy}%</span>
+          <div class="flex items-center gap-2 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 rounded-xl px-4 py-2.5">
+            ${EP.getIcon('cpu-chip', 'w-4 h-4 text-indigo-500 dark:text-indigo-400', 'solid')}
+            <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400">Model Accuracy: ${modelAccuracy}%</span>
           </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Risk Distribution Summary -->
-          <div class="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
-            <h2 class="font-display font-semibold text-[#0F172A] text-base mb-5 text-center">Dropout Risk Distribution</h2>
+          <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-6 shadow-sm dark:shadow-indigo-500/10">
+            <h2 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-5 text-center">Dropout Risk Distribution</h2>
             <div class="relative w-40 h-40 mx-auto mb-6">
               <svg viewBox="0 0 36 36" class="w-full h-full -rotate-90">
-                <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(16,185,129,0.1)" stroke-width="3"></circle>
+                <circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" class="text-gray-100 dark:text-[#0D1425]" stroke-width="3"></circle>
                 <circle cx="18" cy="18" r="16" fill="none" stroke="#10B981" stroke-width="3" stroke-dasharray="${(riskDist.Low/students.length)*100} 100" stroke-linecap="round"></circle>
                 <circle cx="18" cy="18" r="16" fill="none" stroke="#F59E0B" stroke-width="3" stroke-dasharray="${(riskDist.Medium/students.length)*100} 100" stroke-dashoffset="-${(riskDist.Low/students.length)*100}" stroke-linecap="round"></circle>
                 <circle cx="18" cy="18" r="16" fill="none" stroke="#EF4444" stroke-width="3" stroke-dasharray="${(riskDist.High/students.length)*100} 100" stroke-dashoffset="-${((riskDist.Low+riskDist.Medium)/students.length)*100}" stroke-linecap="round"></circle>
               </svg>
               <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <span class="text-2xl font-display font-semibold text-[#0F172A]">${students.length}</span>
+                <span class="text-2xl font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC]">${students.length}</span>
                 <span class="text-[10px] font-bold text-[#94A3B8] uppercase">Students</span>
               </div>
             </div>
@@ -41,26 +41,26 @@ EP.educatorPrediction = {
                 { label: 'Moderate Risk', value: riskDist.Medium, color: 'amber' },
                 { label: 'High Risk', value: riskDist.High, color: 'red' },
               ].map(r => `
-                <div class="flex items-center justify-between p-2 rounded-lg bg-${r.color}-50/50">
+                <div class="flex items-center justify-between p-2 rounded-lg bg-${r.color}-50/50 dark:bg-${r.color}-500/10">
                    <div class="flex items-center gap-2">
                       <span class="w-2 h-2 rounded-full bg-${r.color}-500"></span>
-                      <span class="text-xs font-semibold text-[#475569]">${r.label}</span>
+                      <span class="text-xs font-semibold text-[#475569] dark:text-[#F8FAFC]">${r.label}</span>
                    </div>
-                   <span class="text-xs font-bold text-${r.color}-600">${r.value} Students</span>
+                   <span class="text-xs font-bold text-${r.color}-600 dark:text-${r.color}-400">${r.value} Students</span>
                 </div>
               `).join('')}
             </div>
           </div>
 
           <!-- Predictions Trend Chart -->
-          <div class="lg:col-span-2 bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
+          <div class="lg:col-span-2 bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-6 shadow-sm dark:shadow-indigo-500/10">
              <div class="flex items-center justify-between mb-6">
                 <div>
-                  <h2 class="font-display font-semibold text-[#0F172A] text-base">Class Performance Forecasts</h2>
-                  <p class="text-xs text-[#94A3B8] mt-0.5">Predicted grade averages based on current trends</p>
+                   <h2 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base">Class Performance Forecasts</h2>
+                   <p class="text-xs text-[#94A3B8] mt-0.5">Predicted grade averages based on current trends</p>
                 </div>
                 <div class="flex gap-2">
-                   <span class="flex items-center gap-1.5 text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100">
+                   <span class="flex items-center gap-1.5 text-[10px] font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-100 dark:border-indigo-500/20">
                       ${EP.getIcon('arrow-trending-up', 'w-3 h-3')} High Confidence
                    </span>
                 </div>
@@ -81,7 +81,7 @@ EP.educatorPrediction = {
                  </div>
                  <div>
                     <h3 class="font-display font-semibold text-base mb-1">Weekly Intelligence Summary</h3>
-                    <p class="text-indigo-100 text-xs leading-relaxed opacity-90">Predictions indicate a potential 5% dip in SAM101 midterm scores. We recommend reviewing "Linux Server Config" before the quiz.</p>
+                    <p class="text-indigo-100 text-xs leading-relaxed opacity-90">${predictions.summaryText || 'Predictions indicate a potential 5% dip in SAM101 midterm scores. We recommend reviewing "Linux Server Config" before the quiz.'}</p>
                     <button class="mt-4 px-4 py-2 bg-white text-indigo-600 text-xs font-semibold rounded-xl hover:bg-indigo-50 transition-colors">
                        View Full Analysis
                     </button>
@@ -89,15 +89,15 @@ EP.educatorPrediction = {
               </div>
            </div>
            
-           <div class="bg-white rounded-3xl border border-[#E2E8F0] p-6 shadow-sm flex items-start gap-4">
-              <div class="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center flex-shrink-0">
-                 ${EP.getIcon('exclamation-circle', 'w-6 h-6 text-amber-500', 'solid')}
+           <div class="bg-white dark:bg-[#141D33] rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] p-6 shadow-sm flex items-start gap-4 dark:shadow-indigo-500/10">
+              <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                 ${EP.getIcon('exclamation-circle', 'w-6 h-6 text-amber-500 dark:text-amber-400', 'solid')}
               </div>
               <div>
-                 <h3 class="font-display font-semibold text-[#0F172A] text-base mb-1">Attention Required</h3>
-                 <p class="text-[#64748B] text-xs leading-relaxed">3 students in CAP102 have shown irregular attendance in the last 14 days. This typically correlates with a 15% drop in assignment scores.</p>
+                 <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-1">Attention Required</h3>
+                 <p class="text-[#64748B] dark:text-[#94A3B8] text-xs leading-relaxed">3 students in CAP102 have shown irregular attendance in the last 14 days. This typically correlates with a 15% drop in assignment scores.</p>
                  <div class="mt-4 flex gap-2">
-                    <button class="px-4 py-2 border border-[#E2E8F0] text-[#475569] text-xs font-semibold rounded-xl hover:bg-[#F8FAFC] transition-colors">
+                    <button class="px-4 py-2 border border-[#E2E8F0] dark:border-[#1E293B] text-[#475569] dark:text-[#94A3B8] text-xs font-semibold rounded-xl hover:bg-[#F8FAFC] dark:hover:bg-white/5 transition-colors">
                        Contact Students
                     </button>
                     <button class="px-4 py-2 bg-indigo-500 text-white text-xs font-semibold rounded-xl hover:bg-indigo-600 transition-colors">
@@ -165,7 +165,7 @@ EP.educatorPrediction = {
         },
         scales: {
           x: { grid:{ display:false }, border:{ display:false }, ticks:{ color:'#94A3B8', font:{ size:11 } } },
-          y: { min:60, max:100, grid:{ color:'rgba(0,0,0,0.04)' }, border:{ display:false }, ticks:{ color:'#94A3B8', font:{ size:11 }, stepSize:10, callback:v=>v+'%' } }
+          y: { min:60, max:100, grid:{ color:document.body.classList.contains('dark') ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)' }, border:{ display:false }, ticks:{ color:'#94A3B8', font:{ size:11 }, stepSize:10, callback:v=>v+'%' } }
         }
       }
     });
