@@ -18,8 +18,8 @@ EP.studentClasswork = {
         <!-- Header -->
         <div class="flex items-center justify-between gap-4">
           <div>
-            <h1 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-[14px] md:text-lg">Classwork</h1>
-            <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mt-0.5">${classworks.length} total assignments across ${classes.length} classes</p>
+            <h1 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-[14px] md:text-lg">Classwork</h1>
+            <p class="text-[#64748B] dark:text-[#9ca3af] text-xs mt-0.5">${classworks.length} total assignments across ${classes.length} classes</p>
           </div>
         </div>
 
@@ -31,7 +31,7 @@ EP.studentClasswork = {
             { label:'Submitted', count:counts.Submitted, color:'sky',   icon:'arrow-up-tray', darkColor:'dark:bg-sky-500/10 dark:text-sky-400 dark:border-sky-500/20' },
             { label:'Graded',    count:counts.Graded,    color:'emerald', icon:'check-badge', darkColor:'dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20' },
           ].map(s=>`
-            <div class="bg-white dark:bg-[#141D33] rounded-2xl p-4 shadow-sm hover-lift relative overflow-hidden group border border-transparent dark:border-[#1E293B] dark:shadow-indigo-500/5">
+            <div class="bg-white dark:bg-[#111827] rounded-2xl p-4 shadow-sm hover-lift relative overflow-hidden group border border-transparent dark:border-[#1f2937] dark:shadow-indigo-500/5">
               <div class="absolute right-2 top-2 text-${s.color}-500 opacity-[0.10] group-hover:opacity-10 transition-all duration-300">
                 ${EP.getIcon(s.icon, 'w-12 h-12', 'solid')}
               </div>
@@ -40,8 +40,8 @@ EP.studentClasswork = {
                   ${EP.getIcon(s.icon, 'w-5 h-5', 'solid')}
                 </div>
                 <div>
-                  <p class="text-[10px] font-bold text-[#64748B] dark:text-[#94A3B8] uppercase tracking-wider">${s.label}</p>
-                  <p class="font-display font-bold text-[#0F172A] dark:text-[#F8FAFC] text-2xl mt-0.5">${s.count}</p>
+                  <p class="text-[10px] font-bold text-[#64748B] dark:text-[#9ca3af] uppercase tracking-wider">${s.label}</p>
+                  <p class="font-display font-bold text-[#0F172A] dark:text-[#f9fafb] text-2xl mt-0.5">${s.count}</p>
                 </div>
               </div>
             </div>
@@ -52,7 +52,7 @@ EP.studentClasswork = {
         <div class="flex gap-2 overflow-x-auto pb-1">
           ${filters.map(f=>`
             <button onclick="EP.studentClasswork.setFilter('${f}')"
-              class="flex-shrink-0 px-4 py-2 rounded-xl text-xs font-semibold transition-all ${this.activeFilter===f?'bg-indigo-500 text-white shadow-sm':'bg-white dark:bg-[#141D33] border border-[#E2E8F0] dark:border-[#1E293B] text-[#64748B] dark:text-[#94A3B8] hover:border-indigo-200 dark:hover:border-indigo-500/50 hover:text-indigo-600 dark:hover:text-indigo-400'}">
+              class="flex-shrink-0 px-4 py-2 rounded-xl text-xs font-semibold transition-all ${this.activeFilter===f?'bg-indigo-500 text-white shadow-sm':'bg-white dark:bg-[#111827] border border-[#E2E8F0] dark:border-[#1f2937] text-[#64748B] dark:text-[#9ca3af] hover:border-indigo-200 dark:hover:border-indigo-500/50 hover:text-indigo-600 dark:hover:text-indigo-400'}">
               ${f} ${counts[f]>0?`<span class="ml-1 text-xs opacity-70">${counts[f]}</span>`:''}
             </button>
           `).join('')}
@@ -61,11 +61,11 @@ EP.studentClasswork = {
         <!-- Classwork list -->
         <div class="space-y-3">
           ${sorted.length === 0 ? `
-            <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-12 text-center shadow-sm dark:shadow-indigo-500/10">
+            <div class="bg-white dark:bg-[#111827] rounded-2xl border border-[#E2E8F0] dark:border-[#1f2937] p-12 text-center shadow-sm dark:shadow-indigo-500/10">
               <div class="mb-3 text-indigo-500">
                 ${EP.getIcon('inbox', 'w-10 h-10', 'solid')}
               </div>
-              <p class="font-semibold text-[#475569] dark:text-[#F8FAFC]">No ${this.activeFilter.toLowerCase()} assignments</p>
+              <p class="font-semibold text-[#475569] dark:text-[#f9fafb]">No ${this.activeFilter.toLowerCase()} assignments</p>
               <p class="text-sm text-[#94A3B8] mt-1">Check back later or switch filters.</p>
             </div>
           ` : sorted.map((cw, idx) => {
@@ -73,7 +73,7 @@ EP.studentClasswork = {
             const due = new Date(cw.dueDate);
             const diff = Math.ceil((due - new Date()) / 86400000);
             const dueText = cw.status==='Graded'?due.toLocaleDateString('en-US',{month:'short',day:'numeric'}):diff<0?'Overdue':diff===0?'Due today':diff===1?'Due tomorrow':`${diff}d left`;
-            const dueColor = cw.status==='Graded'?'text-[#94A3B8]':diff<0?'text-red-500':diff<=1?'text-amber-500':'text-[#64748B] dark:text-[#94A3B8]';
+            const dueColor = cw.status==='Graded'?'text-[#94A3B8]':diff<0?'text-red-500':diff<=1?'text-amber-500':'text-[#64748B] dark:text-[#9ca3af]';
             const typeColors = { 
               Assignment: 'bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400', 
               Quiz: 'bg-purple-50 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400', 
@@ -89,7 +89,7 @@ EP.studentClasswork = {
             const cc = clsColors[cw.classId]||'indigo';
 
             return `
-              <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-5 shadow-sm hover:border-indigo-200 dark:hover:border-indigo-500/50 hover:shadow-md dark:shadow-indigo-500/5 dark:hover:shadow-indigo-500/10 transition-all animate-list-item" style="--i:${idx}">
+              <div class="bg-white dark:bg-[#111827] rounded-2xl border border-[#E2E8F0] dark:border-[#1f2937] p-5 shadow-sm hover:border-indigo-200 dark:hover:border-indigo-500/50 hover:shadow-md dark:shadow-indigo-500/5 dark:hover:shadow-indigo-500/10 transition-all animate-list-item" style="--i:${idx}">
                 <div class="flex items-start gap-4">
                   <div class="w-11 h-11 rounded-xl ${typeColors[cw.type]||'bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-slate-400'} flex items-center justify-center flex-shrink-0">
                     ${typeIcon(cw.type, 'w-6 h-6')}
@@ -97,7 +97,7 @@ EP.studentClasswork = {
                   <div class="flex-1 min-w-0">
                     <div class="flex items-start justify-between gap-2">
                       <div>
-                        <p class="font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm">${cw.title}</p>
+                        <p class="font-semibold text-[#0F172A] dark:text-[#f9fafb] text-sm">${cw.title}</p>
                         <div class="flex flex-wrap items-center gap-2 mt-1.5">
                           <span class="inline-flex items-center gap-1 text-xs font-semibold text-${cc}-600 dark:text-${cc}-400 bg-${cc}-50 dark:bg-${cc}-500/10 border border-${cc}-100 dark:border-${cc}-500/20 px-2 py-0.5 rounded-full">
                             ${cls?.code||''}
@@ -108,7 +108,7 @@ EP.studentClasswork = {
                       ${statusBadge(cw.status)}
                     </div>
 
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-5 pt-4 border-t border-[#F8FAFC] dark:border-[#1E293B]">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-5 pt-4 border-t border-[#F8FAFC] dark:border-[#1f2937]">
                       <div class="flex flex-wrap items-center gap-x-5 gap-y-2.5">
                         <div class="flex items-center gap-1.5 text-xs font-semibold ${dueColor} tracking-tight">
                           ${EP.getIcon(diff < 0 ? 'exclamation-circle' : 'calendar', 'w-4 h-4')}
@@ -121,7 +121,7 @@ EP.studentClasswork = {
                           </div>
                         `:''}
                       </div>
-                      <button onclick="EP.actions.viewClassworkDetails(${cw.id})" class="w-full sm:w-auto bg-white dark:bg-[#1A253E] hover:bg-gray-50 dark:hover:bg-white/5 border border-[#E2E8F0] dark:border-[#1E293B] hover:border-indigo-200 dark:hover:border-indigo-500/50 text-[#475569] dark:text-[#94A3B8] hover:text-indigo-600 dark:hover:text-indigo-400 text-[11px] font-bold px-4 py-2.5 rounded-xl transition-all shadow-sm active:scale-95">
+                      <button onclick="EP.actions.viewClassworkDetails(${cw.id})" class="w-full sm:w-auto bg-white dark:bg-[#111827] hover:bg-gray-50 dark:hover:bg-white/5 border border-[#E2E8F0] dark:border-[#1f2937] hover:border-indigo-200 dark:hover:border-indigo-500/50 text-[#475569] dark:text-[#9ca3af] hover:text-indigo-600 dark:hover:text-indigo-400 text-[11px] font-bold px-4 py-2.5 rounded-xl transition-all shadow-sm active:scale-95">
                          View Details
                       </button>
                     </div>

@@ -9,8 +9,8 @@ EP.educatorSettings = {
         <!-- Header -->
         <div class="flex items-center justify-between gap-4">
           <div>
-            <h1 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-[14px] md:text-lg">Settings</h1>
-            <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mt-0.5">Manage your profile, preferences, and notifications</p>
+            <h1 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-[14px] md:text-lg">Settings</h1>
+            <p class="text-[#64748B] dark:text-[#9ca3af] text-xs mt-0.5">Manage your profile, preferences, and notifications</p>
           </div>
           <button onclick="EP.actions.saveSettings()" class="bg-indigo-500 hover:bg-indigo-600 text-white text-[10px] font-semibold uppercase tracking-widest px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-500/20 active:scale-95 transition-all flex items-center gap-2">
             ${EP.getIcon('check-badge', 'w-4 h-4')}
@@ -21,10 +21,10 @@ EP.educatorSettings = {
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Profile Card -->
           <div class="lg:col-span-1 space-y-6">
-            <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-6 shadow-sm dark:shadow-indigo-500/5 flex flex-col items-center text-center">
+            <div class="bg-white dark:bg-[#111827] rounded-2xl border border-[#E2E8F0] dark:border-[#1f2937] p-6 shadow-sm dark:shadow-indigo-500/5 flex flex-col items-center text-center">
               <div class="relative mb-4 group cursor-pointer">
                 <div class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 p-1">
-                   <div class="w-full h-full rounded-full bg-white dark:bg-[#0D1425] flex items-center justify-center p-1 overflow-hidden">
+                   <div class="w-full h-full rounded-full bg-white dark:bg-[#030712] flex items-center justify-center p-1 overflow-hidden">
                       ${avatarEl(currentUser.name, 'w-full h-full text-3xl font-semibold')}
                    </div>
                 </div>
@@ -32,15 +32,15 @@ EP.educatorSettings = {
                    ${EP.getIcon('camera', 'w-6 h-6')}
                 </div>
               </div>
-              <h2 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-lg">${currentUser.name}</h2>
-              <p class="text-xs text-[#64748B] dark:text-[#94A3B8] font-medium leading-relaxed">Senior Lecturer · Computer Science Department</p>
+              <h2 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-lg">${currentUser.name}</h2>
+              <p class="text-xs text-[#64748B] dark:text-[#9ca3af] font-medium leading-relaxed">Senior Lecturer · Computer Science Department</p>
               <div class="mt-4 flex flex-wrap justify-center gap-2">
                  <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 uppercase tracking-wider">Verified Educator</span>
               </div>
             </div>
 
-            <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-6 shadow-sm dark:shadow-indigo-500/5">
-               <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm mb-4">Account Information</h3>
+            <div class="bg-white dark:bg-[#111827] rounded-2xl border border-[#E2E8F0] dark:border-[#1f2937] p-6 shadow-sm dark:shadow-indigo-500/5">
+               <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-sm mb-4">Account Information</h3>
                <div class="space-y-4">
                   ${[
                     { label: 'Employee ID', value: 'EMP-2021-0982' },
@@ -50,7 +50,7 @@ EP.educatorSettings = {
                   ].map(f => `
                     <div>
                         <p class="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wide mb-1">${f.label}</p>
-                        <p class="text-sm font-semibold text-[#475569] dark:text-[#F8FAFC] truncate">${f.value}</p>
+                        <p class="text-sm font-semibold text-[#475569] dark:text-[#f9fafb] truncate">${f.value}</p>
                     </div>
                   `).join('')}
                </div>
@@ -59,8 +59,8 @@ EP.educatorSettings = {
 
           <!-- Main Settings Area -->
           <div class="lg:col-span-2 space-y-6">
-             <div class="bg-white dark:bg-[#141D33] rounded-2xl p-6 border border-transparent dark:border-[#1E293B] shadow-sm dark:shadow-indigo-500/5">
-                <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-6 flex items-center gap-2">
+             <div class="bg-white dark:bg-[#111827] rounded-2xl p-6 border border-transparent dark:border-[#1f2937] shadow-sm dark:shadow-indigo-500/5">
+                <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-base mb-6 flex items-center gap-2">
                    ${EP.getIcon('bell', 'w-5 h-5 text-indigo-500', 'solid')} Notification Preferences
                 </h3>
                 <div class="space-y-6">
@@ -72,7 +72,7 @@ EP.educatorSettings = {
                    ].map(n => `
                       <div class="flex items-center justify-between py-2 dark:hover:bg-slate-800 hover:bg-[#FDFDFF] transition-colors -mx-4 px-4 rounded-xl">
                          <div class="flex-1 pr-4">
-                            <p class="text-sm font-semibold text-[#0F172A] dark:text-[#F8FAFC]">${n.title}</p>
+                            <p class="text-sm font-semibold text-[#0F172A] dark:text-[#f9fafb]">${n.title}</p>
                             <p class="text-xs text-[#94A3B8] mt-0.5">${n.desc}</p>
                          </div>
                          <button onclick="EP.ui.toggle(this, '${n.id}')"
@@ -84,8 +84,8 @@ EP.educatorSettings = {
                 </div>
              </div>
 
-             <div class="bg-white dark:bg-[#141D33] rounded-2xl p-6 border border-transparent dark:border-[#1E293B] shadow-sm dark:shadow-indigo-500/5">
-                <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base mb-6 flex items-center gap-2">
+             <div class="bg-white dark:bg-[#111827] rounded-2xl p-6 border border-transparent dark:border-[#1f2937] shadow-sm dark:shadow-indigo-500/5">
+                <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-base mb-6 flex items-center gap-2">
                    ${EP.getIcon('paint-brush', 'w-5 h-5 text-violet-500', 'solid')} Appearance Settings
                 </h3>
                 <div class="grid grid-cols-3 gap-3">
@@ -123,4 +123,4 @@ EP.educatorSettings = {
       </div>
     `;
   }
-};
+}; 

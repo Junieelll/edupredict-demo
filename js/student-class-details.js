@@ -20,7 +20,7 @@ EP.studentClassDetails = {
       <div class="max-w-7xl mx-auto space-y-6">
         <!-- Header / Breadcrumb -->
         <div class="flex items-center gap-4">
-          <button onclick="navigate('classes')" class="p-2 rounded-xl bg-white dark:bg-[#141D33] border border-[#E2E8F0] dark:border-[#1E293B] text-[#64748B] dark:text-[#94A3B8] hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/50 transition-all active:scale-95 shadow-sm">
+          <button onclick="navigate('classes')" class="p-2 rounded-xl bg-white dark:bg-[#111827] border border-[#E2E8F0] dark:border-[#1f2937] text-[#64748B] dark:text-[#9ca3af] hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/50 transition-all active:scale-95 shadow-sm">
             ${EP.getIcon('arrow-left', 'w-5 h-5')}
           </button>
           <div>
@@ -29,7 +29,7 @@ EP.studentClassDetails = {
               ${EP.getIcon('chevron-right', 'w-3 h-3')}
               <span class="text-indigo-500 dark:text-indigo-400">${cls.code}</span>
             </div>
-            <h1 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-lg leading-none">${cls.name}</h1>
+            <h1 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-lg leading-none">${cls.name}</h1>
           </div>
         </div>
 
@@ -37,7 +37,7 @@ EP.studentClassDetails = {
           <!-- Main Content -->
           <div class="lg:col-span-2 space-y-6">
             <!-- Hero Card -->
-            <div class="bg-white dark:bg-[#141D33] rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] overflow-hidden shadow-sm relative group/hero dark:shadow-indigo-500/10">
+            <div class="bg-white dark:bg-[#111827] rounded-3xl border border-[#E2E8F0] dark:border-[#1f2937] overflow-hidden shadow-sm relative group/hero dark:shadow-indigo-500/10">
               <div class="h-44 bg-gradient-to-br ${classGradient(cls.color)} relative overflow-hidden">
                  <!-- Decorative Graphics -->
                  <div class="absolute inset-0 bg-black/10 transition-colors group-hover/hero:bg-black/5"></div>
@@ -57,20 +57,20 @@ EP.studentClassDetails = {
                  </div>
               </div>
               <div class="px-8 pb-8 -mt-12 relative">
-                <div class="bg-white dark:bg-[#0D1425] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-6 shadow-xl shadow-black/5 grid grid-cols-2 md:grid-cols-4 gap-6 dark:shadow-indigo-500/10">
+                <div class="bg-white dark:bg-[#030712] rounded-2xl border border-[#E2E8F0] dark:border-[#1f2937] p-6 shadow-xl shadow-black/5 grid grid-cols-2 md:grid-cols-4 gap-6 dark:shadow-indigo-500/10">
                   <div class="text-center">
                     <p class="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-1">Students</p>
-                    <p class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-lg">${cls.students}</p>
+                    <p class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-lg">${cls.students}</p>
                   </div>
-                  <div class="text-center border-l border-[#F1F5F9] dark:border-[#1E293B]">
+                  <div class="text-center border-l border-[#F1F5F9] dark:border-[#1f2937]">
                     <p class="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-1">Your Grade</p>
                     <p class="font-display font-semibold text-indigo-600 dark:text-indigo-400 text-lg">${avgScore}${avgScore !== '—' ? '%' : ''}</p>
                   </div>
-                  <div class="text-center border-l border-[#F1F5F9] dark:border-[#1E293B]">
+                  <div class="text-center border-l border-[#F1F5F9] dark:border-[#1f2937]">
                     <p class="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-1">Rank</p>
-                    <p class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-lg">Top 15%</p>
+                    <p class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-lg">Top 15%</p>
                   </div>
-                  <div class="text-center border-l border-[#F1F5F9] dark:border-[#1E293B]">
+                  <div class="text-center border-l border-[#F1F5F9] dark:border-[#1f2937]">
                     <p class="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-1">Next Class</p>
                     <p class="font-display font-semibold text-amber-500 text-lg">${cls.nextClass.split(',')[0]}</p>
                   </div>
@@ -80,35 +80,35 @@ EP.studentClassDetails = {
 
             <!-- About & Announcements -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-               <div class="bg-white dark:bg-[#141D33] rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] p-6 shadow-sm dark:shadow-indigo-500/5">
-                 <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm mb-4 flex items-center gap-2">
+               <div class="bg-white dark:bg-[#111827] rounded-3xl border border-[#E2E8F0] dark:border-[#1f2937] p-6 shadow-sm dark:shadow-indigo-500/5">
+                 <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-sm mb-4 flex items-center gap-2">
                     ${EP.getIcon('information-circle', 'w-5 h-5 text-indigo-500', 'solid')} Course Description
                  </h3>
-                 <p class="text-xs text-[#64748B] dark:text-[#94A3B8] leading-relaxed">${cls.description}</p>
+                 <p class="text-xs text-[#64748B] dark:text-[#9ca3af] leading-relaxed">${cls.description}</p>
                  <div class="mt-6 space-y-3">
-                    <div class="flex items-center gap-3 p-3 bg-[#F8FAFC] dark:bg-[#0D1425] rounded-xl border border-[#F1F5F9] dark:border-[#1E293B]">
+                    <div class="flex items-center gap-3 p-3 bg-[#F8FAFC] dark:bg-[#030712] rounded-xl border border-[#F1F5F9] dark:border-[#1f2937]">
                        <div class="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center text-indigo-500">
                           ${EP.getIcon('calendar', 'w-4 h-4')}
                        </div>
                        <div>
                           <p class="text-[10px] font-semibold text-[#94A3B8] uppercase">Schedule</p>
-                          <p class="text-xs font-semibold text-[#475569] dark:text-[#F8FAFC]">${cls.schedule}</p>
+                          <p class="text-xs font-semibold text-[#475569] dark:text-[#f9fafb]">${cls.schedule}</p>
                        </div>
                     </div>
-                    <div class="flex items-center gap-3 p-3 bg-[#F8FAFC] dark:bg-[#0D1425] rounded-xl border border-[#F1F5F9] dark:border-[#1E293B]">
+                    <div class="flex items-center gap-3 p-3 bg-[#F8FAFC] dark:bg-[#030712] rounded-xl border border-[#F1F5F9] dark:border-[#1f2937]">
                        <div class="w-8 h-8 rounded-lg bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center text-violet-500">
                           ${EP.getIcon('map-pin', 'w-4 h-4')}
                        </div>
                        <div>
                           <p class="text-[10px] font-semibold text-[#94A3B8] uppercase">Location</p>
-                          <p class="text-xs font-semibold text-[#475569] dark:text-[#F8FAFC]">${cls.room}</p>
+                          <p class="text-xs font-semibold text-[#475569] dark:text-[#f9fafb]">${cls.room}</p>
                        </div>
                     </div>
                  </div>
                </div>
 
-               <div class="bg-white dark:bg-[#141D33] rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] p-6 shadow-sm">
-                 <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm mb-4 flex items-center gap-2">
+               <div class="bg-white dark:bg-[#111827] rounded-3xl border border-[#E2E8F0] dark:border-[#1f2937] p-6 shadow-sm">
+                 <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-sm mb-4 flex items-center gap-2">
                     ${EP.getIcon('megaphone', 'w-5 h-5 text-amber-500', 'solid')} Announcements
                  </h3>
                  <div class="space-y-4">
@@ -131,25 +131,25 @@ EP.studentClassDetails = {
             </div>
 
             <!-- Classwork -->
-            <div class="bg-white dark:bg-[#141D33] rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] overflow-hidden shadow-sm dark:shadow-indigo-500/10">
-               <div class="px-6 py-5 border-b border-[#F1F5F9] dark:border-[#1E293B] flex items-center justify-between">
-                 <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm flex items-center gap-2">
+            <div class="bg-white dark:bg-[#111827] rounded-3xl border border-[#E2E8F0] dark:border-[#1f2937] overflow-hidden shadow-sm dark:shadow-indigo-500/10">
+               <div class="px-6 py-5 border-b border-[#F1F5F9] dark:border-[#1f2937] flex items-center justify-between">
+                 <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-sm flex items-center gap-2">
                     ${EP.getIcon('clipboard-document-list', 'w-5 h-5 text-emerald-500', 'solid')} Classwork & Submissions
                  </h3>
                  <button onclick="navigate('classwork')" class="text-[10px] font-semibold text-indigo-500 active:text-indigo-600 uppercase tracking-widest hover:text-indigo-600">View All</button>
                </div>
-               <div class="divide-y divide-[#F1F5F9] dark:divide-[#1E293B]">
+               <div class="divide-y divide-[#F1F5F9] dark:divide-[#1f2937]">
                    ${classworks.map(cw => `
                     <div class="p-6 flex items-center justify-between hover:bg-[#FDFDFF] dark:hover:bg-white/5 transition-colors cursor-pointer group" onclick="EP.actions.viewClassworkDetails(${cw.id})">
                        <div class="flex items-center gap-4">
-                          <div class="w-12 h-12 rounded-2xl bg-gray-50 dark:bg-[#0D1425] flex items-center justify-center text-[#94A3B8] dark:text-[#64748B] group-hover:bg-indigo-50 dark:group-hover:bg-indigo-500/10 group-hover:text-indigo-500 transition-all">
+                          <div class="w-12 h-12 rounded-2xl bg-gray-50 dark:bg-[#030712] flex items-center justify-center text-[#94A3B8] dark:text-[#64748B] group-hover:bg-indigo-50 dark:group-hover:bg-indigo-500/10 group-hover:text-indigo-500 transition-all">
                              ${typeIcon(cw.type, 'w-6 h-6')}
                           </div>
                           <div>
-                             <p class="text-sm font-semibold text-[#0F172A] dark:text-[#F8FAFC] mb-0.5">${cw.title}</p>
+                             <p class="text-sm font-semibold text-[#0F172A] dark:text-[#f9fafb] mb-0.5">${cw.title}</p>
                              <div class="flex items-center gap-2">
                                 <span class="text-[10px] text-[#94A3B8] font-medium">${cw.type}</span>
-                                <span class="w-1 h-1 rounded-full bg-[#E2E8F0] dark:bg-[#1E293B]"></span>
+                                <span class="w-1 h-1 rounded-full bg-[#E2E8F0] dark:bg-[#1f2937]"></span>
                                 <span class="text-[10px] text-[#94A3B8] font-medium italic">Due ${new Date(cw.dueDate).toLocaleDateString()}</span>
                              </div>
                           </div>
@@ -166,23 +166,23 @@ EP.studentClassDetails = {
           <!-- Sidebar -->
            <div class="space-y-6">
             <!-- Instructor Card -->
-            <div class="bg-white dark:bg-[#141D33] rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] p-6 shadow-sm text-center dark:shadow-indigo-500/5">
+            <div class="bg-white dark:bg-[#111827] rounded-3xl border border-[#E2E8F0] dark:border-[#1f2937] p-6 shadow-sm text-center dark:shadow-indigo-500/5">
                <div class="w-20 h-20 rounded-full bg-indigo-500 mx-auto mb-4 p-1">
-                  <div class="w-full h-full rounded-full border-4 border-white dark:border-[#141D33] overflow-hidden bg-[#F8FAFC] dark:bg-[#0D1425] flex items-center justify-center">
-                     ${avatarEl(cls.instructor, 'w-full h-full text-2xl font-semibold dark:text-[#F8FAFC]')}
+                  <div class="w-full h-full rounded-full border-4 border-white dark:border-[#111827] overflow-hidden bg-[#F8FAFC] dark:bg-[#030712] flex items-center justify-center">
+                     ${avatarEl(cls.instructor, 'w-full h-full text-2xl font-semibold dark:text-[#f9fafb]')}
                   </div>
                </div>
-               <h4 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-base">${cls.instructor}</h4>
+               <h4 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-base">${cls.instructor}</h4>
                <p class="text-xs text-[#94A3B8] font-medium mb-4">Course Instructor</p>
-               <div class="pt-4 border-t border-[#F1F5F9] dark:border-[#1E293B] flex gap-2">
+               <div class="pt-4 border-t border-[#F1F5F9] dark:border-[#1f2937] flex gap-2">
                   <button class="flex-1 py-3.5 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-[10px] font-semibold uppercase tracking-widest rounded-xl hover:bg-indigo-100 transition-all active:scale-95">Message</button>
-                  <button class="flex-1 py-3.5 bg-[#F8FAFC] dark:bg-white/5 text-[#475569] dark:text-[#94A3B8] text-[10px] font-semibold uppercase tracking-widest rounded-xl hover:bg-[#F1F5F9] transition-all border border-[#E2E8F0] dark:border-[#1E293B] active:scale-95">Profile</button>
+                  <button class="flex-1 py-3.5 bg-[#F8FAFC] dark:bg-white/5 text-[#475569] dark:text-[#9ca3af] text-[10px] font-semibold uppercase tracking-widest rounded-xl hover:bg-[#F1F5F9] transition-all border border-[#E2E8F0] dark:border-[#1f2937] active:scale-95">Profile</button>
                </div>
             </div>
 
             <!-- Grade Breakdown -->
-            <div class="bg-white dark:bg-[#141D33] rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] p-6 shadow-sm dark:shadow-indigo-500/5">
-               <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm mb-6 flex items-center gap-2">
+            <div class="bg-white dark:bg-[#111827] rounded-3xl border border-[#E2E8F0] dark:border-[#1f2937] p-6 shadow-sm dark:shadow-indigo-500/5">
+               <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-sm mb-6 flex items-center gap-2">
                   ${EP.getIcon('chart-pie', 'w-5 h-5 text-violet-500', 'solid')} Grade Weighting
                </h3>
                <div class="space-y-4">
@@ -194,10 +194,10 @@ EP.studentClassDetails = {
                   ].map(w => `
                     <div class="group">
                        <div class="flex justify-between items-center mb-1.5">
-                          <span class="text-[10px] font-semibold text-[#475569] dark:text-[#94A3B8] uppercase tracking-wider">${w.label}</span>
+                          <span class="text-[10px] font-semibold text-[#475569] dark:text-[#9ca3af] uppercase tracking-wider">${w.label}</span>
                           <span class="text-xs font-semibold text-${w.color}-500 group-hover:scale-110 transition-transform">${w.weight}%</span>
                        </div>
-                       <div class="h-2 w-full bg-gray-100 dark:bg-[#0D1425] rounded-full overflow-hidden border border-transparent dark:border-[#1E293B]">
+                       <div class="h-2 w-full bg-gray-100 dark:bg-[#030712] rounded-full overflow-hidden border border-transparent dark:border-[#1f2937]">
                           <div class="h-full bg-${w.color}-500 rounded-full transition-all group-hover:brightness-110" style="width:${w.weight}%"></div>
                        </div>
                     </div>

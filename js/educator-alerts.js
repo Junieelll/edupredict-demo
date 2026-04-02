@@ -30,8 +30,8 @@ EP.educatorAlerts = {
       <div class="max-w-4xl mx-auto space-y-6">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm md:text-lg">Educator Notifications</h1>
-            <p class="text-[#64748B] dark:text-[#94A3B8] text-xs mt-0.5">Manage class updates, student enrollments, and academic deadlines.</p>
+            <h1 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-sm md:text-lg">Educator Notifications</h1>
+            <p class="text-[#64748B] dark:text-[#9ca3af] text-xs mt-0.5">Manage class updates, student enrollments, and academic deadlines.</p>
           </div>
           <div class="flex items-center gap-2">
             <button class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 px-4 py-2 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-xl transition-all">Mark all as read</button>
@@ -46,14 +46,14 @@ EP.educatorAlerts = {
             placeholder="Search alerts..." 
             value="${search}"
             oninput="EP.educatorAlerts.renderView(this.value)"
-            class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#141D33] border border-[#E2E8F0] dark:border-[#1E293B] rounded-2xl text-sm outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all shadow-sm text-[#0F172A] dark:text-[#F8FAFC] placeholder-[#94A3B8]">
+            class="w-full pl-11 pr-4 py-3 bg-white dark:bg-[#111827] border border-[#E2E8F0] dark:border-[#1f2937] rounded-2xl text-sm outline-none focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all shadow-sm text-[#0F172A] dark:text-[#f9fafb] placeholder-[#94A3B8]">
         </div>
 
         <div class="space-y-8">
           ${Object.entries(grouped).map(([date, items]) => `
             <div>
               <h3 class="text-[10px] font-bold text-[#94A3B8] uppercase tracking-widest mb-4 ml-1">${date}</h3>
-              <div class="bg-white dark:bg-[#141D33] rounded-3xl border border-[#E2E8F0] dark:border-[#1E293B] overflow-hidden shadow-sm dark:shadow-indigo-500/10 divide-y divide-[#F1F5F9] dark:divide-[#1E293B]">
+              <div class="bg-white dark:bg-[#111827] rounded-3xl border border-[#E2E8F0] dark:border-[#1f2937] overflow-hidden shadow-sm dark:shadow-indigo-500/10 divide-y divide-[#F1F5F9] dark:divide-[#1f2937]">
                 ${items.map(n => `
                   <div class="p-5 flex items-start gap-4 hover:bg-[#F8FAFC] dark:hover:bg-white/5 transition-colors group cursor-pointer border-transparent">
                     <div class="w-10 h-10 rounded-xl bg-${n.color}-50 dark:bg-${n.color}-500/10 flex items-center justify-center text-${n.color}-500 dark:text-${n.color}-400 flex-shrink-0 mt-0.5 border border-${n.color}-100 dark:border-${n.color}-500/20 transition-transform group-hover:scale-110">
@@ -61,10 +61,10 @@ EP.educatorAlerts = {
                     </div>
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center justify-between gap-2 mb-1">
-                        <p class="font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">${n.title}</p>
+                        <p class="font-semibold text-[#0F172A] dark:text-[#f9fafb] text-sm group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">${n.title}</p>
                         <span class="text-[10px] text-[#94A3B8]">${new Date(n.time).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
                       </div>
-                      <p class="text-[11px] md:text-xs text-[#64748B] dark:text-[#94A3B8] leading-relaxed">${n.text}</p>
+                      <p class="text-[11px] md:text-xs text-[#64748B] dark:text-[#9ca3af] leading-relaxed">${n.text}</p>
                     </div>
                   </div>
                 `).join('')}

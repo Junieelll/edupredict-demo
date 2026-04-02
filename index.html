@@ -44,22 +44,28 @@
     .hover-lift{transition:all 0.2s ease;}
     .hover-lift:hover{transform:translateY(-2px);box-shadow:0 8px 24px -4px rgba(0,0,0,0.12);}
     iconify-icon{display:block;height:auto;width:auto;}
-    /* ── Dark mode — deep navy-black, Tailwind-docs inspired ── */
-    body.dark { background-color: #09090b; color: #e4e4e7; }
-    .dark header { background-color: rgba(9,9,11,0.85); border-color: #27272a; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-    .dark aside { background-color: #0c0c0e; border-right: 1px solid #18181b; }
-    .dark .bg-white { background-color: #111113; border-color: #27272a; }
-    .dark .border-\[\#E2E8F0\], .dark .border-\[\#F1F5F9\], .dark .border-\[\#F8FAFC\] { border-color: #27272a; }
-    .dark .text-\[\#0F172A\] { color: #fafafa; }
-    .dark .text-\[\#475569\], .dark .text-\[\#64748B\] { color: #a1a1aa; }
-    .dark .bg-\[\#F1F5F9\], .dark .bg-\[\#F8FAFC\] { background-color: #0c0c0e; }
+    /* ── Dark mode — Tailwind gray-950/900 palette ── */
+    /* gray-950:#030712  gray-900:#111827  gray-800:#1f2937  gray-700:#374151  gray-400:#9ca3af */
+    body.dark { background-color: #030712; color: #f3f4f6; }
+    .dark header { background-color: rgba(3,7,18,0.85); border-color: #1f2937; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .dark aside { /* sidebar keeps its original navy color — no override */ }
+    .dark .bg-white { background-color: #111827; border-color: #1f2937; }
+    .dark .border-\[\#E2E8F0\], .dark .border-\[\#F1F5F9\], .dark .border-\[\#F8FAFC\] { border-color: #1f2937; }
+    .dark .text-\[\#0F172A\] { color: #f9fafb; }
+    .dark .text-\[\#475569\], .dark .text-\[\#64748B\] { color: #9ca3af; }
+    .dark .bg-\[\#F1F5F9\], .dark .bg-\[\#F8FAFC\] { background-color: #030712; }
     .dark .hover\:bg-gray-50:hover, .dark .hover\:bg-\[\#F8FAFC\]:hover, .dark .hover\:bg-gray-100:hover { background-color: rgba(255,255,255,0.04); }
-    .dark ::-webkit-scrollbar-thumb { background: #27272a; }
-    .dark ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+    .dark ::-webkit-scrollbar-thumb { background: #1f2937; }
+    .dark ::-webkit-scrollbar-thumb:hover { background: #374151; }
     /* Override card & input backgrounds in dark */
-    .dark input { background-color: #111113 !important; color: #e4e4e7; }
-    .dark .bg-\[\#1A253E\] { background-color: #18181b !important; }
-    .dark .border-white\/5 { border-color: #27272a !important; }
+    .dark input { background-color: #111827 !important; color: #f3f4f6; }
+    /* Search bar specific dark override */
+    .dark .bg-\[\#F8FAFC\].border.border-\[\#E2E8F0\] {
+      background-color: #111827 !important;
+      border-color: #374151 !important;
+    }
+    .dark .bg-\[\#1A253E\] { background-color: #111827 !important; }
+    .dark .border-white\/5 { border-color: #1f2937 !important; }
     .toggle-on{background-color:#6366F1 !important;box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3) !important;}
     .toggle-off{background-color:#CBD5E1 !important;}
     .dark .toggle-off{background-color:#334155 !important;}
@@ -332,10 +338,10 @@
           </div>
         </div>
         <div class="flex items-center gap-2 lg:gap-3 ml-auto">
-          <div class="hidden md:flex items-center gap-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-3 py-2 w-48 lg:w-64 focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-300 transition-all shadow-sm">
+          <div class="hidden md:flex items-center gap-2 bg-[#F8FAFC] dark:bg-[#111827] border border-[#E2E8F0] dark:border-[#374151] rounded-xl px-3 py-2 w-48 lg:w-64 focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-300 dark:focus-within:border-indigo-500/50 transition-all shadow-sm">
             <iconify-icon icon="heroicons:magnifying-glass" width="16" height="16" class="text-[#94A3B8] flex-shrink-0"></iconify-icon>
             <input type="text" placeholder="Search..." class="bg-transparent text-sm placeholder-[#94A3B8] outline-none flex-1 w-full">
-            <div class="hidden lg:flex items-center gap-0.5 px-1.5 py-0.5 border border-[#E2E8F0] dark:border-[#1E293B] bg-white dark:bg-[#141D33] rounded-md shadow-sm transition-colors">
+            <div class="hidden lg:flex items-center gap-0.5 px-1.5 py-0.5 border border-[#E2E8F0] dark:border-[#374151] bg-white dark:bg-[#1f2937] rounded-md shadow-sm transition-colors">
               <span class="text-[9px] font-bold text-[#94A3B8]">Ctrl</span>
               <span class="text-[9px] font-bold text-[#94A3B8]">K</span>
             </div>
@@ -374,7 +380,7 @@
             <div id="dropdown-profile" class="absolute right-0 mt-2 w-56 bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] shadow-xl p-2 invisible opacity-0 scale-95 translate-y-2 pointer-events-none transform origin-top-right transition-all duration-200 ease-out z-50">
                <div class="px-3 py-2 border-b border-[#F1F5F9] dark:border-[#1E293B] mb-1 text-left">
                   <p class="text-xs font-bold text-[#0F172A] dark:text-[#F8FAFC]">Juniel Cardenas</p>
-                  <p class="text-[10px] text-[#94A3B8] truncate">[EMAIL_ADDRESS]</p>
+                  <p class="text-[10px] text-[#94A3B8] truncate"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7f150a11161a133f1a1b0a0f0d1a1b161c0b511e0f0f">[email&#160;protected]</a></p>
                </div>
                <button class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-[#475569] dark:text-[#94A3B8] hover:bg-[#F8FAFC] dark:hover:bg-white/5 hover:text-indigo-600 transition-all text-left group">
                   <iconify-icon icon="heroicons:user" width="16" height="16" class="text-[#94A3B8] group-hover:text-indigo-500 transition-colors"></iconify-icon>
@@ -444,4 +450,14 @@
   <script src="js/student-classwork.js"></script>
   <script src="js/student-settings.js"></script>
   <script src="js/student-class-details.js"></script>
-  <script
+  <script src="js/educator-dashboard.js"></script>
+  <script src="js/educator-classes.js"></script>
+  <script src="js/educator-students.js"></script>
+  <script src="js/educator-prediction.js"></script>
+  <script src="js/educator-classwork.js"></script>
+  <script src="js/educator-settings.js"></script>
+  <script src="js/educator-class-details.js"></script>
+  <script src="js/student-alerts.js"></script>
+  <script src="js/educator-alerts.js"></script>
+</body>
+</html>

@@ -17,7 +17,7 @@ EP.studentDashboard = {
       <div class="space-y-6 max-w-7xl mx-auto">
 
         <!-- Welcome Banner -->
-        <div class="relative bg-[#0D1425] dark:bg-[#0D1425]/90 backdrop-blur-md rounded-3xl overflow-hidden p-6 lg:p-8 border border-transparent dark:border-indigo-500/20 dark:shadow-[0_0_40px_-10px_rgba(99,102,241,0.2)]">
+        <div class="relative bg-[#0D1425] dark:bg-[#030712]/90 backdrop-blur-md rounded-3xl overflow-hidden p-6 lg:p-8 border border-transparent dark:border-indigo-500/20 dark:shadow-[0_0_40px_-10px_rgba(99,102,241,0.2)]">
           <div class="absolute inset-0">
             <div class="absolute -top-16 -right-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl"></div>
             <div class="absolute bottom-0 right-32 w-48 h-48 bg-violet-500/10 rounded-full blur-2xl"></div>
@@ -83,7 +83,7 @@ EP.studentDashboard = {
             <!-- Enrolled Classes -->
             <div>
               <div class="flex items-center justify-between mb-4">
-                <h2 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-lg">Enrolled Classes</h2>
+                <h2 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-lg">Enrolled Classes</h2>
                 <button onclick="navigate('classes')" class="text-sm text-indigo-500 hover:text-indigo-600 font-medium flex items-center gap-1 transition-colors">
                   View all ${EP.getIcon('arrow-right', 'w-3.5 h-3.5')}
                 </button>
@@ -96,7 +96,7 @@ EP.studentDashboard = {
                   const avgScore = graded.length ? Math.round(graded.reduce((s,c)=>s+(c.score/c.maxScore)*100,0)/graded.length) : null;
                   
                   return `
-                    <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] overflow-hidden hover-lift cursor-pointer shadow-sm dark:shadow-indigo-500/10 group">
+                    <div class="bg-white dark:bg-[#111827] rounded-2xl border border-[#E2E8F0] dark:border-[#1f2937] overflow-hidden hover-lift cursor-pointer shadow-sm dark:shadow-indigo-500/10 group">
                       <div onclick="EP.actions.viewClass(${cls.id})" class="h-24 sm:h-28 bg-gradient-to-br ${classGradient(cls.color)} relative flex items-end p-5">
                         <span class="text-white/20 font-display font-semibold text-4xl absolute top-2 right-4 select-none hidden sm:block">${cls.code}</span>
                         <div class="relative z-10">
@@ -105,19 +105,19 @@ EP.studentDashboard = {
                         </div>
                       </div>
                       <div class="p-5">
-                        <p class="text-[#64748B] dark:text-[#94A3B8] text-xs leading-relaxed mb-4 line-clamp-2">${cls.description}</p>
+                        <p class="text-[#64748B] dark:text-[#9ca3af] text-xs leading-relaxed mb-4 line-clamp-2">${cls.description}</p>
                         
-                        <div class="flex items-center justify-between gap-4 mb-5 pb-5 border-b border-[#F1F5F9] dark:border-[#1E293B]">
+                        <div class="flex items-center justify-between gap-4 mb-5 pb-5 border-b border-[#F1F5F9] dark:border-[#1f2937]">
                           <div class="text-center">
-                            <p class="font-display font-bold text-[#0F172A] dark:text-[#F8FAFC] text-sm">${avgScore ?? '—'}${avgScore ? '%' : ''}</p>
+                            <p class="font-display font-bold text-[#0F172A] dark:text-[#f9fafb] text-sm">${avgScore ?? '—'}${avgScore ? '%' : ''}</p>
                             <p class="text-[9px] text-[#94A3B8] font-bold uppercase tracking-wide">Avg Score</p>
                           </div>
-                          <div class="w-px h-6 bg-[#F1F5F9] dark:bg-[#1E293B]"></div>
+                          <div class="w-px h-6 bg-[#F1F5F9] dark:bg-[#1f2937]"></div>
                           <div class="text-center">
-                            <p class="font-display font-bold text-[#0F172A] dark:text-[#F8FAFC] text-sm">${cws.length}</p>
+                            <p class="font-display font-bold text-[#0F172A] dark:text-[#f9fafb] text-sm">${cws.length}</p>
                             <p class="text-[9px] text-[#94A3B8] font-bold uppercase tracking-wide">Classes</p>
                           </div>
-                          <div class="w-px h-6 bg-[#F1F5F9] dark:bg-[#1E293B]"></div>
+                          <div class="w-px h-6 bg-[#F1F5F9] dark:bg-[#1f2937]"></div>
                           <div class="text-center">
                             <p class="font-display font-bold ${pending>0?'text-amber-500':'text-emerald-500'} text-sm">${pending}</p>
                             <p class="text-[9px] text-[#94A3B8] font-bold uppercase tracking-wide">Pending</p>
@@ -136,18 +136,18 @@ EP.studentDashboard = {
 
             <div>
               <div class="flex items-center justify-between mb-4">
-                <h2 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-lg">Upcoming Work</h2>
+                <h2 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-lg">Upcoming Work</h2>
                 <button onclick="navigate('classwork')" class="text-sm text-indigo-500 hover:text-indigo-600 font-medium flex items-center gap-1 transition-colors">
                   View all ${EP.getIcon('arrow-right', 'w-3.5 h-3.5')}
                 </button>
               </div>
               <div class="space-y-2.5">
                 ${upcoming.length === 0 ? `
-                  <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-8 text-center shadow-sm dark:shadow-indigo-500/10">
+                  <div class="bg-white dark:bg-[#111827] rounded-2xl border border-[#E2E8F0] dark:border-[#1f2937] p-8 text-center shadow-sm dark:shadow-indigo-500/10">
                     <div class="mb-2 text-indigo-500">
                       ${EP.getIcon('sparkles', 'w-8 h-8', 'solid')}
                     </div>
-                    <p class="text-[#64748B] dark:text-[#94A3B8] text-sm font-medium">You're all caught up!</p>
+                    <p class="text-[#64748B] dark:text-[#9ca3af] text-sm font-medium">You're all caught up!</p>
                     <p class="text-[#94A3B8] text-xs mt-1">No pending assignments this week.</p>
                   </div>
                 ` : upcoming.map(cw=>{
@@ -164,12 +164,12 @@ EP.studentDashboard = {
                     Exam: 'bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400' 
                   };
                   return `
-                    <div class="bg-white dark:bg-[#141D33] rounded-xl border border-[#E2E8F0] dark:border-[#1E293B] p-4 flex items-center gap-3.5 hover:border-indigo-200 dark:hover:border-indigo-500/50 hover:shadow-sm dark:hover:shadow-indigo-500/10 transition-all cursor-pointer dark:shadow-indigo-500/5">
+                    <div class="bg-white dark:bg-[#111827] rounded-xl border border-[#E2E8F0] dark:border-[#1f2937] p-4 flex items-center gap-3.5 hover:border-indigo-200 dark:hover:border-indigo-500/50 hover:shadow-sm dark:hover:shadow-indigo-500/10 transition-all cursor-pointer dark:shadow-indigo-500/5">
                       <div class="w-10 h-10 rounded-xl ${typeColors[cw.type]||'bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-slate-400'} flex items-center justify-center flex-shrink-0">
                         ${typeIcon(cw.type, 'w-5 h-5')}
                       </div>
                       <div class="flex-1 min-w-0">
-                        <p class="font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm truncate">${cw.title}</p>
+                        <p class="font-semibold text-[#0F172A] dark:text-[#f9fafb] text-sm truncate">${cw.title}</p>
                         <p class="text-xs text-[#94A3B8] mt-0.5">${cls?.code||''} · ${cw.type}</p>
                       </div>
                       <div class="text-right flex-shrink-0">
@@ -189,18 +189,18 @@ EP.studentDashboard = {
             <div id="cal-container">${getCalendarHTML(EP.calYear, EP.calMonth)}</div>
 
             <!-- Performance Snapshot -->
-            <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-5 shadow-sm dark:shadow-indigo-500/5">
+            <div class="bg-white dark:bg-[#111827] rounded-2xl border border-[#E2E8F0] dark:border-[#1f2937] p-5 shadow-sm dark:shadow-indigo-500/5">
               <div class="flex items-center justify-between mb-4">
-                <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm">Performance</h3>
+                <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-sm">Performance</h3>
                 <span class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20 px-2 py-0.5 rounded-full">↑ Improving</span>
               </div>
               ${predictions.student.subjects.map(s=>`
                 <div class="mb-3.5">
                   <div class="flex justify-between items-center mb-1.5">
-                    <span class="text-xs font-medium text-[#475569] dark:text-[#94A3B8]">${s.name}</span>
-                    <span class="text-xs font-bold text-[#0F172A] dark:text-[#F8FAFC]">${s.current}%</span>
+                    <span class="text-xs font-medium text-[#475569] dark:text-[#9ca3af]">${s.name}</span>
+                    <span class="text-xs font-bold text-[#0F172A] dark:text-[#f9fafb]">${s.current}%</span>
                   </div>
-                  <div class="h-1.5 bg-[#F1F5F9] dark:bg-[#0D1425] rounded-full overflow-hidden">
+                  <div class="h-1.5 bg-[#F1F5F9] dark:bg-[#030712] rounded-full overflow-hidden">
                     <div class="h-full rounded-full transition-all duration-700 ${s.current>=85?'bg-emerald-500':s.current>=75?'bg-indigo-500':'bg-amber-500'}" style="width:${s.current}%"></div>
                   </div>
                 </div>
@@ -211,19 +211,19 @@ EP.studentDashboard = {
             </div>
 
             <!-- Quick Actions -->
-            <div class="bg-white dark:bg-[#141D33] rounded-2xl border border-[#E2E8F0] dark:border-[#1E293B] p-5 shadow-sm dark:shadow-indigo-500/5">
-              <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#F8FAFC] text-sm mb-3">Quick Actions</h3>
+            <div class="bg-white dark:bg-[#111827] rounded-2xl border border-[#E2E8F0] dark:border-[#1f2937] p-5 shadow-sm dark:shadow-indigo-500/5">
+              <h3 class="font-display font-semibold text-[#0F172A] dark:text-[#f9fafb] text-sm mb-3">Quick Actions</h3>
               <div class="space-y-2">
                 ${[
                   { label:'Ask Study Assistant', icon:'chat-bubble-left-right', page:'chatbot', color:'text-indigo-500 bg-indigo-50 dark:bg-indigo-500/10' },
                   { label:'View Recommendations', icon:'sparkles', page:'recommendation', color:'text-violet-500 bg-violet-50 dark:bg-violet-500/10' },
                   { label:'Check Predictions', icon:'arrow-trending-up', page:'prediction', color:'text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10' },
                 ].map(a=>`
-                  <button onclick="navigate('${a.page}')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-[#F8FAFC] dark:hover:bg-white/5 border border-transparent hover:border-[#E2E8F0] dark:hover:border-[#1E293B] transition-all text-left group/btn">
+                  <button onclick="navigate('${a.page}')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-[#F8FAFC] dark:hover:bg-white/5 border border-transparent hover:border-[#E2E8F0] dark:hover:border-[#1f2937] transition-all text-left group/btn">
                     <div class="w-8 h-8 rounded-lg ${a.color} flex items-center justify-center flex-shrink-0 transition-transform group-hover/btn:scale-110">
                       ${EP.getIcon(a.icon, 'w-4 h-4')}
                     </div>
-                    <span class="text-sm font-medium text-[#475569] dark:text-[#94A3B8]">${a.label}</span>
+                    <span class="text-sm font-medium text-[#475569] dark:text-[#9ca3af]">${a.label}</span>
                     ${EP.getIcon('chevron-right', 'w-3.5 h-3.5 text-[#CBD5E1] dark:text-[#334155] ml-auto')}
                   </button>
                 `).join('')}
