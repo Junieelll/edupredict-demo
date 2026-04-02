@@ -10,8 +10,8 @@ EP.educatorPrediction = {
         <!-- Header -->
         <div class="flex items-center justify-between gap-4">
           <div>
-            <h1 class="font-display font-bold text-[#0F172A] text-2xl">Predictions & Analytics</h1>
-            <p class="text-[#64748B] text-sm mt-0.5">AI-powered insights across all ${classes.length} active courses</p>
+            <h1 class="font-display font-semibold text-[#0F172A] text-sm md:text-lg">Predictions & Analytics</h1>
+            <p class="text-[#64748B] text-xs mt-0.5">AI-powered insights across all ${classes.length} active courses</p>
           </div>
           <div class="flex items-center gap-2 bg-indigo-50 border border-indigo-100 rounded-xl px-4 py-2.5">
             ${EP.getIcon('cpu-chip', 'w-4 h-4 text-indigo-500', 'solid')}
@@ -31,7 +31,7 @@ EP.educatorPrediction = {
                 <circle cx="18" cy="18" r="16" fill="none" stroke="#EF4444" stroke-width="3" stroke-dasharray="${(riskDist.High/students.length)*100} 100" stroke-dashoffset="-${((riskDist.Low+riskDist.Medium)/students.length)*100}" stroke-linecap="round"></circle>
               </svg>
               <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <span class="text-2xl font-display font-black text-[#0F172A]">${students.length}</span>
+                <span class="text-2xl font-display font-semibold text-[#0F172A]">${students.length}</span>
                 <span class="text-[10px] font-bold text-[#94A3B8] uppercase">Students</span>
               </div>
             </div>
@@ -80,9 +80,9 @@ EP.educatorPrediction = {
                     ${EP.getIcon('chat-bubble-bottom-center-text', 'w-6 h-6 text-white', 'solid')}
                  </div>
                  <div>
-                    <h3 class="font-display font-bold text-lg mb-1">Weekly Intelligence Summary</h3>
-                    <p class="text-indigo-100 text-xs leading-relaxed opacity-90">Predictions indicate a potential 5% dip in CS150 midterm scores. We recommend reviewing "JavaScript Event Loop" before the quiz.</p>
-                    <button class="mt-4 px-4 py-2 bg-white text-indigo-600 text-xs font-bold rounded-xl hover:bg-indigo-50 transition-colors">
+                    <h3 class="font-display font-semibold text-base mb-1">Weekly Intelligence Summary</h3>
+                    <p class="text-indigo-100 text-xs leading-relaxed opacity-90">Predictions indicate a potential 5% dip in SAM101 midterm scores. We recommend reviewing "Linux Server Config" before the quiz.</p>
+                    <button class="mt-4 px-4 py-2 bg-white text-indigo-600 text-xs font-semibold rounded-xl hover:bg-indigo-50 transition-colors">
                        View Full Analysis
                     </button>
                  </div>
@@ -94,13 +94,13 @@ EP.educatorPrediction = {
                  ${EP.getIcon('exclamation-circle', 'w-6 h-6 text-amber-500', 'solid')}
               </div>
               <div>
-                 <h3 class="font-display font-bold text-[#0F172A] text-lg mb-1">Attention Required</h3>
-                 <p class="text-[#64748B] text-xs leading-relaxed">3 students in CS201 have shown irregular attendance in the last 14 days. This typically correlates with a 15% drop in assignment scores.</p>
+                 <h3 class="font-display font-semibold text-[#0F172A] text-base mb-1">Attention Required</h3>
+                 <p class="text-[#64748B] text-xs leading-relaxed">3 students in CAP102 have shown irregular attendance in the last 14 days. This typically correlates with a 15% drop in assignment scores.</p>
                  <div class="mt-4 flex gap-2">
-                    <button class="px-4 py-2 border border-[#E2E8F0] text-[#475569] text-xs font-bold rounded-xl hover:bg-[#F8FAFC] transition-colors">
+                    <button class="px-4 py-2 border border-[#E2E8F0] text-[#475569] text-xs font-semibold rounded-xl hover:bg-[#F8FAFC] transition-colors">
                        Contact Students
                     </button>
-                    <button class="px-4 py-2 bg-indigo-500 text-white text-xs font-bold rounded-xl hover:bg-indigo-600 transition-colors">
+                    <button class="px-4 py-2 bg-indigo-500 text-white text-xs font-semibold rounded-xl hover:bg-indigo-600 transition-colors">
                        Manage Alert
                     </button>
                  </div>
@@ -123,11 +123,11 @@ EP.educatorPrediction = {
     EP.charts.educatorPrediction = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: classAverage.CS101.labels,
+        labels: classAverage.PRC102.labels,
         datasets: [
           {
-            label: 'CS101 Intro to CS',
-            data: classAverage.CS101.scores,
+            label: 'PRC102 Practicum 2',
+            data: classAverage.PRC102.scores,
             borderColor: '#6366F1',
             backgroundColor: 'rgba(99,102,241,0.08)',
             borderWidth: 2,
@@ -136,8 +136,8 @@ EP.educatorPrediction = {
             pointBackgroundColor: '#6366F1',
           },
           {
-            label: 'CS201 Data Structures',
-            data: classAverage.CS201.scores,
+            label: 'CAP102 Capstone 2',
+            data: classAverage.CAP102.scores,
             borderColor: '#8B5CF6',
             backgroundColor: 'rgba(139,92,246,0.08)',
             borderWidth: 2,
@@ -146,8 +146,8 @@ EP.educatorPrediction = {
             pointBackgroundColor: '#8B5CF6',
           },
           {
-            label: 'CS150 Web Dev',
-            data: classAverage.CS150.scores,
+            label: 'SAM101 Systems Admin',
+            data: classAverage.SAM101.scores,
             borderColor: '#0EA5E9',
             backgroundColor: 'rgba(14,165,233,0.08)',
             borderWidth: 2,

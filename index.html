@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EduPredict — Intelligent Learning Analytics</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'%3E%3Cg fill='%236366f1'%3E%3Cpath d='M11.7 2.805a.75.75 0 0 1 .6 0A60.7 60.7 0 0 1 22.83 8.72a.75.75 0 0 1-.231 1.337a50 50 0 0 0-9.902 3.912l-.003.002l-.34.18a.75.75 0 0 1-.707 0A51 51 0 0 0 7.5 12.173v-.224a.36.36 0 0 1 .172-.311a55 55 0 0 1 4.653-2.52a.75.75 0 0 0-.65-1.352a56 56 0 0 0-4.78 2.589a1.86 1.86 0 0 0-.859 1.228a50 50 0 0 0-4.634-1.527a.75.75 0 0 1-.231-1.337A60.7 60.7 0 0 1 11.7 2.805'/%3E%3Cpath d='M13.06 15.473a48.5 48.5 0 0 1 7.666-3.282q.202 2.122.255 4.284a.75.75 0 0 1-.46.711a48 48 0 0 0-8.105 4.342a.75.75 0 0 1-.832 0a48 48 0 0 0-8.104-4.342a.75.75 0 0 1-.461-.71q.053-2.163.255-4.286q1.382.456 2.726.99v1.27a1.5 1.5 0 0 0-.14 2.508c-.09.38-.222.753-.397 1.11q.678.32 1.346.66a6.7 6.7 0 0 0 .551-1.607a1.5 1.5 0 0 0 .14-2.67v-.645a49 49 0 0 1 3.44 1.667a2.25 2.25 0 0 0 2.12 0'/%3E%3Cpath d='M4.462 19.462c.42-.419.753-.89 1-1.395q.68.321 1.347.662a6.7 6.7 0 0 1-1.286 1.794a.75.75 0 0 1-1.06-1.06'/%3E%3C/g%3E%3C/svg%3E">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -51,7 +52,7 @@
     .dark .text-\[\#0F172A\]{color:#F8FAFC;}
     .dark .text-\[\#475569\], .dark .text-\[\#64748B\]{color:#94A3B8;}
     .dark .bg-\[\#F1F5F9\], .dark .bg-\[\#F8FAFC\]{background-color:#0D1425;}
-    .toggle-on{background-color:#9333EA !important;box-shadow: 0 10px 15px -3px rgba(147, 51, 234, 0.3) !important;}
+    .toggle-on{background-color:#6366F1 !important;box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3) !important;}
     .toggle-off{background-color:#CBD5E1 !important;}
     body{transition:background-color 0.3s ease,color 0.3s ease;}
     *{transition:border-color 0.3s ease,background-color 0.3s ease;}
@@ -64,7 +65,7 @@
   <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-[#0D1425] z-30 flex flex-col sidebar-transition -translate-x-full lg:translate-x-0">
     <div class="px-5 pt-7 pb-5 flex items-center gap-3 border-b border-white/5">
       <div class="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm shadow-indigo-500/20">
-        <iconify-icon icon="heroicons:academic-cap" width="16" height="16" class="text-white"></iconify-icon>
+        <iconify-icon icon="heroicons:academic-cap-solid" width="16" height="16" class="text-white"></iconify-icon>
       </div>
       <span class="font-display text-white font-bold text-lg tracking-tight">EduPredict</span>
     </div>
@@ -103,6 +104,10 @@
           <div class="hidden md:flex items-center gap-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-3 py-2 w-48 lg:w-64 focus-within:ring-2 focus-within:ring-indigo-500/20 focus-within:border-indigo-300 transition-all shadow-sm">
             <iconify-icon icon="heroicons:magnifying-glass" width="16" height="16" class="text-[#94A3B8] flex-shrink-0"></iconify-icon>
             <input type="text" placeholder="Search..." class="bg-transparent text-sm placeholder-[#94A3B8] outline-none flex-1 w-full">
+            <div class="hidden lg:flex items-center gap-0.5 px-1.5 py-0.5 border border-[#E2E8F0] bg-white rounded-md shadow-sm">
+              <span class="text-[9px] font-bold text-[#94A3B8]">Ctrl</span>
+              <span class="text-[9px] font-bold text-[#94A3B8]">K</span>
+            </div>
           </div>
           
           <!-- Notifications -->
@@ -111,7 +116,7 @@
               <iconify-icon icon="heroicons:bell" width="20" height="20"></iconify-icon>
               <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
             </button>
-            <div id="dropdown-notifications" class="absolute right-0 mt-2 w-80 bg-white rounded-2xl border border-[#E2E8F0] shadow-xl overflow-hidden hidden transform origin-top-right transition-all z-50 animate-in fade-in zoom-in duration-200">
+          <div id="dropdown-notifications" class="absolute right-0 mt-2 w-80 bg-white rounded-2xl border border-[#E2E8F0] shadow-xl overflow-hidden invisible opacity-0 scale-95 translate-y-2 pointer-events-none transform origin-top-right transition-all duration-200 ease-out z-50">
               <div class="p-4 border-b border-[#F1F5F9] flex items-center justify-between">
                 <h4 class="font-display font-bold text-[#0F172A] text-sm">Notifications</h4>
                 <button class="text-[10px] font-bold text-indigo-500 hover:text-indigo-600 uppercase tracking-wider">Mark all read</button>
@@ -120,7 +125,7 @@
                 <!-- Populated via JS -->
               </div>
               <div class="p-3 bg-[#F8FAFC] text-center">
-                <button class="text-xs font-semibold text-[#475569] hover:text-indigo-600 transition-colors">See all alerts</button>
+                <button onclick="navigate('alerts')" class="text-xs font-semibold text-[#475569] hover:text-indigo-600 transition-colors">See all alerts</button>
               </div>
             </div>
           </div>
@@ -130,7 +135,7 @@
             <button onclick="toggleProfile()" class="w-8 h-8 rounded-full bg-indigo-500 hover:ring-4 hover:ring-indigo-500/10 flex items-center justify-center text-xs font-bold text-white cursor-pointer transition-all shadow-sm shadow-indigo-500/20">
               JC
             </button>
-            <div id="dropdown-profile" class="absolute right-0 mt-2 w-56 bg-white rounded-2xl border border-[#E2E8F0] shadow-xl p-2 hidden transform origin-top-right transition-all z-50 animate-in fade-in zoom-in duration-200">
+            <div id="dropdown-profile" class="absolute right-0 mt-2 w-56 bg-white rounded-2xl border border-[#E2E8F0] shadow-xl p-2 invisible opacity-0 scale-95 translate-y-2 pointer-events-none transform origin-top-right transition-all duration-200 ease-out z-50">
                <div class="px-3 py-2 border-b border-[#F1F5F9] mb-1 text-left">
                   <p class="text-xs font-bold text-[#0F172A]">Juniel Cardenas</p>
                   <p class="text-[10px] text-[#94A3B8] truncate">juniel.cardenas@edu.ph</p>
@@ -176,5 +181,7 @@
   <script src="js/educator-classwork.js"></script>
   <script src="js/educator-settings.js"></script>
   <script src="js/educator-class-details.js"></script>
+  <script src="js/student-alerts.js"></script>
+  <script src="js/educator-alerts.js"></script>
 </body>
 </html>

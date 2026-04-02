@@ -88,25 +88,49 @@ EP.studentDashboard = {
                   View all ${EP.getIcon('arrow-right', 'w-3.5 h-3.5')}
                 </button>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                ${classes.map(cls=>`
-                  <div onclick="navigate('classes')" class="bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden hover-lift cursor-pointer shadow-sm group">
-                    <div class="h-20 bg-gradient-to-br ${classGradient(cls.color)} relative flex items-end p-3">
-                      <span class="text-white/20 font-display font-black text-3xl absolute bottom-1 right-2 select-none">${cls.code}</span>
-                      <span class="text-[10px] font-semibold text-white/80 uppercase tracking-wider bg-white/10 px-2 py-0.5 rounded-full">${cls.code}</span>
-                    </div>
-                    <div class="p-4">
-                      <h3 class="font-display font-semibold text-[#0F172A] text-sm leading-snug mb-1 group-hover:text-indigo-600 transition-colors">${cls.name}</h3>
-                      <p class="text-xs text-[#64748B]">${cls.instructor}</p>
-                      <div class="flex items-center gap-1 mt-2.5 text-xs text-[#94A3B8]">
-                        ${EP.getIcon('map-pin', 'w-3 h-3')} ${cls.room}
-                        <span class="mx-1.5 text-[#D1D5DB]">·</span>
-                        ${EP.getIcon('clock', 'w-3 h-3')}
-                        <span class="truncate">${cls.schedule.split(' ').slice(0,1).join('')}</span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                ${classes.map(cls => {
+                  const cws = classworks.filter(cw=>cw.classId===cls.id);
+                  const pending = cws.filter(c=>c.status==='Pending').length;
+                  const graded  = cws.filter(c=>c.status==='Graded');
+                  const avgScore = graded.length ? Math.round(graded.reduce((s,c)=>s+(c.score/c.maxScore)*100,0)/graded.length) : null;
+                  
+                  return `
+                    <div class="bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden hover-lift cursor-pointer shadow-sm group">
+                      <div onclick="EP.actions.viewClass(${cls.id})" class="h-24 sm:h-28 bg-gradient-to-br ${classGradient(cls.color)} relative flex items-end p-5">
+                        <span class="text-white/20 font-display font-semibold text-4xl absolute top-2 right-4 select-none hidden sm:block">${cls.code}</span>
+                        <div class="relative z-10">
+                          <span class="text-[10px] font-bold text-white uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full backdrop-blur-md border border-white/10">${cls.code}</span>
+                          <h3 class="font-display font-bold text-white text-base mt-2 leading-tight group-hover:underline underline-offset-4 decoration-2 transition-all">${cls.name}</h3>
+                        </div>
+                      </div>
+                      <div class="p-5">
+                        <p class="text-[#64748B] text-xs leading-relaxed mb-4 line-clamp-2">${cls.description}</p>
+                        
+                        <div class="flex items-center justify-between gap-4 mb-5 pb-5 border-b border-[#F1F5F9]">
+                          <div class="text-center">
+                            <p class="font-display font-bold text-[#0F172A] text-sm">${avgScore ?? '—'}${avgScore ? '%' : ''}</p>
+                            <p class="text-[9px] text-[#94A3B8] font-bold uppercase tracking-wide">Avg Score</p>
+                          </div>
+                          <div class="w-px h-6 bg-[#F1F5F9]"></div>
+                          <div class="text-center">
+                            <p class="font-display font-bold text-[#0F172A] text-sm">${cws.length}</p>
+                            <p class="text-[9px] text-[#94A3B8] font-bold uppercase tracking-wide">Classes</p>
+                          </div>
+                          <div class="w-px h-6 bg-[#F1F5F9]"></div>
+                          <div class="text-center">
+                            <p class="font-display font-bold ${pending>0?'text-amber-500':'text-emerald-500'} text-sm">${pending}</p>
+                            <p class="text-[9px] text-[#94A3B8] font-bold uppercase tracking-wide">Pending</p>
+                          </div>
+                        </div>
+
+                        <button onclick="EP.actions.viewClass(${cls.id})" class="w-full py-3 rounded-2xl bg-indigo-500 text-white text-xs font-bold hover:bg-indigo-600 transition-all shadow-lg shadow-indigo-500/20 active:scale-95 flex items-center justify-center gap-2">
+                          View Details ${EP.getIcon('arrow-right', 'w-3.5 h-3.5')}
+                        </button>
                       </div>
                     </div>
-                  </div>
-                `).join('')}
+                  `;
+                }).join('')}
               </div>
             </div>
 

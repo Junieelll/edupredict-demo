@@ -21,7 +21,7 @@ EP.educatorClassDetails = {
     document.getElementById('content').innerHTML = `
       <div class="max-w-7xl mx-auto space-y-6">
         <!-- Header / Breadcrumb -->
-        <div class="flex items-center justify-between gap-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div class="flex items-center gap-4">
             <button onclick="navigate('classes')" class="p-2 rounded-xl bg-white border border-[#E2E8F0] text-[#64748B] hover:text-indigo-600 hover:border-indigo-200 transition-all active:scale-95 shadow-sm">
               ${EP.getIcon('arrow-left', 'w-5 h-5')}
@@ -35,12 +35,12 @@ EP.educatorClassDetails = {
               <h1 class="font-display font-semibold text-[#0F172A] text-xl leading-none">Class Management</h1>
             </div>
           </div>
-          <div class="flex items-center gap-2">
-             <button onclick="EP.actions.postAnnouncement('${cls.name}')" class="bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-3 rounded-xl shadow-lg shadow-amber-500/20 active:scale-95 transition-all flex items-center gap-2">
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
+             <button onclick="EP.actions.postAnnouncement('${cls.name}')" class="bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-3 rounded-xl shadow-lg shadow-amber-500/20 active:scale-95 transition-all flex items-center justify-center gap-2">
                 ${EP.getIcon('megaphone', 'w-4 h-4', 'solid')}
                 <span>Announce</span>
              </button>
-             <button onclick="EP.actions.newAssignment()" class="bg-indigo-500 hover:bg-indigo-600 text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-3 rounded-xl shadow-lg shadow-indigo-500/20 active:scale-95 transition-all flex items-center gap-2">
+             <button onclick="EP.actions.newAssignment()" class="bg-indigo-500 hover:bg-indigo-600 text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-3 rounded-xl shadow-lg shadow-indigo-500/20 active:scale-95 transition-all flex items-center justify-center gap-2">
                 ${EP.getIcon('plus-circle', 'w-4 h-4', 'solid')}
                 <span>New Assignment</span>
              </button>
@@ -75,10 +75,10 @@ EP.educatorClassDetails = {
                    <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#0F172A] text-white text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">High: ${highRisk}</div>
                 </div>
              </div>
-             <div class="mt-4 flex items-center justify-between text-[10px] font-semibold">
-                <span class="text-emerald-600 uppercase tracking-widest">${lowRisk} On Track</span>
-                <span class="text-amber-600 uppercase tracking-widest">${medRisk} At Risk</span>
-                <span class="text-rose-600 uppercase tracking-widest">${highRisk} Critical</span>
+             <div class="mt-4 grid grid-cols-1 sm:flex sm:items-center sm:justify-between gap-2 text-[10px] font-semibold">
+                <span class="text-emerald-600 uppercase tracking-widest flex items-center gap-1.5">${EP.getIcon('check-circle', 'w-3 h-3')} ${lowRisk} On Track</span>
+                <span class="text-amber-600 uppercase tracking-widest flex items-center gap-1.5">${EP.getIcon('exclamation-triangle', 'w-3 h-3')} ${medRisk} At Risk</span>
+                <span class="text-rose-600 uppercase tracking-widest flex items-center gap-1.5">${EP.getIcon('fire', 'w-3 h-3')} ${highRisk} Critical</span>
              </div>
           </div>
         </div>
@@ -106,15 +106,13 @@ EP.educatorClassDetails = {
                </div>
                <div class="overflow-x-auto">
                  <table class="w-full text-left">
-                   <thead class="bg-[#F8FAFC] border-b border-[#F1F5F9]">
-                     <tr>
-                       <th class="px-6 py-4 text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest">Student Name</th>
-                       <th class="px-6 py-4 text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest">Attendance</th>
-                       <th class="px-6 py-4 text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest">Risk Level</th>
-                       <th class="px-6 py-4 text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest">Predicted GPA</th>
-                       <th class="px-6 py-4"></th>
-                     </tr>
-                   </thead>
+                      <tr class="bg-[#F8FAFC] border-b border-[#F1F5F9]">
+                        <th class="px-6 py-4 text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest text-left">Student Name</th>
+                        <th class="hidden sm:table-cell px-6 py-4 text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest text-left">Attendance</th>
+                        <th class="px-6 py-4 text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest text-left">Risk Level</th>
+                        <th class="hidden sm:table-cell px-6 py-4 text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest text-left">Predicted GPA</th>
+                        <th class="px-6 py-4"></th>
+                      </tr>
                    <tbody class="divide-y divide-[#F1F5F9]">
                      ${students.map(s => `
                        <tr class="hover:bg-[#FDFDFF] transition-colors cursor-pointer group">
@@ -127,22 +125,22 @@ EP.educatorClassDetails = {
                               </div>
                            </div>
                          </td>
-                         <td class="px-6 py-4">
-                           <div class="flex items-center gap-2">
-                              <span class="text-xs font-bold text-[#475569]">${s.attendance}%</span>
-                              <div class="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                                 <div class="h-full ${s.attendance > 85 ? 'bg-emerald-500' : 'bg-amber-500'} rounded-full transition-all" style="width:${s.attendance}%"></div>
-                              </div>
-                           </div>
-                         </td>
-                         <td class="px-6 py-4">
-                            ${riskBadge(s.dropoutRisk)}
-                         </td>
-                         <td class="px-6 py-4">
-                            <span class="text-xs font-semibold text-[#0F172A] tracking-tighter">${(s.gpa).toFixed(2)}</span>
-                         </td>
+                          <td class="hidden sm:table-cell px-6 py-4">
+                            <div class="flex items-center gap-2">
+                               <span class="text-xs font-bold text-[#475569]">${s.attendance}%</span>
+                               <div class="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                  <div class="h-full ${s.attendance > 85 ? 'bg-emerald-500' : 'bg-amber-500'} rounded-full transition-all" style="width:${s.attendance}%"></div>
+                               </div>
+                            </div>
+                          </td>
+                          <td class="px-6 py-4">
+                             ${riskBadge(s.dropoutRisk)}
+                          </td>
+                          <td class="hidden sm:table-cell px-6 py-4">
+                             <span class="text-xs font-semibold text-[#0F172A] tracking-tighter">${(s.gpa).toFixed(2)}</span>
+                          </td>
                          <td class="px-6 py-4 text-right">
-                           <button class="p-2 rounded-xl text-[#94A3B8] hover:text-indigo-600 hover:bg-indigo-50 transition-all opacity-0 group-hover:opacity-100">
+                           <button onclick="EP.actions.viewDetails(${s.id})" class="p-2 rounded-xl text-[#94A3B8] hover:text-indigo-600 hover:bg-indigo-50 transition-all opacity-0 group-hover:opacity-100 active:scale-95">
                              ${EP.getIcon('chevron-right', 'w-4 h-4')}
                            </button>
                          </td>
@@ -207,7 +205,7 @@ EP.educatorClassDetails = {
                              <p class="text-xs font-bold text-[#475569] group-hover:text-indigo-600 transition-colors">${cw.title}</p>
                              <p class="text-[10px] text-[#94A3B8] font-medium italic">Due ${new Date(cw.dueDate).toLocaleDateString()}</p>
                           </div>
-                          <span class="text-[10px] font-black text-indigo-500">${cw.submissions}/${cw.total}</span>
+                          <span class="text-[10px] font-semibold text-indigo-500">${cw.submissions}/${cw.total}</span>
                        </div>
                        <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                           <div class="h-full bg-indigo-500 rounded-full transition-all group-hover:brightness-110" style="width:${(cw.submissions/cw.total)*100}%"></div>

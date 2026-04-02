@@ -11,8 +11,8 @@ EP.educatorStudents = {
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 class="font-display font-bold text-[#0F172A] text-[14px] md:text-2xl">Students</h1>
-            <p class="text-[#64748B] text-sm mt-0.5">Track and manage ${students.length} students across all courses</p>
+            <h1 class="font-display font-semibold text-[#0F172A] text-[14px] md:text-lg">Students</h1>
+            <p class="text-[#64748B] text-xs mt-0.5">Track and manage ${students.length} students across all courses</p>
           </div>
           <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
              <div class="relative flex-1 sm:w-64">
@@ -98,7 +98,7 @@ EP.educatorStudents = {
                          <button onclick="EP.notify('Email composer not available in prototype', 'info')" class="p-2 border border-[#E2E8F0] rounded-lg text-[#64748B] hover:text-indigo-600 hover:border-indigo-200 hover:bg-white transition-all shadow-sm">
                             ${EP.getIcon('envelope', 'w-4 h-4')}
                          </button>
-                         <button onclick="EP.actions.viewDetails('${s.name}', 'Academic performance profile for ${s.name}: GPA of ${s.gpa}, Attendance rate of ${s.attendance}%, and current risk level is ${s.dropoutRisk}.')" class="p-2 border border-[#E2E8F0] rounded-lg text-[#64748B] hover:text-indigo-600 hover:border-indigo-200 hover:bg-white transition-all shadow-sm">
+                         <button onclick="EP.actions.viewDetails(${s.id})" class="p-2 border border-[#E2E8F0] rounded-lg text-[#64748B] hover:text-indigo-600 hover:border-indigo-200 hover:bg-white transition-all shadow-sm">
                             ${EP.getIcon('eye', 'w-4 h-4')}
                          </button>
                          <button onclick="EP.actions.confirmDelete('${s.name}', () => { EP.data.students = EP.data.students.filter(st=>st.name!=='${s.name}'); EP.educatorStudents.render(); EP.notify('Student removed from course', 'success'); })" class="p-2 border border-[#E2E8F0] rounded-lg text-rose-400 hover:text-rose-600 hover:border-rose-200 hover:bg-rose-50 transition-all shadow-sm">

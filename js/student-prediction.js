@@ -30,7 +30,7 @@ EP.studentPrediction = {
                     stroke-linecap="round"/>
                 </svg>
                 <div class="absolute inset-0 flex items-center justify-center">
-                  <span class="font-display font-black text-white text-2xl">${student.overall}</span>
+                  <span class="font-display font-semibold text-white text-2xl">${student.overall}</span>
                 </div>
               </div>
               <p class="text-white font-semibold text-sm">Overall Grade</p>
@@ -92,9 +92,9 @@ EP.studentPrediction = {
         <!-- Insights -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           ${[
-            { icon:'bolt', color:'indigo', title:'Strength',   text:'You perform best in CS101 with consistent scores above 85%. Keep up the momentum in the final weeks.' },
-            { icon:'exclamation-triangle', color:'amber', title:'Focus Area', text:'CS150 is your weakest subject this term. Consider attending extra lab sessions and seeking help early.' },
-            { icon:'flag', color:'emerald', title:'Goal',    text:'At your current pace, you\'re on track to finish the semester with an 86+ average. Aim for 90+ with one strong final exam.' },
+            { icon:'bolt', color:'indigo', title:'Strength',   text:'You perform best in PRC102 with consistent scores above 90%. Keep up the momentum in the final weeks.' },
+            { icon:'exclamation-triangle', color:'amber', title:'Focus Area', text:'SAM101 is your weakest subject this term. Consider attending extra sessions for server configuration.' },
+            { icon:'flag', color:'emerald', title:'Goal',    text:'At your current pace, you\'re on track to finish the semester with an 88+ average. Aim for 90+ with one strong final exam.' },
           ].map(c=>`
             <div class="bg-white rounded-2xl border border-[#E2E8F0] p-5 shadow-sm">
               <div class="w-9 h-9 rounded-xl bg-${c.color}-50 border border-${c.color}-100 flex items-center justify-center mb-3">

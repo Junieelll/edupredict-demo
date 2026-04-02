@@ -58,9 +58,9 @@ EP.educatorDashboard = {
                 <p class="text-xs text-[#94A3B8] mt-0.5">Average scores over the semester</p>
               </div>
               <select id="class-selector" onchange="EP.educatorDashboard.updateChart()" class="text-xs font-semibold text-[#475569] border border-[#E2E8F0] bg-[#F8FAFC] rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500/20">
-                <option value="CS101">CS101</option>
-                <option value="CS201">CS201</option>
-                <option value="CS150">CS150</option>
+                <option value="PRC102">PRC102</option>
+                <option value="CAP102">CAP102</option>
+                <option value="SAM101">SAM101</option>
               </select>
             </div>
             <div class="h-56">
@@ -151,7 +151,7 @@ EP.educatorDashboard = {
     `;
 
     setTimeout(() => {
-      this.initChart('CS101');
+      this.initChart('PRC102');
     }, 30);
   },
 

@@ -16,17 +16,27 @@ const navConfigs = {
     { id:'recommendation', label:'Recommendations',  icon:'sparkles' },
     { id:'prediction',     label:'My Prediction',    icon:'arrow-trending-up' },
     { id:'chatbot',        label:'Study Assistant',  icon:'chat-bubble-left-right' },
-    { id:'classwork',      label:'Classwork',        icon:'clipboard-document-list' },
-    { id:'settings',       label:'Settings',         icon:'cog-6-tooth' },
+    { id: 'classwork',      label: 'Classwork',        icon: 'clipboard-document-list' },
+    { id: 'alerts',         label: 'Notifications',    icon: 'bell' },
+    { id: 'settings',       label: 'Settings',         icon: 'cog-6-tooth' },
   ],
   educator: [
     { id:'dashboard',  label:'Dashboard',   icon:'squares-2x2' },
     { id:'classes',    label:'Classes',     icon:'book-open' },
     { id:'students',   label:'Students',    icon:'users' },
     { id:'prediction', label:'Predictions', icon:'arrow-trending-up' },
-    { id:'classwork',  label:'Classwork',   icon:'clipboard-document-list' },
-    { id:'settings',   label:'Settings',    icon:'cog-6-tooth' },
+    { id: 'classwork',  label: 'Classwork',   icon: 'clipboard-document-list' },
+    { id: 'alerts',     label: 'Alerts',      icon: 'bell' },
+    { id: 'settings',   label: 'Settings',    icon: 'cog-6-tooth' },
   ],
+};
+
+const navParentMap = {
+  student_class_details:  'classes',
+  educator_class_details: 'classes',
+  educator_manage:        'classes',
+  student_alerts:         'alerts',
+  educator_alerts:        'alerts',
 };
 
 const pageMap = {
@@ -46,6 +56,8 @@ const pageMap = {
   educator_settings:      () => EP.educatorSettings?.render(),
   student_class_details:  () => EP.studentClassDetails?.render(),
   educator_class_details: () => EP.educatorClassDetails?.render(),
+  student_alerts:         () => EP.studentAlerts?.render(),
+  educator_alerts:        () => EP.educatorAlerts?.render(),
 };
 
 EP.getIcon = (name, className='', type='outline') => {
@@ -113,11 +125,13 @@ function renderNav() {
 
 function updateNavActive() {
   const items = navConfigs[EP.currentRole];
+  const activeParent = navParentMap[`${EP.currentRole}_${EP.currentPage}`] || EP.currentPage;
+  
   items.forEach(item => {
     const btn = document.getElementById(`nav-${item.id}`);
     if (!btn) return;
     const icon = btn.querySelector('iconify-icon');
-    if (item.id === EP.currentPage) {
+    if (item.id === activeParent) {
       btn.className = 'nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-indigo-500/15 text-white active-nav group';
       if (icon) {
         icon.setAttribute('icon', `heroicons:${item.icon}-solid`);
@@ -141,10 +155,26 @@ function navigate(page, skipSave = false) {
   Object.values(EP.charts).forEach(c => { try { c.destroy(); } catch(e) {} });
   EP.charts = {};
 
-  // Breadcrumb
-  const navItem = navConfigs[EP.currentRole].find(n => n.id === page) || { label: 'Class Management' };
-  const bc = document.getElementById('page-breadcrumb');
-  if (bc && navItem) bc.textContent = navItem.label;
+  // Breadcrumb Hierarchy
+  const navItem = navConfigs[EP.currentRole].find(n => n.id === page);
+  const parentId = navParentMap[`${EP.currentRole}_${page}`];
+  const parentItem = navConfigs[EP.currentRole].find(n => n.id === parentId);
+  
+  let label = navItem ? navItem.label : 'Class Management';
+  if (EP.selectedClassId) {
+    const cls = EP.data.classes.find(c => c.id === EP.selectedClassId);
+    if (cls && (page.includes('class') || page.includes('manage'))) {
+      label = cls.name;
+    }
+  }
+
+  const bcRole = document.getElementById('role-breadcrumb');
+  const bcPage = document.getElementById('page-breadcrumb');
+  
+  if (bcRole && parentItem) bcRole.textContent = parentItem.label;
+  else if (bcRole) bcRole.textContent = EP.currentRole.charAt(0).toUpperCase() + EP.currentRole.slice(1);
+  
+  if (bcPage) bcPage.textContent = label;
 
   closeSidebar();
   updateNavActive();
@@ -155,17 +185,33 @@ function navigate(page, skipSave = false) {
   
   if (content && pageMap[key]) {
     content.style.opacity = '0';
-    content.style.transform = 'translateY(10px)';
+    content.style.transform = 'translateY(8px)';
+    content.style.transition = 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+    
     setTimeout(() => {
       pageMap[key]();
+      // Force reflow
+      void content.offsetWidth;
       content.style.opacity = '1';
       content.style.transform = 'translateY(0)';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 150);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 200);
   } else if (pageMap[key]) {
     pageMap[key]();
   }
 }
+
+// Global Short-cuts
+window.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    const searchInput = document.querySelector('header input[type="text"]');
+    if (searchInput) {
+      searchInput.value = '';
+      searchInput.focus();
+    }
+  }
+});
 
 function openSidebar() {
   document.getElementById('sidebar').classList.remove('-translate-x-full');
@@ -317,38 +363,50 @@ function changeMonth(delta) {
 function toggleNotifications() {
   const d = document.getElementById('dropdown-notifications');
   const p = document.getElementById('dropdown-profile');
-  if (p) p.classList.add('hidden');
+  
+  if (p) p.classList.add('invisible', 'opacity-0', 'scale-95', 'translate-y-2', 'pointer-events-none');
+  
   if (d) {
-     d.classList.toggle('hidden');
-     if (!d.classList.contains('hidden')) renderNotificationsList();
+     const isHidden = d.classList.contains('invisible');
+     if (isHidden) {
+        d.classList.remove('invisible', 'opacity-0', 'scale-95', 'translate-y-2', 'pointer-events-none');
+        renderNotificationsList();
+     } else {
+        d.classList.add('invisible', 'opacity-0', 'scale-95', 'translate-y-2', 'pointer-events-none');
+     }
   }
 }
 
 function toggleProfile() {
   const p = document.getElementById('dropdown-profile');
   const d = document.getElementById('dropdown-notifications');
-  if (d) d.classList.add('hidden');
-  if (p) p.classList.toggle('hidden');
+  
+  if (d) d.classList.add('invisible', 'opacity-0', 'scale-95', 'translate-y-2', 'pointer-events-none');
+  
+  if (p) {
+     const isHidden = p.classList.contains('invisible');
+     if (isHidden) {
+        p.classList.remove('invisible', 'opacity-0', 'scale-95', 'translate-y-2', 'pointer-events-none');
+     } else {
+        p.classList.add('invisible', 'opacity-0', 'scale-95', 'translate-y-2', 'pointer-events-none');
+     }
+  }
 }
 
 function renderNotificationsList() {
   const list = document.getElementById('notification-list');
   if (!list) return;
-  const items = [
-    { title: 'New Grade Posted', time: '2h ago', text: 'Prof. Vasquez graded Binary Trees homework.', icon: 'document-check', color: 'indigo' },
-    { title: 'Class Reminder', time: '5h ago', text: 'CS150 Lab session starts in 1 hour.', icon: 'clock', color: 'amber' },
-    { title: 'AI Prediction Update', time: '1d ago', text: 'Your predicted GPA increased to 3.52!', icon: 'sparkles', color: 'violet' }
-  ];
+  const items = EP.data.notifications.slice(0, 3);
   list.innerHTML = items.map(n => `
-    <div class="px-4 py-3 hover:bg-[#F8FAFC] transition-colors cursor-pointer group">
+    <div onclick="navigate('alerts')" class="px-4 py-3 hover:bg-[#F8FAFC] transition-colors cursor-pointer group">
       <div class="flex gap-3">
         <div class="w-8 h-8 rounded-lg bg-${n.color}-50 flex items-center justify-center text-${n.color}-500 flex-shrink-0 mt-0.5">
           ${EP.getIcon(n.icon, 'w-4 h-4', 'solid')}
         </div>
         <div class="flex-1 min-w-0">
           <div class="flex items-center justify-between mb-0.5">
-            <p class="text-xs font-bold text-[#0F172A]">${n.title}</p>
-            <span class="text-[10px] text-[#94A3B8]">${n.time}</span>
+            <p class="text-[11px] font-bold text-[#0F172A]">${n.title}</p>
+            <span class="text-[9px] text-[#94A3B8]">${new Date(n.time).getHours()}h ago</span>
           </div>
           <p class="text-[10px] text-[#64748B] leading-relaxed line-clamp-2">${n.text}</p>
         </div>
@@ -369,7 +427,7 @@ EP.notify = (msg, type='info') => {
   el.className = `pointer-events-auto flex items-center gap-3 px-5 py-3.5 rounded-2xl text-white shadow-2xl animate-[fadeUp_0.3s_ease] ${colors[type]||colors.info}`;
   el.innerHTML = `
     ${EP.getIcon(icons[type]||icons.info, 'w-5 h-5 text-white', 'solid')}
-    <p class="text-[10px] font-black uppercase tracking-wider italic">${msg}</p>
+    <p class="text-[10px] font-semibold uppercase tracking-wider italic">${msg}</p>
   `;
   container.appendChild(el);
   setTimeout(() => {
@@ -392,7 +450,7 @@ EP.actions = {
           <div class="absolute -right-12 -top-12 w-48 h-48 bg-indigo-50 rounded-full blur-3xl opacity-60"></div>
           <div class="relative">
             <div class="flex items-center gap-2 mb-4">
-              <span class="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-[10px] font-black uppercase tracking-widest rounded-lg border border-indigo-100">${cls?.code || 'CS'}</span>
+              <span class="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-[10px] font-semibold uppercase tracking-widest rounded-lg border border-indigo-100">${cls?.code || 'CS'}</span>
               <span class="w-1 h-1 rounded-full bg-[#CBD5E1]"></span>
               <span class="text-[10px] font-bold text-[#94A3B8] uppercase tracking-widest">${cw.type}</span>
             </div>
@@ -407,7 +465,7 @@ EP.actions = {
         <div class="p-8 space-y-5 pt-0 pb-5">
           <!-- Description -->
           <div>
-            <h4 class="text-[10px] font-black text-[#94A3B8] uppercase tracking-widest mb-4 ml-1">Instructions</h4>
+            <h4 class="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-4 ml-1">Instructions</h4>
             <div class="text-[#475569] text-sm leading-relaxed space-y-4">
               <p>Please complete this assignment based on the latest lecture materials. Ensure your solution follows the provided standard guidelines and coding style.</p>
               <ul class="list-disc list-inside space-y-2 opacity-80 pl-2">
@@ -420,7 +478,7 @@ EP.actions = {
 
           <!-- Attachments -->
           <div>
-            <h4 class="text-[10px] font-black text-[#94A3B8] uppercase tracking-widest mb-4 ml-1">Materials</h4>
+            <h4 class="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-4 ml-1">Materials</h4>
             <div class="space-y-2">
               <div class="flex items-center justify-between p-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl hover:border-indigo-200 hover:bg-white transition-all cursor-pointer group">
                 <div class="flex items-center gap-3">
@@ -442,8 +500,8 @@ EP.actions = {
             ${cw.status === 'Graded' ? `
               <div class="bg-emerald-50 rounded-2xl border border-emerald-100 p-6 flex items-center justify-between">
                 <div>
-                  <p class="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Final Score</p>
-                  <p class="text-xl font-display font-black text-emerald-700">${cw.score}<span class="text-emerald-500/50 text-xl">/${cw.maxScore}</span></p>
+                  <p class="text-[10px] font-semibold text-emerald-600 uppercase tracking-widest mb-1">Final Score</p>
+                  <p class="text-xl font-display font-semibold text-emerald-700">${cw.score}<span class="text-emerald-500/50 text-xl">/${cw.maxScore}</span></p>
                 </div>
                 <div class="text-emerald-500">
                   ${EP.getIcon('check-badge', 'w-12 h-12', 'solid')}
@@ -464,7 +522,7 @@ EP.actions = {
         <div class="p-6 py-5 bg-[#F8FAFC] border-t border-[#F1F5F9] flex gap-3">
           <button onclick="closePanel()" class="flex-1 py-4 bg-white border border-[#E2E8F0] hover:bg-gray-50 text-[#475569] font-bold text-[10px] uppercase tracking-widest rounded-xl transition-all active:scale-95">Close</button>
           ${cw.status !== 'Graded' ? `
-             <button onclick="EP.notify('Submission received!', 'success'); closePanel();" class="flex-[2] py-4 bg-indigo-500 hover:bg-indigo-600 text-white font-black text-[10px] uppercase tracking-widest rounded-xl shadow-lg shadow-indigo-500/20 transition-all active:scale-95">Complete Submission</button>
+             <button onclick="EP.notify('Submission received!', 'success'); closePanel();" class="flex-[2] py-4 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold text-[10px] uppercase tracking-widest rounded-xl shadow-lg shadow-indigo-500/20 transition-all active:scale-95">Complete Submission</button>
           ` : ''}
         </div>
       </div>
@@ -477,19 +535,19 @@ EP.actions = {
 
   showFilterOptions(title='Data') {
     showModal(`
-      <div class="p-8">
-        <h3 class="font-display font-bold text-[#0F172A] text-xl mb-2">Filter ${title}</h3>
-        <p class="text-[#64748B] text-sm mb-8 leading-relaxed italic">Refine the view based on your specific criteria.</p>
+      <div class="p-4 md:p-5">
+        <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">Filter ${title}</h3>
+        <p class="text-[#64748B] text-xs mb-8 leading-relaxed">Refine the view based on your specific criteria.</p>
         <div class="space-y-6 mb-8">
           <div>
-            <label class="block text-[10px] font-black text-[#94A3B8] uppercase tracking-widest mb-2.5 ml-1">Sort By</label>
+            <label class="block text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-2.5 ml-1">Sort By</label>
             <div class="grid grid-cols-2 gap-2">
               <button class="py-2.5 px-4 bg-indigo-50 border border-indigo-200 text-indigo-600 text-xs font-bold rounded-xl transition-all">Name (A-Z)</button>
               <button class="py-2.5 px-4 bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B] text-xs font-bold rounded-xl hover:bg-white transition-all">Latest Activity</button>
             </div>
           </div>
           <div>
-            <label class="block text-[10px] font-black text-[#94A3B8] uppercase tracking-widest mb-2.5 ml-1">Status / Risk</label>
+            <label class="block text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-2.5 ml-1">Status / Risk</label>
             <div class="flex flex-wrap gap-2">
               ${['All', 'High Risk', 'On Track', 'Graded'].map(f=>`
                 <button class="px-4 py-2 border border-[#E2E8F0] text-[#475569] text-xs font-semibold rounded-full hover:border-indigo-200 hover:text-indigo-600 transition-all">${f}</button>
@@ -498,8 +556,8 @@ EP.actions = {
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <button onclick="closeModal()" class="py-4 bg-gray-50 text-[#475569] font-bold rounded-xl text-[10px] uppercase tracking-widest">Reset</button>
-          <button onclick="EP.notify('Filter applied!', 'success'); closeModal();" class="py-4 bg-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 text-[10px] uppercase tracking-widest active:scale-95 transition-transform">Apply Filter</button>
+          <button onclick="closeModal()" class="py-4 bg-gray-50 text-[#475569] font-semibold rounded-xl text-[10px] uppercase tracking-widest">Reset</button>
+          <button onclick="EP.notify('Filter applied!', 'success'); closeModal();" class="py-4 bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/20 text-[10px] uppercase tracking-widest active:scale-95 transition-transform">Apply Filter</button>
         </div>
       </div>
     `);
@@ -507,7 +565,7 @@ EP.actions = {
 
   joinClass() {
     showModal(`
-      <div class="p-8 text-center">
+      <div class="p-4 md:p-5 text-center">
         <div class="w-14 h-14 rounded-xl bg-indigo-50 flex items-center justify-center mb-6 mx-auto">
           ${EP.getIcon('plus-circle', 'w-10 h-10 text-indigo-500', 'solid')}
         </div>
@@ -531,9 +589,9 @@ EP.actions = {
 
   newClass() {
     showModal(`
-      <div class="p-8">
+      <div class="p-4 md:p-5">
         <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">Create New Class</h3>
-        <p class="text-[#64748B] text-xs mb-8 italic">Set up a new learning environment.</p>
+        <p class="text-[#64748B] text-xs mb-8">Set up a new learning environment.</p>
         <div class="space-y-4 mb-8">
           <div>
             <label class="block text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1">Class Name</label>
@@ -561,8 +619,8 @@ EP.actions = {
 
   newStudent() {
     showModal(`
-      <div class="p-8">
-        <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2 italic">Enlist New Student</h3>
+      <div class="p-4 md:p-5">
+        <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">Enlist New Student</h3>
         <p class="text-[#64748B] text-xs mb-6 leading-relaxed">Add a student to the academic database for tracking and prediction.</p>
         <div class="space-y-4 mb-8">
           <div>
@@ -591,9 +649,9 @@ EP.actions = {
 
   postAnnouncement(classTitle) {
     showModal(`
-      <div class="p-8">
+      <div class="p-4 md:p-5">
         <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">New Announcement</h3>
-        <p class="text-[#64748B] text-sm mb-8 leading-relaxed italic">Share an important update with ${classTitle}.</p>
+        <p class="text-[#64748B] text-sm mb-8 leading-relaxed">Share an important update with ${classTitle}.</p>
         <div class="space-y-4 mb-8">
           <div>
             <label class="block text-[10px] font-medium text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1">Announcement Title</label>
@@ -621,9 +679,9 @@ EP.actions = {
 
   newAssignment() {
     showModal(`
-      <div class="p-8">
+      <div class="p-4 md:p-5">
         <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">Post New Assignment</h3>
-        <p class="text-[#64748B] text-xs mb-8 leading-relaxed italic">Create a new task for your students to complete.</p>
+        <p class="text-[#64748B] text-xs mb-8 leading-relaxed">Create a new task for your students to complete.</p>
         <div class="space-y-4 mb-8">
            <div>
               <label class="block text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-1.5 ml-1">Title</label>
@@ -641,8 +699,8 @@ EP.actions = {
            </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <button onclick="closeModal()" class="py-3 bg-gray-50 text-[#475569] font-semibold rounded-xl text-[10px] uppercase tracking-widest">Discard</button>
-          <button onclick="EP.notify('Assignment posted!', 'success'); closeModal();" class="py-3 bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/20 text-[10px] uppercase tracking-widest">Post Task</button>
+          <button onclick="closeModal()" class="py-3.5 bg-gray-50 text-[#475569] font-semibold rounded-xl text-[10px] uppercase tracking-widest">Discard</button>
+          <button onclick="EP.notify('Assignment posted!', 'success'); closeModal();" class="py-3.5 bg-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/20 text-[10px] uppercase tracking-widest">Post Task</button>
         </div>
       </div>
     `);
@@ -650,7 +708,7 @@ EP.actions = {
 
   gradeSubmissions(title) {
     showModal(`
-      <div class="p-8">
+      <div class="p-4 md:p-5">
         <h3 class="font-display font-semibold text-[#0F172A] text-base mb-2">Grade Submissions</h3>
         <p class="text-[#64748B] text-xs mb-6">${title}</p>
         <div class="space-y-3 mb-8">
@@ -671,7 +729,7 @@ EP.actions = {
 
   confirmDelete(title, callback) {
     showModal(`
-      <div class="p-8 text-center">
+      <div class="p-4 md:p-5 text-center">
         <div class="w-14 h-14 rounded-full bg-rose-50 flex items-center justify-center mx-auto mb-6">
           ${EP.getIcon('trash', 'w-7 h-7 text-rose-500', 'solid')}
         </div>
@@ -694,7 +752,149 @@ EP.actions = {
 
   viewClass(id) {
     EP.selectedClassId = id;
+    localStorage.setItem('ep_class_id', id);
     navigate('class_details');
+  },
+
+  viewDetails(id) {
+    const s = EP.data.students.find(st => st.id === id);
+    if (!s) return EP.notify('Student data not found', 'error');
+
+    showPanel(`
+      <div class="flex flex-col h-full bg-[#F8FAFC]">
+        <!-- Hero Header -->
+        <div class="px-8 pt-8 pb-9 bg-white relative overflow-hidden border-b border-[#E2E8F0]">
+          <div class="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl"></div>
+          <div class="relative flex items-start justify-between">
+            <div class="flex items-center gap-5">
+              <div class="relative">
+                ${avatarEl(s.name, 'w-20 h-20 text-2xl font-semibold ring-4 ring-white shadow-xl shadow-indigo-500/10')}
+                <div class="absolute -bottom-1 -right-1 w-7 h-7 bg-emerald-500 rounded-full border-4 border-white flex items-center justify-center">
+                  ${EP.getIcon('check', 'w-3 h-3 text-white', 'solid')}
+                </div>
+              </div>
+              <div>
+                <h3 class="font-display font-semibold text-[#0F172A] text-xl leading-tight">${s.name}</h3>
+                <p class="text-[#64748B] text-xs font-medium mt-1">${s.email}</p>
+                <div class="flex items-center gap-2 mt-3">
+                   <span class="px-2.5 py-0.5 bg-indigo-50 text-indigo-600 text-[9px] font-semibold uppercase tracking-widest rounded-lg border border-indigo-100 flex items-center gap-1.5 shadow-sm">
+                      ${EP.getIcon(s.dropoutRisk==='Low'?'sparkles':'bolt', 'w-3 h-3')} High AI Confidence
+                   </span>
+                </div>
+              </div>
+            </div>
+            <button onclick="closePanel()" class="p-2.5 rounded-xl bg-[#F8FAFC] text-[#94A3B8] hover:text-indigo-600 transition-all active:scale-95">
+              ${EP.getIcon('x-mark', 'w-6 h-6')}
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-8 space-y-8 scroll-smooth custom-scrollbar">
+          <!-- Performance Pulse -->
+          <div class="grid grid-cols-3 gap-3">
+             <div class="bg-white p-4 rounded-3xl border border-[#E2E8F0] shadow-sm transform transition-all hover:scale-105">
+                <p class="text-[9px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-2 text-center">Current GPA</p>
+                <p class="text-xl font-display font-semibold text-[#0F172A] text-center">${s.gpa.toFixed(2)}</p>
+             </div>
+             <div class="bg-white p-4 rounded-3xl border border-[#E2E8F0] shadow-sm transform transition-all hover:scale-105">
+                <p class="text-[9px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-2 text-center">Attendance</p>
+                <p class="text-xl font-display font-semibold text-[#0F172A] text-center">${s.attendance}%</p>
+             </div>
+             <div class="bg-white p-4 rounded-3xl border border-[#E2E8F0] shadow-sm transform transition-all hover:scale-105">
+                <p class="text-[9px] font-semibold text-[#94A3B8] uppercase tracking-widest mb-2 text-center">Risk Index</p>
+                <div class="flex justify-center">${riskBadge(s.dropoutRisk)}</div>
+             </div>
+          </div>
+
+          <!-- Grade Trend Map -->
+          <div class="bg-white p-6 rounded-3xl border border-[#E2E8F0] shadow-sm">
+            <div class="flex items-center justify-between mb-6">
+              <h4 class="text-[10px] font-semibold text-[#0F172A] uppercase tracking-widest flex items-center gap-2">
+                 ${EP.getIcon('chart-bar', 'w-4 h-4 text-indigo-500', 'solid')} Grade Trajectory
+              </h4>
+              <span class="text-[9px] font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-100">↑ 4.2% Growth</span>
+            </div>
+            <div class="h-44">
+              <canvas id="miniTrendChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Intelligence Analysis -->
+          <div class="bg-[#0F172A] p-6 rounded-3xl shadow-xl relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-transparent"></div>
+            <div class="relative z-10">
+               <h4 class="text-[10px] font-semibold text-white/60 uppercase tracking-widest mb-3 flex items-center gap-2">
+                 ${EP.getIcon('sparkles', 'w-4 h-4 text-white')} AI Insights Summary
+               </h4>
+               <p class="text-xs text-white/80 leading-relaxed italic font-medium">
+                 "Academic performance profile for ${s.name}: GPA of ${s.gpa}, Attendance rate of ${s.attendance}%, and current risk level is ${s.dropoutRisk}. Predictive model suggests a high success probability if attendance is maintained."
+               </p>
+            </div>
+          </div>
+
+          <!-- Behavioral Observations & Intervention -->
+          <div class="space-y-4">
+             <h4 class="text-[10px] font-semibold text-[#94A3B8] uppercase tracking-widest ml-1">AI-Recommended Interventions</h4>
+             <div class="grid grid-cols-2 gap-3">
+                <button onclick="EP.notify('Meeting request sent via EduPredict Hub', 'success')" class="p-4 bg-white border border-[#E2E8F0] rounded-2xl flex flex-col items-center gap-2 hover:border-indigo-300 hover:bg-indigo-50 transition-all group active:scale-95 shadow-sm">
+                   <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 group-hover:bg-white transition-all">
+                      ${EP.getIcon('calendar-days', 'w-5 h-5')}
+                   </div>
+                   <span class="text-[10px] font-bold text-[#475569] uppercase tracking-wider">Schedule Sync</span>
+                </button>
+                <button onclick="EP.notify('Automated study guide sent to student', 'success')" class="p-4 bg-white border border-[#E2E8F0] rounded-2xl flex flex-col items-center gap-2 hover:border-amber-300 hover:bg-amber-50 transition-all group active:scale-95 shadow-sm">
+                   <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500 group-hover:bg-white transition-all">
+                      ${EP.getIcon('light-bulb', 'w-5 h-5')}
+                   </div>
+                   <span class="text-[10px] font-bold text-[#475569] uppercase tracking-wider">Send Nudge</span>
+                </button>
+             </div>
+             <button onclick="EP.notify('Full academic audit generated', 'info')" class="w-full py-4 bg-[#F1F5F9] text-[#475569] font-semibold text-[10px] uppercase tracking-widest rounded-2xl border border-[#E2E8F0] hover:bg-white transition-all active:scale-95 shadow-sm">
+                Generate Comprehensive Report (PDF)
+             </button>
+          </div>
+        </div>
+      </div>
+    `);
+
+    setTimeout(() => {
+      this.initMiniChart(s.gpa);
+    }, 400);
+  },
+
+  initMiniChart(currentGpa) {
+    const ctx = document.getElementById('miniTrendChart');
+    if (!ctx) return;
+    
+    // Simulate some history leading to current GPA
+    const history = [currentGpa-0.4, currentGpa-0.2, currentGpa-0.3, currentGpa-0.1, currentGpa];
+    
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          data: history,
+          borderColor: '#6366F1',
+          borderWidth: 3,
+          backgroundColor: 'rgba(99,102,241,0.1)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointBackgroundColor: '#fff',
+          pointBorderWidth: 2,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, border: { display: false }, ticks: { color: '#94A3B8', font: { size: 9 } } },
+          y: { min: 1, max: 4, grid: { color: 'rgba(0,0,0,0.03)' }, border: { display: false }, ticks: { stepSize: 1, color: '#94A3B8', font: { size: 9 } } }
+        }
+      }
+    });
   }
 };
 
@@ -750,5 +950,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const savedRole = localStorage.getItem('ep_role') || 'student';
   const savedPage = localStorage.getItem('ep_page') || 'dashboard';
+  const savedClassId = localStorage.getItem('ep_class_id');
+  if (savedClassId) EP.selectedClassId = parseInt(savedClassId);
   setRole(savedRole, savedPage);
 });

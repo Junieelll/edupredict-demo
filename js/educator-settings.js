@@ -12,7 +12,7 @@ EP.educatorSettings = {
             <h1 class="font-display font-semibold text-[#0F172A] text-[14px] md:text-lg">Settings</h1>
             <p class="text-[#64748B] text-xs mt-0.5">Manage your profile, preferences, and notifications</p>
           </div>
-          <button onclick="EP.actions.saveSettings()" class="bg-indigo-500 hover:bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-500/20 active:scale-95 transition-all flex items-center gap-2">
+          <button onclick="EP.actions.saveSettings()" class="bg-indigo-500 hover:bg-indigo-600 text-white text-[10px] font-semibold uppercase tracking-widest px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-500/20 active:scale-95 transition-all flex items-center gap-2">
             ${EP.getIcon('check-badge', 'w-4 h-4')}
             <span>Save All Changes</span>
           </button>
@@ -25,22 +25,22 @@ EP.educatorSettings = {
               <div class="relative mb-4 group cursor-pointer">
                 <div class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 p-1">
                    <div class="w-full h-full rounded-full bg-white flex items-center justify-center p-1 overflow-hidden">
-                      ${avatarEl(currentUser.name, 'w-full h-full text-3xl font-black')}
+                      ${avatarEl(currentUser.name, 'w-full h-full text-3xl font-semibold')}
                    </div>
                 </div>
                 <div class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
                    ${EP.getIcon('camera', 'w-6 h-6')}
                 </div>
               </div>
-              <h2 class="font-display font-bold text-[#0F172A] text-xl">${currentUser.name}</h2>
-              <p class="text-sm text-[#64748B] font-medium leading-relaxed">Senior Lecturer · Computer Science Department</p>
+              <h2 class="font-display font-semibold text-[#0F172A] text-lg">${currentUser.name}</h2>
+              <p class="text-xs text-[#64748B] font-medium leading-relaxed">Senior Lecturer · Computer Science Department</p>
               <div class="mt-4 flex flex-wrap justify-center gap-2">
                  <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 uppercase tracking-wider">Verified Educator</span>
               </div>
             </div>
 
             <div class="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
-               <h3 class="font-display font-bold text-[#0F172A] text-sm mb-4">Account Information</h3>
+               <h3 class="font-display font-semibold text-[#0F172A] text-sm mb-4">Account Information</h3>
                <div class="space-y-4">
                   ${[
                     { label: 'Employee ID', value: 'EMP-2021-0982' },
@@ -59,8 +59,8 @@ EP.educatorSettings = {
 
           <!-- Main Settings Area -->
           <div class="lg:col-span-2 space-y-6">
-             <div class="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
-                <h3 class="font-display font-bold text-[#0F172A] text-base mb-6 flex items-center gap-2">
+             <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="font-display font-semibold text-[#0F172A] text-base mb-6 flex items-center gap-2">
                    ${EP.getIcon('bell', 'w-5 h-5 text-indigo-500', 'solid')} Notification Preferences
                 </h3>
                 <div class="space-y-6">
@@ -70,9 +70,9 @@ EP.educatorSettings = {
                      { id: 'msg', title: 'Student Messages', desc: 'Notification for direct student inquiries', on: true },
                      { id: 'perf', title: 'Performance Reports', desc: 'Weekly class performance summaries', on: false },
                    ].map(n => `
-                      <div class="flex items-center justify-between py-2 border-b border-[#F8FAFC] last:border-0 hover:bg-[#FDFDFF] transition-colors -mx-4 px-4 rounded-xl">
+                      <div class="flex items-center justify-between py-2 dark:hover:bg-slate-800 hover:bg-[#FDFDFF] transition-colors -mx-4 px-4 rounded-xl">
                          <div class="flex-1 pr-4">
-                            <p class="text-sm font-bold text-[#0F172A]">${n.title}</p>
+                            <p class="text-sm font-semibold text-[#0F172A]">${n.title}</p>
                             <p class="text-xs text-[#94A3B8] mt-0.5">${n.desc}</p>
                          </div>
                          <button onclick="EP.ui.toggle(this, '${n.id}')"
@@ -84,8 +84,8 @@ EP.educatorSettings = {
                 </div>
              </div>
 
-             <div class="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
-                <h3 class="font-display font-bold text-[#0F172A] text-base mb-6 flex items-center gap-2">
+             <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="font-display font-semibold text-[#0F172A] text-base mb-6 flex items-center gap-2">
                    ${EP.getIcon('paint-brush', 'w-5 h-5 text-violet-500', 'solid')} Appearance Settings
                 </h3>
                 <div class="grid grid-cols-3 gap-3">
@@ -98,23 +98,23 @@ EP.educatorSettings = {
                         <div class="${t.active ? (t.id === 'light' ? 'bg-indigo-50' : 'bg-white/10') : 'bg-black/10'} w-10 h-10 rounded-full flex items-center justify-center mb-1 group-hover:rotate-12 transition-transform">
                            ${EP.getIcon(t.icon, `w-5 h-5 ${t.active ? t.iconColor : 'text-slate-400'}`)}
                         </div>
-                        <span class="text-[10px] font-black ${t.active ? (t.id === 'light' ? 'text-indigo-600' : 'text-white') : 'text-slate-400'} tracking-widest uppercase italic transition-colors">${t.label}</span>
+                        <span class="text-[10px] font-semibold ${t.active ? (t.id === 'light' ? 'text-indigo-600' : 'text-white') : 'text-slate-400'} tracking-widest uppercase italic transition-colors">${t.label}</span>
                       </button>
                     `).join('')}
                 </div>
              </div>
              
-             <div class="bg-rose-50 rounded-2xl border border-rose-100 p-6 flex items-center justify-between gap-4">
+             <div class="bg-rose-50 rounded-2xl border border-rose-100 dark:bg-rose-950/60 dark:border-rose-700 p-6 flex items-center justify-between gap-4">
                 <div class="flex items-start gap-4">
-                   <div class="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center flex-shrink-0">
-                      ${EP.getIcon('exclamation-triangle', 'w-5 h-5 text-rose-600', 'solid')}
+                   <div class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-500/60 flex items-center justify-center flex-shrink-0">
+                      ${EP.getIcon('exclamation-triangle', 'w-5 h-5 text-rose-600 dark:text-rose-300', 'solid')}
                    </div>
                    <div>
-                      <h4 class="font-display font-bold text-rose-800 text-sm">Delete Account Data</h4>
+                      <h4 class="font-display font-semibold text-rose-800 dark:text-rose-600 text-sm">Delete Account Data</h4>
                       <p class="text-rose-600 text-xs mt-0.5 leading-relaxed opacity-90">Irreversibly remove all your class records and student data.</p>
                    </div>
                 </div>
-                <button onclick="EP.actions.confirmDelete('All Account Data', () => { EP.notify('All local data cleared. Resetting...', 'error'); setTimeout(()=>location.reload(), 2000); })" class="px-4 py-2 bg-rose-600 text-white text-[10px] font-black rounded-xl hover:bg-rose-700 transition-colors uppercase tracking-widest shadow-sm shadow-rose-500/20 active:scale-95">
+                <button onclick="EP.actions.confirmDelete('All Account Data', () => { EP.notify('All local data cleared. Resetting...', 'error'); setTimeout(()=>location.reload(), 2000); })" class="px-4 py-2 bg-rose-600 text-white text-[10px] font-semibold rounded-xl hover:bg-rose-700 transition-colors uppercase tracking-widest shadow-sm shadow-rose-500/20 active:scale-95">
                    Delete Data
                 </button>
              </div>

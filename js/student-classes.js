@@ -32,7 +32,7 @@ EP.studentClasses = {
                     <span class="text-white/90 text-[10px] font-bold uppercase tracking-widest bg-white/10 px-2 py-1 rounded-full">${cls.code}</span>
                     <h3 class="font-display font-bold text-white text-base mt-2 leading-tight">${cls.name}</h3>
                   </div>
-                  <div class="absolute top-3 right-3 text-white/10 font-display font-black text-5xl select-none">${cls.code.replace(/\D/g,'')}</div>
+                  <div class="absolute top-3 right-3 text-white/10 font-display font-semibold text-5xl select-none">${cls.code}</div>
                 </div>
 
                 <!-- Body -->
@@ -98,8 +98,8 @@ EP.studentClasses = {
           <h2 class="font-display font-semibold text-[#0F172A] text-base mb-4">Academic Information</h2>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             ${[
-              { label:'Program',    value:'BS Computer Science' },
-              { label:'Year Level', value:'3rd Year' },
+              { label:'Program',    value:'BS Information Technology' },
+              { label:'Year Level', value:'4th Year' },
               { label:'Semester',   value:'2nd Semester' },
               { label:'Total Units', value:'21 units' },
             ].map(item=>`

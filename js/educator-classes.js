@@ -93,7 +93,7 @@ EP.educatorClasses = {
               ${EP.getIcon('plus', 'w-7 h-7')}
             </div>
             <div>
-              <p class="font-display font-bold text-[#475569] group-hover:text-indigo-600 transition-colors">Add New Class</p>
+              <p class="font-display font-semibold text-[#475569] group-hover:text-indigo-600 transition-colors">Add New Class</p>
               <p class="text-xs text-[#94A3B8] mt-1 max-w-[150px] mx-auto">Create a new course section for this semester</p>
             </div>
           </div>
