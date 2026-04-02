@@ -60,6 +60,37 @@
     .dark .toggle-off{background-color:#334155 !important;}
     body{transition:background-color 0.3s ease,color 0.3s ease;}
     *{transition:border-color 0.3s ease,background-color 0.3s ease, color 0.3s ease;}
+    
+    /* View Transition Animations */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal;
+    }
+
+    ::view-transition-new(root) {
+      clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
+      animation: theme-spread 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      will-change: clip-path;
+    }
+
+    @keyframes theme-spread {
+      0% { 
+        clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
+      }
+      100% { 
+        clip-path: circle(150% at var(--x, 50%) var(--y, 50%));
+      }
+    }
+
+    @keyframes icon-bounce {
+      0% { transform: scale(1) rotate(0deg); opacity: 1; }
+      50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+      100% { transform: scale(1) rotate(360deg); opacity: 1; }
+    }
+    .animate-icon-bounce {
+      animation: icon-bounce 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   </style>
 </head>
 <body class="bg-[#F1F5F9] text-[#0F172A]">
@@ -115,7 +146,7 @@
           </div>
 
           <!-- Theme Toggle -->
-          <button onclick="EP.actions.toggleTheme()" class="p-2 rounded-xl border border-[#E2E8F0] dark:border-[#1E293B] hover:bg-gray-50 dark:hover:bg-white/5 transition-all text-[#64748B] dark:text-[#94A3B8] shadow-sm flex items-center justify-center group active:scale-95">
+          <button onclick="EP.actions.toggleTheme(event)" class="p-2 rounded-xl border border-[#E2E8F0] dark:border-[#1E293B] hover:bg-gray-50 dark:hover:bg-white/5 transition-all text-[#64748B] dark:text-[#94A3B8] shadow-sm flex items-center justify-center group active:scale-95">
              <iconify-icon id="theme-icon" icon="heroicons:sun-solid" width="20" height="20" class="text-amber-500 group-hover:rotate-12 transition-transform"></iconify-icon>
           </button>
           

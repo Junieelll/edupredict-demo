@@ -924,21 +924,12 @@ EP.ui = {
 
 EP.actions = {
   ...EP.actions,
-  setTheme(theme) {
+  setTheme(theme, skipRefresh = false) {
     localStorage.setItem('ep_theme', theme);
-    const body = document.body;
-    body.classList.remove('dark');
-    
-    if (theme === 'dark') {
-      body.classList.add('dark');
-    } else if (theme === 'system') {
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        body.classList.add('dark');
-      }
-    }
-    
-    // Re-render settings to show active state
-    if (EP.currentPage === 'settings') {
+    document.body.classList.toggle('dark', theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches));
+
+    // Defer settings re-render if it might interrupt an animation
+    if (!skipRefresh && EP.currentPage === 'settings') {
       if (EP.currentRole === 'student') EP.studentSettings.render();
       else EP.educatorSettings.render();
     }
@@ -948,14 +939,37 @@ EP.actions = {
     if (themeIcon) {
        const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
        themeIcon.setAttribute('icon', isDark ? 'heroicons:moon-solid' : 'heroicons:sun-solid');
-       themeIcon.className = isDark ? 'text-indigo-400 drop-shadow-[0_0_8px_rgba(129,140,248,0.5)]' : 'text-amber-500 drop-shadow-[0_0_8px_rgba(245,158,11,0.4)]';
+       themeIcon.className = (isDark ? 'text-indigo-400 drop-shadow-[0_0_8px_rgba(129,140,248,0.5)]' : 'text-amber-500 drop-shadow-[0_0_8px_rgba(245,158,11,0.4)]') + ' animate-icon-bounce';
+       
+       // Remove animation class after duration to allow re-trigger
+       setTimeout(() => {
+         themeIcon.classList.remove('animate-icon-bounce');
+       }, 600);
+    }
+  },
+  toggleTheme(e) {
+    const next = (localStorage.getItem('ep_theme') || 'light') === 'dark' ? 'light' : 'dark';
+    const x = e ? e.clientX : window.innerWidth / 2;
+    const y = e ? e.clientY : window.innerHeight / 2;
+    document.documentElement.style.setProperty('--x', `${x}px`);
+    document.documentElement.style.setProperty('--y', `${y}px`);
+
+    if (!document.startViewTransition) {
+      this.setTheme(next);
+      return;
     }
 
-  },
-  toggleTheme() {
-    const current = localStorage.getItem('ep_theme') || 'light';
-    const next = current === 'dark' ? 'light' : 'dark';
-    this.setTheme(next);
+    const transition = document.startViewTransition(() => {
+      this.setTheme(next, true); // Defer re-render to keep animation fluid
+    });
+
+    // Refresh settings only AFTER the heavy animation finishes
+    transition.finished.finally(() => {
+      if (EP.currentPage === 'settings') {
+        if (EP.currentRole === 'student') EP.studentSettings.render();
+        else EP.educatorSettings.render();
+      }
+    });
   }
 };
 
